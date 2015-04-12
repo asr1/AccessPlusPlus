@@ -1,0 +1,6 @@
+•Merge 4 apps into one
+•Calendar export: fix parsing (look through table then make function calls
+•Calendar export: Move button from popup to the schedule page
+•Registration: Make more permanent
+•Meal Counter: Fix math
+•Meal counter: dynamically search for start dates of each semester
