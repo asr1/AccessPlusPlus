@@ -1,0 +1,19 @@
+{
+  "name": "Calendar Export",
+  "description": "Exports a schedule to a google calendar.",
+  "version": "0.1",
+    "manifest_version": 2,
+	"browser_action":
+	{
+		"default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+	  "background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	  },
+  "permissions": [
+    "notifications",
+    "tabs"
+  ]
+}

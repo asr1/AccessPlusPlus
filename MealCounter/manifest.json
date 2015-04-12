@@ -1,0 +1,22 @@
+{
+"manifest_version": 2,
+"name": "Meals Remaining",
+"description": "This extension will calculate the amount of meals you have extra.",
+"version": "1.0",
+
+"browser_action": 
+{
+	"default_icon": "icon.png"
+},
+"content_scripts":[
+  {
+	"matches": ["https://accessplus.iastate.edu/servlet/adp.A_Plus"],
+	"js":["jquery-2.1.3.js","meals.js"],
+	"run_at":"document_end"
+  }
+],
+"permissions": 
+[
+	"activeTab"
+]
+}
