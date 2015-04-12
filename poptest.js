@@ -116,14 +116,12 @@ function init() {
 	CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'Com Sci 311', 'Recitation', 'Carver 129');
 
 	//Now Com Sci 336
-	var StartDate = new Date(2015,07,24);//Same for every class this semester
 	StartTime = new Date(StartDate.setHours(11,00));
 	EndTime = new Date(StartDate.setHours(12,20));
 	WeekDays = new Array(2,4);
 	CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'Com Sci 336', 'Lecture', 'Durham 171');
 
 	//Now Cpre 491
-	var StartDate = new Date(2015,07,24);//Same for every class this semester
 	StartTime = new Date(StartDate.setHours(14,10));
 	EndTime = new Date(StartDate.setHours(16,00));
 	WeekDays = new Array(2,8);
