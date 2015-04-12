@@ -1,0 +1,13 @@
+{
+	"manifest_version":2,
+	"name":"Access++ - Registration",
+	"description":"This extension displays the time block of your current schedule on Access+ while registering for classes.",
+	"version":"1.0",
+	"permissions":["activeTab","tabs","https://accessplus.iastate.edu/*", "webNavigation"],
+	"content_scripts":[
+	{
+		"matches":["https://accessplus.iastate.edu/*"],
+		"js":["jquery.js","app_reg.js"],
+		"run_at":"document_end"
+	}]
+}
