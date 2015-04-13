@@ -58,6 +58,7 @@
 	  	predicted_usage = start_meals - (days_at_school*rate);
 		extra_meals = meals_left - predicted_usage;
 		
+		extra_meals = Math.round(extra_meals);
 		var toAppend;
 		
 		//are you over or under, sends alert message
