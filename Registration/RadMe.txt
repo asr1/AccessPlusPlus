@@ -1,1 +1,0 @@
-Adds your current schedule to the registration page when signing up for classes.
