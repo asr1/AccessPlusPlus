@@ -8,7 +8,7 @@
 	"browser_action":
 	{
 		"default_icon":"icon.png",
-		"default_popup.js":"popup.js"
+		"default_popup":"popup.html"
 	},
 	
 	"content_scripts":
@@ -24,7 +24,7 @@
 	},
 	{
 		"matches":["https://accessplus.iastate.edu/*"],
-		"js":["jquery.js","registration.js"],
+		"js":["jquery.min.js","registration.js"],
 		"run_at":"document_end"
 	}
 	]
