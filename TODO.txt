@@ -1,8 +1,8 @@
-•Merge 4 apps into one
+â€¢Merge 4 apps into one
 	-Clean out individual folders
 	-Each part of the app in an individual folder, referenced by the manifest
-•Calendar export: fix parsing (look through table then make function calls
-•Calendar export: Move button from popup to the schedule page
-•Registration: Make more permanent
-•Meal Counter: Fix math
-•Meal counter: dynamically search for start dates of each semester
+â€¢Calendar export: fix parsing (look through table then make function calls)
+â€¢Calendar export: Move button from popup to the schedule page
+â€¢Registration: Make more permanent
+â€¢Meal Counter: Fix math
+â€¢Meal counter: dynamically search for start dates of each semester
