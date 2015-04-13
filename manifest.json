@@ -8,23 +8,23 @@
 	"browser_action":
 	{
 		"default_icon":"icon.png",
-		"default_popup":"popup.html"
+		"default_popup":"CalendarExport/popup.html"
 	},
 	
 	"content_scripts":
 	[
 	{
 		"matches":["http://*/*", "https://*/*"],
-		"js":["jquery.min.js", "rate_my_proj.js"]
+		"js":["jquery.min.js", "RateMyProf/rate_my_proj.js"]
 	},
 	{
 		"matches":["https://accessplus.iastate.edu/servlet/adp.A_Plus"],
-		"js":["jquery.min.js", "meals.js"],
+		"js":["jquery.min.js", "MealCounter/meals.js"],
 		"run_at":"document_end"
 	},
 	{
 		"matches":["https://accessplus.iastate.edu/*"],
-		"js":["jquery.min.js","registration.js"],
+		"js":["jquery.min.js","Registration/registration.js"],
 		"run_at":"document_end"
 	}
 	]
