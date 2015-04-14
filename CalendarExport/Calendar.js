@@ -15,11 +15,45 @@ var classSched = "https://accessplus.iastate.edu/servlet/adp.A_Plus";
 var classSched1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //Not sure how necessary these two are. We'll see
 var schedObj; //will include all of the necessary information for the calendar creation: eventTime, start, eventTimeEnd, end, WeekDays, name, subject, location
 var arr = []; //will keep track of all classSched objects
+var cnt = 2; //2 should be a pretty good starting point for the search
 
+//Keeps track of the current row id
+function tdID(){
+	tdId = 'tr' + cnt;
+	cnt++;
+}
+
+//Inspects the row associated with the given id to see whether it contains
+//any useful info
+//@param id - id of the given row
+function splitInfo(id){
+	var tr = '#' + id;
+	
+	if ($(tr).html().indexOf('&nbsp') !== -1){ //week days of class
+		
+	}
+	
+	else if ($(tr).html().indexOf(':') !== -1){ //get better check later - assuming we're dealing with time
+		//check if its beg or end here
+	}
+	
+	if ($(tr).html().indexOf('&nbsp') !== -1){ //figure out test thats specific for location
+		
+	}
+	
+
+}
 
 //Will search for the needed information for each class
 function search(){
-
+	
+	while ($('#' + tdId).length){
+		$('#' + tdId).children().each(function (i) {
+			splitName($(this).attr('id'));
+		});
+		tdID();	
+	}
+	
 }
 
 
