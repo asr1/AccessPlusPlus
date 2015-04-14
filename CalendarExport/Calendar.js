@@ -11,12 +11,26 @@ var saveAs=saveAs||typeof navigator!=="undefined"&&navigator.msSaveOrOpenBlob&&n
 
 
 
+var classSched = "https://accessplus.iastate.edu/servlet/adp.A_Plus";
+var classSched1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //Not sure how necessary these two are. We'll see
+var schedObj; //will include all of the necessary information for the calendar creation: eventTime, start, eventTimeEnd, end, WeekDays, name, subject, location
+var arr = []; //will keep track of all classSched objects
 
 
+//Will search for the needed information for each class
+function search(){
+
+}
 
 
-
-
+//Where the magic happens
+$(document).ready(function() {
+	
+	if (url == classSched || url == classSched1){ //perform search when in the class schedule page
+	
+	
+	}
+}); 
 
 
 
