@@ -1,6 +1,3 @@
-•Merge 4 apps into one
-	-Clean out individual folders
-	-Each part of the app in an individual folder, referenced by the manifest
 •Calendar export: fix parsing (look through table then make function calls)
 •Calendar export: Move button from popup to the schedule page
 •Registration: Make more permanent
