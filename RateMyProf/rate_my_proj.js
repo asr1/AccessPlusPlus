@@ -1,4 +1,5 @@
 //Hopefully you're ready for a completely "hacky" plugin - seriously don't judge ヽ（´ー｀）┌
+//Ignore the random portuguese var names, I ran out of good names in english
 
 //The main functionality of this part of the Access++ extension is to add the Rate My Professor functionality, but it will also get the needed information
 //for the google calendar exportation, such as: class name, beginning and end date, dates, ect...
@@ -7,30 +8,78 @@ var url =  window.location.href;
 var accessPlus = "https://accessplus.iastate.edu/servlet/adp.A_Plus"; //possible url for access plus after first access
 var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //possible url for access plus 
 
-var img = document.createElement("img"); //useless crap -- i wonder if i can sneak a meme somewhere?
+var img = document.createElement("img"); //useless crap -- i wonder if i can sneak a meme somewhere? I really want to... Easter egg?
 img.src = "https://imgflip.com/s/meme/Jackie-Chan-WTF.jpg"; //I regret nothing
 
 var element = $('#Grid').next(); //where we're going to append our RMP div to 
 var Name; //keeps track of the name of the current prof being read
-var curDate; //keeps track of the name of the current prof being read
-var cnt = 7; //7 should be a pretty good place to start searching
+var curDate; //keeps track of the name of the current date being read
+var idStart = 2; //2 should be a pretty good place to start searching
 var tdId; //keeps track of the current tdId being read
+
 var profs = []; //will store the prof's names here
+
+//All of these arrays are temporary, they will be used to generate classInfo objects later on
+var classNames = []; //will store all of the student's class' names
+var meetingD = []; //will store all of the student's class' meeting days
+var meetingsT = []; //will store all of the student's class' meeting times (start)
+var meetingeT = []; //will store all of the student's class' meeting times (end)
+var startDate = []; //will store all of the student's class' start dates
+var endDate = []; //will store all of the student's class' end dates
+
+var classInfoArr = []; //will store objects which contain (hopefully) all of the necessary information for google Calendar
+
+
+//ClassInfo object, each object will contain all needed information for the calendar exportation
+//nome - class name
+//mDays - meeting days, all days of the week where the class meets
+//mTimes - meeting times
+//sDate - start date
+//eDate - end date 
+//After each object is created, they will be saved in an array
+//access their parameters by, for example calling, classInfo.nome to retrieve the name
+classInfo = (function() {
+	function classInfo(nome, mDays, mTimes, sDate, eDate){
+		var nome = nome;
+		var mDays = mDays;
+		var mTimes = mTimes;
+		var sDate = sDate;
+		var eDate = eDate;
+	}
+})();
+
+//AccessPlus sucks, so to make our lives easier, lets give each table an id, and use these to search for the required info
+//-----------------------------------------------------------------------------
 
 //Keeps track of the current row id
 function tdID(){
-	tdId = 'tr' + cnt;
-	cnt++;
+	tdId = 'tr' + idStart;
+	idStart++;
 }
 
-//Calculated the "ideal" div size according to the number of found teachers
-//@param number - number of teachers
-function getBoxSize(number){
-	var mult;
-	if (number === 1) mult = 60;
-	else mult = number*45 + 1; //+1 for the title line
-	return mult + 'px';
+//Gives ids to every table data and table row that includes class information
+function updateIDs() {
+	$("#long").children().children().children().each(function (i) { // (╯°□°）╯︵ ┻━┻
+		$(this).attr('id', 'tr' +i);
+	});
+	
+	tdID();
+
+	while ($('#' + tdId).length){
+		$('#' + tdId).children().each(function (i) {
+			$(this).attr('id', tdId + 'td' +i);
+			checkName($(this).attr('id'));
+			checkDates($(this).attr('id'));
+			checkClassName($(this).attr('id'));
+		});
+		tdID();	
+	} 
 }
+
+//----------------------------</idUpdate>----------------------------------------
+
+
+//--------------------- Related to Rate my Prof ---------------------------------
 
 //As the same teacher can be found multiple times, we have to make sure not to 
 //repeat the name while linking to the teacher's RMP page
@@ -71,6 +120,11 @@ function checkName(id){
 	}
 }
 
+//----------------------------- </Related to Rate my Prof>------------------------
+
+
+//------------------------ Calendar ----------------------------------------------
+
 //Checks to see whether the given row contains any "Days of the Week", such as M for Monday, T for Tuesday, ect...
 function containsDW(id){
 	var tr = '#' + id;
@@ -96,6 +150,26 @@ function incrementID (id, n){
 	return ID; 
 }
 
+//Will update the meeting times arrays
+//This function has to be called in the 'main' method since not all table ids have been 
+//fully created by the time checkDates is called -> startTime and endTime have a higher id number than the one 
+//associated with class dates
+//start - array containing all start time table ids
+//end - array containing all end time table ids
+function getStartEndTime(start, end){
+	var startTime = "";
+	var endTime = "";
+	
+	if (start.length != end.length) return null;
+	
+	for (i = 0; i < start.length; i++){ //start and end have to have the same length
+		startTime = $(start[i]).html();
+		endTime = $(end[i]).html();
+		meetingsT[i] = startTime;
+		meetingeT[i] = endTime;
+	}
+}
+
 //Checks whether the row associated with the given id has any association with the class dates, 
 //if so, it'll save the class days and its start/end time
 //@param id - id of the given row
@@ -103,30 +177,40 @@ function checkDates(id){
 	var tr = '#' + id;
 	if ($(tr).html().indexOf('&nbsp;') !== -1 && containsDW(id)){
 		var date = $(tr).html().split(';');		
-		//save date[3] - thats the meeting times for the class
+		meetingD.push(date[3]);
 		var startTime = incrementID(id, 1);
 		var endTime = incrementID(id, 2);
-
+		meetingsT.push(startTime);
+		meetingeT.push(endTime);
 	}
 }
 
-//Gives ids to every table data and table row that includes class information
-function updateIDs() {
-	$("#long").children().children().children().each(function (i) { // (╯°□°）╯︵ ┻━┻
-		$(this).attr('id', 'tr' +i);
-	});
-	
-	tdID();
-
-	while ($('#' + tdId).length){
-		$('#' + tdId).children().each(function (i) {
-			$(this).attr('id', tdId + 'td' +i);
-			checkName($(this).attr('id'));
-			checkDates($(this).attr('id'));
-		});
-		tdID();	
-	} 
+//Checks whether the row associated with the given id has contains the class' name,
+//if so, it'll save the class name
+//@param id - id of the given row
+function checkClassName(id){
+	var tr = '#' + id;
+	if($(tr).html().indexOf('<!-- %=') != -1){
+		var names = $(tr).html().split('nd()">');
+		var Names = names[1].split('</a>'); //names[1] contains the class name, but it also includes a ton of stuff after it that we do not care about
+		classNames.push(Names[0]);
+	}
 }
+
+//Returns an array of classInfo objects 
+//Also deals with retrieving the class meeting times
+//arrCN - an array containing the class names
+//arrMD - an array containing meeting days
+//arrMTS - an array containing meeting times (start)
+//arrMTE - an array containing meeting times (end)
+//arrST - an array containing the class' start date
+//arrFT - an array containing the class' end date 
+function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrST, arrFT){
+
+}
+
+//-------------------------------</Calendar>--------------------------------------
+
 
 //Was attempting to send a request to a website to be able to parse 
 //the received page. Apparently cross-domain access is illegal with ajax - bummer
@@ -135,6 +219,16 @@ function getPage() { //illegal
 		done(function(pageHtml) {
 			alert(pageHtml.html());
 	});
+}
+
+
+//Calculates the "ideal" div size according to the number of found teachers
+//@param number - number of teachers
+function getBoxSize(number){
+	var mult;
+	if (number === 1) mult = 60;
+	else mult = number*45 + 1; //+1 for the title line
+	return mult + 'px';
 }
 
 //Where the magic happens
@@ -162,10 +256,12 @@ $(document).ready(function() {
 				$(div).append('<div> <br>' + updProfs[i] + '<a href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome[0] + '+Iowa+State+University'+'"> Check me out!</a><br><br></div>');		
 			}
 		}		
-		
+
 		element.append("<br>");
 		element.append(div);
 		element.append("<br><br>");
-	
+		
+		getStartEndTime(meetingsT, meetingeT);
+		
 	}
 }); 
