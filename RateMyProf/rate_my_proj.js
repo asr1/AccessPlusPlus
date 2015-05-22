@@ -279,7 +279,7 @@ $(document).ready(function() {
 		var imgDiv = $('<div style = "position:relative; margin-left: 150px; padding-top: 10px;"> <img src="http://miietl.mcmaster.ca/site/wp-content/uploads/2014/11/RateMyProfessors.com_Logo.jpg" alt="RMP" style="width:100px;height:50px"> </div>');
 
 		var div = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; border-left:1px solid #CC0000; position:relative;margin-left: 5px;"> </div>');
-		var title = $('<div style = "width:400px; height: 23px; background: #CC0000; color: white; font-size: 15px;"> <div style = "padding-left: 5px; padding-top: 5px; color: white;"> <b>Rate My Professor! </div> </div>');
+		var title = $('<div style = "width:400px; height: 23px; background: #CC0000; color: white; font-size: 15px;"> <div style = "padding-left: 5px; padding-top: 5px; color: white;"> <b>See My Ratings! </div> </div>');
 		
 		$(element).append(imgDiv);		
 		$(div).append(title);		
