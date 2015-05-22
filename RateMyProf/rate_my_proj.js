@@ -8,8 +8,10 @@ var url =  window.location.href;
 var accessPlus = "https://accessplus.iastate.edu/servlet/adp.A_Plus"; //possible url for access plus after first access
 var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //possible url for access plus 
 
-var img = document.createElement("img"); //useless crap -- i wonder if i can sneak a meme somewhere? I really want to... Easter egg?
+var img = document.createElement("img"); 
 img.src = "https://imgflip.com/s/meme/Jackie-Chan-WTF.jpg"; //I regret nothing
+
+var clicked = false;
 
 var element = $('#Grid').next(); //where we're going to append our RMP div to 
 var Name; //keeps track of the name of the current prof being read
@@ -288,11 +290,25 @@ $(document).ready(function() {
 			else {
 				$(div).append('<div> <br>' + updProfs[i] + '<a href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome[0] + '+Iowa+State+University'+'"> Check me out!</a><br><br></div>');		
 			}
-		}		
+		}	
 
 		element.append("<br>");
 		element.append(div);
 		element.append("<br><br>");
+		
+		var btn = document.createElement("BUTTON"); 
+		btn.onclick=function(){ //^ω^
+			if (clicked == false) {
+			 	clicked = true;
+			 	element.append(img);
+			}
+			else{
+				clicked = false;
+				$(img).remove();
+			}
+		}
+		element.append(btn);
+	
 		
 		getStartEndTime(meetingsT, meetingeT);
 		getMeetingDates(startEndDate);
