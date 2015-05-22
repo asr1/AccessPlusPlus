@@ -275,20 +275,23 @@ $(document).ready(function() {
 
 		updateIDs(); 
 		updProfs = remRepeats(profs);
-
-		var div = $('<div style = "margin-left: 0px; width:400px; height:' + getBoxSize(updProfs.length) +'; border-left:1px solid #CC0000; position:relative;margin-left: 50px;"> </div>');
-		var title = $('<div style = "margin-left: 0px; width:400px; height: 23px; background: #CC0000; color: white; font-size: 15px;"> <b>Rate My Professor! </div>');
 		
+		var imgDiv = $('<div style = "position:relative; margin-left: 150px; padding-top: 10px;"> <img src="http://miietl.mcmaster.ca/site/wp-content/uploads/2014/11/RateMyProfessors.com_Logo.jpg" alt="RMP" style="width:100px;height:50px"> </div>');
+
+		var div = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; border-left:1px solid #CC0000; position:relative;margin-left: 5px;"> </div>');
+		var title = $('<div style = "width:400px; height: 23px; background: #CC0000; color: white; font-size: 15px;"> <div style = "padding-left: 5px; padding-top: 5px; color: white;"> <b>Rate My Professor! </div> </div>');
+		
+		$(element).append(imgDiv);		
 		$(div).append(title);		
 		
 		for (i = 0; i < updProfs.length; i++){
 			nome = parseName(updProfs[i]);
 			if (!(i%2 == 0)) {
-				$(div).append('<div style = "margin-left: 0px; background: #E8E8E8;">' + '<br>' + updProfs[i] + ' <a href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome[0] + '+Iowa+State+University'+'"> Check me out!</a><br><br></div>');		
+				$(div).append('<div style = "padding-left: 5px;margin-left: 0px; background: #E8E8E8;">' + '<br>' + updProfs[i] + ' <a href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome[0] + '+Iowa+State+University'+'"> Check me out!</a><br><br></div>');		
 			}
 			
 			else {
-				$(div).append('<div> <br>' + updProfs[i] + '<a href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome[0] + '+Iowa+State+University'+'"> Check me out!</a><br><br></div>');		
+				$(div).append('<div style = "padding-left: 5px;"> <br>' + updProfs[i] + '<a href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome[0] + '+Iowa+State+University'+'"> Check me out!</a><br><br></div>');		
 			}
 		}	
 
