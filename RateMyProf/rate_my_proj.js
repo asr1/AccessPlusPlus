@@ -1,5 +1,5 @@
 //Hopefully you're ready for a completely "hacky" plugin - seriously don't judge ヽ（´ー｀）┌
-//Ignore the random portuguese var names, I ran out of good names in english
+//Ignore the random portuguese var names, I ran out of names in english
 
 //The main functionality of this part of the Access++ extension is to add the Rate My Professor functionality, but it will also get the needed information
 //for the google calendar exportation, such as: class name, beginning and end date, dates, ect...
@@ -13,7 +13,6 @@ img.src = "https://imgflip.com/s/meme/Jackie-Chan-WTF.jpg"; //I regret nothing
 
 var element = $('#Grid').next(); //where we're going to append our RMP div to 
 var Name; //keeps track of the name of the current prof being read
-var curDate; //keeps track of the name of the current date being read
 var idStart = 2; //2 should be a pretty good place to start searching
 var tdId; //keeps track of the current tdId being read
 
@@ -24,8 +23,7 @@ var classNames = []; //will store all of the student's class' names
 var meetingD = []; //will store all of the student's class' meeting days
 var meetingsT = []; //will store all of the student's class' meeting times (start)
 var meetingeT = []; //will store all of the student's class' meeting times (end)
-var startDate = []; //will store all of the student's class' start dates
-var endDate = []; //will store all of the student's class' end dates
+var startEndDate = []; //will store all of the student's class' start/end dates
 
 var classInfoArr = []; //will store objects which contain (hopefully) all of the necessary information for google Calendar
 
@@ -38,15 +36,13 @@ var classInfoArr = []; //will store objects which contain (hopefully) all of the
 //eDate - end date 
 //After each object is created, they will be saved in an array
 //access their parameters by, for example calling, classInfo.nome to retrieve the name
-classInfo = (function() {
-	function classInfo(nome, mDays, mTimes, sDate, eDate){
-		var nome = nome;
-		var mDays = mDays;
-		var mTimes = mTimes;
-		var sDate = sDate;
-		var eDate = eDate;
-	}
-})();
+function classInfo(nome, mDays, mTimesS, mTimesE, mDates){
+		this.nome = nome;
+		this.mDays = mDays;
+		this.mTimesS = mTimesS;
+		this.mTimesE = mTimesE;
+		this.mDates = mDates;
+}
 
 //AccessPlus sucks, so to make our lives easier, lets give each table an id, and use these to search for the required info
 //-----------------------------------------------------------------------------
@@ -71,6 +67,7 @@ function updateIDs() {
 			checkName($(this).attr('id'));
 			checkDates($(this).attr('id'));
 			checkClassName($(this).attr('id'));
+			checkMeetingDays($(this).attr('id'));
 		});
 		tdID();	
 	} 
@@ -170,12 +167,29 @@ function getStartEndTime(start, end){
 	}
 }
 
+//Will update the meeting dates array
+//This function has to be called in the 'main' method since not all table ids have been 
+//fully created by the time checkMeetingDates is called -> meetingDate has a higher id number than the one 
+//associated with class dates
+//dates - array containing all meeting dates table ids
+function getMeetingDates(dates){
+	var meetingDate = "";
+	
+	for (i = 0; i < dates.length; i++){
+		meetingDate = $(dates[i]).html();
+		if (typeof(meetingDate) != "undefined"){
+				startEndDate[i] = meetingDate;
+		}
+
+	}
+}
+
 //Checks whether the row associated with the given id has any association with the class dates, 
 //if so, it'll save the class days and its start/end time
 //@param id - id of the given row
 function checkDates(id){
 	var tr = '#' + id;
-	if ($(tr).html().indexOf('&nbsp;') !== -1 && containsDW(id)){
+	if ($(tr).html().indexOf('&nbsp;') != -1 && containsDW(id)){
 		var date = $(tr).html().split(';');		
 		meetingD.push(date[3]);
 		var startTime = incrementID(id, 1);
@@ -197,6 +211,17 @@ function checkClassName(id){
 	}
 }
 
+//Checks whether the row associated with the given id has contains the class' meeting dates,
+//if so, it'll save the class name
+//@param id - id of the given row
+function checkMeetingDays(id){
+	var tr = '#' + id;
+	if ($(tr).html().indexOf('Meeting Dates:') != -1){
+		var meetId = incrementID(id, 1); //the meeting days are in the following table
+		startEndDate.push(meetId);
+	}
+}
+
 //Returns an array of classInfo objects 
 //Also deals with retrieving the class meeting times
 //arrCN - an array containing the class names
@@ -205,8 +230,16 @@ function checkClassName(id){
 //arrMTE - an array containing meeting times (end)
 //arrST - an array containing the class' start date
 //arrFT - an array containing the class' end date 
-function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrST, arrFT){
+function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrDates){
+	var obj;
 
+	for (i = 0; i < arrCN.length; i++){
+		
+		obj = new classInfo(arrCN[i], arrMD[i], arrMTS[i], arrMTE[i], arrDates[i]);	
+		classInfoArr.push(obj);
+		
+	}		
+		
 }
 
 //-------------------------------</Calendar>--------------------------------------
@@ -262,6 +295,8 @@ $(document).ready(function() {
 		element.append("<br><br>");
 		
 		getStartEndTime(meetingsT, meetingeT);
-		
+		getMeetingDates(startEndDate);
+		createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate);
+		//alert(classInfoArr[3].mDates);
 	}
 }); 
