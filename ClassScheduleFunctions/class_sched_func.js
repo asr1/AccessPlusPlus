@@ -10,6 +10,7 @@
 var url =  window.location.href;  
 var accessPlus = "https://accessplus.iastate.edu/servlet/adp.A_Plus"; //possible url for access plus after first access
 var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //possible url for access plus 
+var bootstrap =  ' <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>';
 
 var img = document.createElement("img"); 
 img.src = "https://imgflip.com/s/meme/Jackie-Chan-WTF.jpg"; //I regret nothing
@@ -23,10 +24,12 @@ var tdId; //keeps track of the current tdId being read
 
 var profs = []; //will store the prof's names here
 
-var consecDates = false; //Classes can have multiple meeting times at different places, if this happens then the 
+var datesCnt = 0; //Classes can have multiple meeting times at different places, if this happens then the 
 								 //arrays containing the class information will have varying length. As such we should keep track 
 								 //of the amount of times we get multiple consecutive meeting dates. When several meeting dates are found,
 								 //we should duplicate the class name and start end date, allowing for the creation of a new Calendar object.
+var lastClassName = "";
+var lastStartEnd = "";
 								 
 //All of these arrays are temporary, they will be used to generate classInfo objects later on
 var classNames = []; //will store all of the student's class' names
@@ -135,7 +138,8 @@ function checkName(id){
 //Checks to see whether the given row contains any "Days of the Week", such as M for Monday, T for Tuesday, ect...
 function containsDW(id){
 	var tr = '#' + id;
-	if ($(tr).html().indexOf(" M ") !== -1 || $(tr).html().indexOf(" T ") !== -1 || $(tr).html().indexOf(" W ") !== -1 || $(tr).html().indexOf(" R ") !== -1 || $(tr).html().indexOf(" F ") !== -1){
+	if ($(tr).html().indexOf(";M ") !== -1  || $(tr).html().indexOf(";T ") !== -1 || $(tr).html().indexOf(";W ") !== -1 || $(tr).html().indexOf(";R ") !== -1 || $(tr).html().indexOf(";F ") !== -1 ||
+	$(tr).html().indexOf(" M ") !== -1 || $(tr).html().indexOf(" T ") !== -1 || $(tr).html().indexOf(" W ") !== -1 || $(tr).html().indexOf(" R ") !== -1 || $(tr).html().indexOf(" F ") !== -1){
 		return true;	
 	}
 }
@@ -189,6 +193,7 @@ function getMeetingDates(dates){
 		meetingDate = $(dates[i]).html();
 		if (typeof(meetingDate) != "undefined"){
 				startEndDate[i] = meetingDate;
+				lastStartEnd = meetingDate;
 		}
 
 	}
@@ -200,7 +205,9 @@ function getMeetingDates(dates){
 function checkDates(id){
 	var tr = '#' + id;
 	if ($(tr).html().indexOf('&nbsp;') != -1 && containsDW(id)){
-		var date = $(tr).html().split(';');		
+		var date = $(tr).html().split(';');	
+		//alert(datesCnt);
+			
 		meetingD.push(date[3]);
 		var startTime = incrementID(id, 1);
 		var endTime = incrementID(id, 2);
@@ -218,6 +225,7 @@ function checkClassName(id){
 		var names = $(tr).html().split('nd()">');
 		var Names = names[1].split('</a>'); //names[1] contains the class name, but it also includes a ton of stuff after it that we do not care about
 		classNames.push(Names[0]);
+		lastClassName = Names[0];
 	}
 }
 
@@ -226,6 +234,7 @@ function checkClassName(id){
 //@param id - id of the given row
 function checkMeetingDays(id){
 	var tr = '#' + id;
+	
 	if ($(tr).html().indexOf('Meeting Dates:') != -1){
 		var meetId = incrementID(id, 1); //the meeting days are in the following table
 		startEndDate.push(meetId);
@@ -252,6 +261,24 @@ function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrDates){
 		
 }
 
+function checkValues (arr, isClassInfo){
+	if (isClassInfo){
+		for (i = 0; i < arr.length; i++){
+			alert(arr[i].nome);	
+			alert(arr[i].mDays);
+			alert(arr[i].mTimesS);
+			alert(arr[i].mTimesE);
+			alert(arr[i].mDates);
+		}
+	}
+	else{
+		for (i = 0; i < arr.length; i++){
+			alert(arr[i]);	
+		}
+	}
+
+}
+
 //-------------------------------</Calendar>--------------------------------------
 
 
@@ -274,38 +301,34 @@ function getBoxSize(number){
 	return mult + 'px';
 }
 
+//The css for each rmp entry. There was no need for repeating this code if there was only small changes
+//backGColor - background color for the div
+//prof - prof's name
+//nome - parsed name
+function cssEntry(backGColor, prof, nome){
+	
+		var txtShadow = 'text-shadow:1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0px 1px 0 #000, 1px 0px 0 #000, 0px -1px 0 #000, -1px 0px 0 #000, 4px 4px 3px #000; font-family:Verdana, Geneva, sans-serif;';
+		return '<tr> <td> <div style = "display:table; padding-left: 40px;margin-left: 0px; color:#b5d333;'+ txtShadow+ '">' + '<br>' + prof + ' </td> <td> <br><a style = "padding-left: 100px;text-shadow: none; text-decoration: none; color: white;' + txtShadow + '" href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome + '+Iowa+State+University'+'"> Check me out!</a> <br><br> </td></div></tr>';		
+	
+}
+
 //Where the magic happens
 $(document).ready(function() {
 	var updProfs = []; //updated array with the professor information, will not contain any repeated names
 	var nome = [];	
+	//$(document).append(bootstrap);
 	
 	if (url == accessPlus || url == accessPlus1){
 
 		updateIDs(); 
 		updProfs = remRepeats(profs);
 		
-		var imgDiv = $('<div style = "position:relative; margin-left: 150px; padding-top: 10px;"> <img src="http://miietl.mcmaster.ca/site/wp-content/uploads/2014/11/RateMyProfessors.com_Logo.jpg" alt="RMP" style="width:100px;height:50px"> </div>');
+		var div = $('<div style = padding-top: 10px;></div>');
+		var imgDiv = $('<div style = "margin-left: 150px; ; z-index: 1; padding-top: 5px; position: absolute;"> <img src="http://miietl.mcmaster.ca/site/wp-content/uploads/2014/11/RateMyProfessors.com_Logo.jpg" alt="RMP" style="width:100px;height:50px"> </div>');
 
-		var div = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; border:1px solid #CC0000; position:relative;margin-left: 5px;"> </div>');
-		var title = $('<div style = "width:400px; height: 23px; background: #CC0000; color: white; font-size: 15px;"> <div style = "padding-left: 5px; padding-top: 5px; color: white;"> <b>See My ratings! </div> </div>');
+		var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 5px; padding-top: 30px;"> </div>');
+		var title = $('<div style = "width:400px; height: 23px; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
 		
-		$(element).append(imgDiv);		
-		$(div).append(title);		
-		
-		for (i = 0; i < updProfs.length; i++){
-			nome = parseName(updProfs[i]);
-			if (!(i%2 == 0)) {
-				$(div).append('<div style = "padding-left: 5px;margin-left: 0px; background: #E8E8E8;">' + '<br>' + updProfs[i] + ' <a href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome[0] + '+Iowa+State+University'+'"> Check me out!</a><br><br></div>');		
-			}
-			
-			else {
-				$(div).append('<div style = "padding-left: 5px;"> <br>' + updProfs[i] + '<a href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome[0] + '+Iowa+State+University'+'"> Check me out!</a><br><br></div>');		
-			}
-		}	
-
-		element.append("<br>");
-		element.append(div);
-		element.append("<br><br>");
 		
 		var btn = document.createElement("BUTTON"); 
 		btn.onclick=function(){ //^ω^
@@ -319,11 +342,37 @@ $(document).ready(function() {
 			}
 		}
 		element.append(btn);
-	
+		
+		var expBut = $('<div style = "margin-left: 115px"><br><br><br> <button style = " color: #FFF; background-color: #900; font-weight: bold;"id="myBtn" onclick="myFunction()">Export My Calendar</button></div>');
+		element.append(expBut);
+		element.append("<br>");		
+		
+		$(div).append(imgDiv);
+		$(box).append(title);		
+		$(div).append(box);		
+		$(div).append(expBut);	
+			
+		for (i = 0; i < updProfs.length; i++){ 
+			nome = parseName(updProfs[i]);
+			if (!(i%2 == 0)) {
+				$(box).append(cssEntry('#E8E8E8', updProfs[i], nome[0]));
+			}
+			
+			else {
+				$(box).append(cssEntry('white', updProfs[i], nome[0]));
+			}
+		}	
+
+
+		element.append(div);
+		element.append("<br><br>");
+		
+
 		
 		getStartEndTime(meetingsT, meetingeT);
 		getMeetingDates(startEndDate);
 		createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate);
+		//checkValues(classNames, false);
 		//alert(classInfoArr[3].mDates);
 	}
 }); 
