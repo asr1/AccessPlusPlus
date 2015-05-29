@@ -1,0 +1,16 @@
+{
+  "name": "Access Plus Class Schedule Functions",
+  "version": "0",
+  "description": "A chrome extension made specifically for ISU access plus. Responsible for linking the teacher's to their respective rate my professor page and for the exportation of the student's calendar to Google Calendars",
+  "background": {"page": "background.html"},
+  "manifest_version": 2,
+  "browser_action": {
+    "name": "Manipulate DOM",
+    "icons": ["icon.png"],
+    "default_icon": "icon.png"
+  },
+  "content_scripts": [ {
+    "js": [ "jquery.min.js", "class_sched_func.js" ],
+    "matches": [ "http://*/*", "https://*/*"]
+  }]
+}

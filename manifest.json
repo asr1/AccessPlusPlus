@@ -15,7 +15,8 @@
 	[
 	{
 		"matches":["http://*/*", "https://*/*"],
-		"js":["jquery.min.js", "RateMyProf/rate_my_proj.js"]
+		"js":["jquery.min.js", "ClassScheduleFunctions/class_sched_func.js"]
+
 	},
 	{
 		"matches":["https://accessplus.iastate.edu/servlet/adp.A_Plus"],
