@@ -365,7 +365,7 @@ function showNotify() {
 		}
 	}
 	
-	//This is just for hacky demo purposes. This can be deleted. This should be deleted.
+	//This is just for hacky demo purposes. This can be deleted. This should be deleted. //Nope now it's necessary again.
 	function expSched() { 
 	//Note that each class that meets only once a week has been padded with an 8. Why is this?
 	//It's because if there is only one element in a list, it is not iterated through. Not sure why this is.
@@ -382,7 +382,7 @@ function showNotify() {
 		CreateSchedule(classInfoArr[i].sDate, classInfoArr[i].eDate,classInfoArr[i].mTimesS,classInfoArr[i].mTimesE,classInfoArr[i].mDays,classInfoArr[i].nome,classInfoArr[i].loc);//Flavia tell me if this is the right way to access?
 	}//Note::MIght be an issue with off by one issue on dates and MIGHT be an issue with classes that only meet once (we'll
 	//have to check && pad with an 8, per the API that Past-Alex wrote during the hackathon.
-	
+	/*
 		//Start wtih  Com Sci 311 Lecture
 		var StartDate = new Date(2015,07,24);//Same for every class this semester
 		var EndDate = new Date(2015,11,18);
@@ -426,7 +426,7 @@ function showNotify() {
 		EndTime = new Date(StartDate.setHours(13,50));
 		WeekDays = new Array(3,8);
 		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'EE 230 Lab', 'Coover 2250');
-		
+		*/
 		cal.download(cal); 
 		
 	}  
