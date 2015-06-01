@@ -42,6 +42,7 @@ var locations = []; //will store the class' locations
 var classInfoArr = []; //will store objects which contain (hopefully) all of the necessary information for google Calendar
 
 
+//This comment is mostly wrong.
 //ClassInfo object, each object will contain all needed information for the calendar exportation
 //nome - class name
 //mDays - meeting days, all days of the week where the class meets
@@ -330,6 +331,7 @@ function showNotify() {
 	function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, location) //Got rid  of the subject parameter since this isnt something i can get from A++ page, not sure if its necessary
 	{
 	
+	alert(hit);
 		//Forcible typecasty garbage to bypass
 		//JS's loosely typed shenanigans -- don't judge, Alex -_-
 		var start = new Date(start);
@@ -365,6 +367,74 @@ function showNotify() {
 		}
 	}
 	
+	
+	//Used for expSched string formatting garbage
+	function timeParseHours(time)
+	{
+		var hrs = time.split(':');
+		var hrs1 = hrs[0];//Grab just the time
+		var hrs2 = hrs[1];//Grab the minutes and an A or P
+		var pm = hrs2.split(' ');
+		var AorP = pm[1];//Grab the A or the P
+		if(AorP == 'p');
+		{
+			hrs1 = parseInt(hrs1) + 12; //We're doing military time, boy.
+		}
+		return hrs1;
+	}
+	
+	//See comment above, re: garbage.
+	function timeParseMinutes(time)
+	{
+		var hrs = time.split(':');
+		var hrs2 = hrs[1];//Grab the minutes and an A or P
+		var front = hrs2.split(' ');
+		var mins = front[0];
+		if(mins != 0)
+		{
+			mins--;//*sigh*. It's an API thing. Please don't ask.
+		}
+		return mins; 
+	}
+	
+	function convertOneDay(day)
+	{
+		if(day == 'M')
+		{
+			return 1;
+		}
+		if(day == 'T')
+		{
+			return 2;
+		}
+		if(day == 'W')
+		{
+			return 3;
+		}
+		if(day == 'R')
+		{
+			return 4;
+		}
+		if(day == 'F')
+		{
+			return 5;
+		}
+		return 8; //Invalid, see API for more info.
+		
+	}
+	
+	function convertDays(days)
+	{
+		var ret = new Array();
+		ret.push(8);//Actually this should make things easier-- instead of checking "hey, is this a length of one? And if so, adding an 8, we can just start with an 8, and things *should* work. I think. It's been a few months since I wrote/looked at the API. Also, I'm sorry for all of this.
+		var tempDays = days.split(' ');
+		for(var i =0; i< tempDays.length; i++)
+		{
+			ret.push(convertOneDay(tempDays[i]));//This should work?
+		}
+		return ret;
+	}
+	
 	//This is just for hacky demo purposes. This can be deleted. This should be deleted. //Nope now it's necessary again.
 	function expSched() { 
 	//Note that each class that meets only once a week has been padded with an 8. Why is this?
@@ -375,12 +445,25 @@ function showNotify() {
 	//Negative values COULD be confused for an error message and return the wrong thing in a comparison.
 	//There should be no instance where a day of 8 makes sense, nor could trigger a false positive.
 	
-	alert("hit");
-	//Uhhh just guessing here, I don't know javascript
+	
 	for(i=0; i<classInfoArr.length; i++)
-	{//Okay so we actually need both start and end time
-		CreateSchedule(classInfoArr[i].sDate, classInfoArr[i].eDate,classInfoArr[i].mTimesS,classInfoArr[i].mTimesE,classInfoArr[i].mDays,classInfoArr[i].nome,classInfoArr[i].loc);//Flavia tell me if this is the right way to access?
-	}//Note::MIght be an issue with off by one issue on dates and MIGHT be an issue with classes that only meet once (we'll
+	{
+	
+		//Convert Y/M/D to a date
+		var DateArrs = splitDates(classInfoArr[i].mDates);
+		var StartDate = new Date(DateArrs[0].year,DateArrs[0].month,DateArrs[0].day);
+		var EndDate = new Date(DateArrs[1].year,DateArrs[1].month,DateArrs[1].day);
+		
+		//Change days from M T R to 1 2 4
+		var meetDays = convertDays(classInfoArr[i].mDays);
+		
+		//Create everything
+		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].nome,classInfoArr[i].loc);
+		
+		//	CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),classInfoArr[i].mTimesE,classInfoArr[i].mDays,classInfoArr[i].nome,classInfoArr[i].loc);
+		
+		
+	}//Note:: MIGHT be an issue with classes that only meet once (we'll
 	//have to check && pad with an 8, per the API that Past-Alex wrote during the hackathon.
 	/*
 		//Start wtih  Com Sci 311 Lecture
@@ -433,6 +516,58 @@ function showNotify() {
 
 //-------------------------------</Calendar>--------------------------------------
 
+
+//meetingDate object, will contain the different parts of the meeting date string, such as month, date year
+//month - given month, has to be reduced by 1
+//day - given day
+//year - given year
+function meetingDateObj(month, day, year){
+		this.month = month;
+		this.day = day;
+		this.year = year;
+}
+
+//decrements the string month by one and updates the year to be in the 21st century
+function updMonthYr(obj, month, year){
+	var m = parseInt(month);
+	var mnt;
+	m--;//Necessary to convert from 1-indexed to 0-indexed.
+	if (m <= 10) mnt = "0";
+	else mnt = "";
+	mnt += m.toString();
+	
+	var yr = "20";
+	yr+=year;
+	
+	obj.month = mnt;
+	obj.year = yr;
+	
+}
+
+//Returns a meeting date string as a readable format for the Calendar
+//As the months begin at index 0, the month part has to be reduced by 1 
+//date - a meeting date string
+function splitDates(date){
+	var dates = date.split('-');
+	var date1 = dates[0];
+	var date2 = dates[1];
+	var obj;
+	
+	var parts1 = date1.split('/');
+	var parts2 = date2.split('/');
+	
+	var objArr = [];
+	
+	obj = new meetingDateObj("", parts1[1], "");
+	updMonthYr(obj, parts1[0], parts1[2]);
+	objArr.push(obj);
+	
+	obj = new meetingDateObj("", parts2[1], "");
+	updMonthYr(obj, parts2[0], parts2[2]);
+	objArr.push(obj);
+	
+	return objArr;
+}
 
 //Was attempting to send a request to a website to be able to parse 
 //the received page. Apparently cross-domain access is illegal with ajax - bummer
@@ -495,7 +630,12 @@ $(document).ready(function() {
 		}
 		element.append(btn);
 		
-		var expBut = $('<div style = "margin-left: 120px"><br><br><br><br> <button style = "-webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"id="myBtn" onclick="expSched()">Export My Calendar</button></div>');
+		//var expBut = $('<div style = "margin-left: 120px"><br><br><br><br> <button style = "-webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"id="myBtn" onclick="expSched()">Export My Calendar</button></div>');
+		
+		var expBut = $('<div style = "margin-left: 120px"><br><br><br><br> <button id="expBtn" style = "-webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;">Export My Calendar</button></div>');
+		element.append(expBut);	
+		document.getElementById("expBtn").addEventListener("click", function(){expSched()});
+		element.append("<br>");
 		element.append(expBut);
 		element.append("<br>");		
 		
