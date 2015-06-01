@@ -362,7 +362,7 @@ function showNotify() {
 			 {
 				if(eventStart.getDay().toString() == WeekDays[x])
 				{   
-					alert(cal.addEvent(name, location, new Date(eventStartString) ,new Date(eventEndString)));
+					cal.addEvent(name, "Class",location, new Date(eventStartString) ,new Date(eventEndString));
 				}
 			  }
 		}
