@@ -306,6 +306,8 @@ var saveAs=saveAs||typeof navigator!=="undefined"&&navigator.msSaveOrOpenBlob&&n
 
 var notifier, dialog;
 var cal = ics();//Make our new Calendar (globally)
+var firstTime = true; //We'll use this to solve an "empty date" problem.
+var safetyNet; //Same thing, empty Date saver
 
 function showNotify() {
     var notify;
@@ -331,18 +333,19 @@ function showNotify() {
 	function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, location) //Got rid  of the subject parameter since this isnt something i can get from A++ page, not sure if its necessary
 	{
 	
-	alert(hit);
+	
 		//Forcible typecasty garbage to bypass
 		//JS's loosely typed shenanigans -- don't judge, Alex -_-
 		var start = new Date(start);
 		var end = new Date(end);
 		var eventTime = new Date(eventTime);
 		var eventTimeEnd = new Date(eventTimeEnd);
-		
+
 	
 	    while(start <= end)
 		{
-	
+		alert("Start: " + start);
+		alert("end: " + end);
 		//Now update our counter to tomorrow
 	
 		  var eventStart = new Date(start.setHours(eventTime.getHours(), eventTime.getMinutes()));
@@ -356,7 +359,7 @@ function showNotify() {
 		 //There is a discrepancy between indexing in months, hence the + 1
 		 var eventEndString = (eventEnd.getMonth()+1).toString().concat("/").concat(eventEnd.getDate().toString()).concat("/").concat(eventEnd.getFullYear().toString()).concat(" ").concat(eventEnd.getHours().toString()).concat(":").concat(eventEnd.getMinutes().toString());//.concat(" PM"));
 	
-	
+
 			 for(x = 0; x < WeekDays.length; x++)
 			 {
 				if(eventStart.getDay().toString() == WeekDays[x])
@@ -423,6 +426,46 @@ function showNotify() {
 		
 	}
 	
+
+//Tests if string contains only spaces
+function isEmptyString(obj)
+{
+	for(var i = 0; i < obj.length; i++)
+	{
+		if(obj.charAt(i) != ' ')
+		{
+			return false;
+		}
+	}
+return true;
+
+}
+
+// Speed up calls to hasOwnProperty
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+//Some utility code that isn't included in the language.
+function isEmpty(obj) {
+
+    // null and undefined are "empty"
+    if (obj == null) return true;
+
+    // Assume if it has a length property with a non-zero value
+    // that that property is correct.
+    if (obj.length > 0)    return false;
+    if (obj.length === 0)  return true;
+
+
+    // Otherwise, does it have any properties of its own?
+    // Note that this doesn't handle
+    // toString and valueOf enumeration bugs in IE < 9
+    for (var key in obj) {
+        if (hasOwnProperty.call(obj, key)) return false;
+    }
+
+    return true;
+}
+	
 	function convertDays(days)
 	{
 		var ret = new Array();
@@ -448,6 +491,20 @@ function showNotify() {
 	
 	for(i=0; i<classInfoArr.length; i++)
 	{
+
+		//Sometimes a class has two meetings and they only give a date for the first
+		if(firstTime)
+		{
+			safetyNet = classInfoArr[i].mDates;
+			firstTime = false;
+		}
+		//All classes have the same meeting time, in theory.
+		//NOTE that this breaks if our first class is only half a semester long and
+		//we have a class without a date. Ooops, sorry.
+		if(isEmptyString(classInfoArr[i].mDates))
+		{
+			classInfoArr[i].mDates = safetyNet;
+		}
 	
 		//Convert Y/M/D to a date
 		var DateArrs = splitDates(classInfoArr[i].mDates);
@@ -457,8 +514,23 @@ function showNotify() {
 		//Change days from M T R to 1 2 4
 		var meetDays = convertDays(classInfoArr[i].mDays);
 		
+		if(isEmptyString(classInfoArr[i].loc))
+		{
+			classInfoArr[i].loc = 'TBA';
+		}
+		
 		//Create everything
 		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].nome,classInfoArr[i].loc);
+		
+		
+				//Start wtih  Com Sci 311 Lecture
+		var StartDate = new Date(2015,07,24);//Same for every class this semester
+		var EndDate = new Date(2015,11,18);
+		var StartTime =  new Date(StartDate).setHours(12,39);
+		var EndTime = new Date(StartDate).setHours(14,0);
+		var WeekDays= new Array(2,4);//Tuesday and Thursday
+		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'Com Sci 311', 'Atanassoff 310');
+		
 		
 		//	CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),classInfoArr[i].mTimesE,classInfoArr[i].mDays,classInfoArr[i].nome,classInfoArr[i].loc);
 		
@@ -510,7 +582,9 @@ function showNotify() {
 		WeekDays = new Array(3,8);
 		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'EE 230 Lab', 'Coover 2250');
 		*/
-		cal.download(cal); 
+		alert("Everything good");
+		console.dir(cal);
+		cal.download(); 
 		
 	}  
 
