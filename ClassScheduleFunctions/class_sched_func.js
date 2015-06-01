@@ -344,8 +344,6 @@ function showNotify() {
 	
 	    while(start <= end)
 		{
-		alert("Start: " + start);
-		alert("end: " + end);
 		//Now update our counter to tomorrow
 	
 		  var eventStart = new Date(start.setHours(eventTime.getHours(), eventTime.getMinutes()));
@@ -364,7 +362,7 @@ function showNotify() {
 			 {
 				if(eventStart.getDay().toString() == WeekDays[x])
 				{   
-					cal.addEvent(name, location, new Date(eventStartString) ,new Date(eventEndString));
+					alert(cal.addEvent(name, location, new Date(eventStartString) ,new Date(eventEndString)));
 				}
 			  }
 		}
@@ -488,7 +486,7 @@ function isEmpty(obj) {
 	//Negative values COULD be confused for an error message and return the wrong thing in a comparison.
 	//There should be no instance where a day of 8 makes sense, nor could trigger a false positive.
 	
-	
+
 	for(i=0; i<classInfoArr.length; i++)
 	{
 
@@ -521,22 +519,11 @@ function isEmpty(obj) {
 		
 		//Create everything
 		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].nome,classInfoArr[i].loc);
-		
-		
-				//Start wtih  Com Sci 311 Lecture
-		var StartDate = new Date(2015,07,24);//Same for every class this semester
-		var EndDate = new Date(2015,11,18);
-		var StartTime =  new Date(StartDate).setHours(12,39);
-		var EndTime = new Date(StartDate).setHours(14,0);
-		var WeekDays= new Array(2,4);//Tuesday and Thursday
-		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'Com Sci 311', 'Atanassoff 310');
-		
-		
-		//	CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),classInfoArr[i].mTimesE,classInfoArr[i].mDays,classInfoArr[i].nome,classInfoArr[i].loc);
+	
 		
 		
 	}//Note:: MIGHT be an issue with classes that only meet once (we'll
-	//have to check && pad with an 8, per the API that Past-Alex wrote during the hackathon.
+	//have to check && pad with an 8, per the API that Past-Alex wrote during the hackathon. //Think we solved this.
 	/*
 		//Start wtih  Com Sci 311 Lecture
 		var StartDate = new Date(2015,07,24);//Same for every class this semester
@@ -583,8 +570,9 @@ function isEmpty(obj) {
 		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'EE 230 Lab', 'Coover 2250');
 		*/
 		alert("Everything good");
+		alert(cal.length);
 		console.dir(cal);
-		cal.download(); 
+		cal.download(cal,ics); 
 		
 	}  
 
