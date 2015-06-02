@@ -8,7 +8,6 @@
 	"browser_action":
 	{
 		"default_icon":"icon.png",
-		"default_popup":"CalendarExport/popup.html"
 	},
 	
 	"content_scripts":
