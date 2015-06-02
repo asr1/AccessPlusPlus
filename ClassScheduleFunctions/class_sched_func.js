@@ -40,6 +40,9 @@ var locations = []; //will store the class' locations
 
 var classInfoArr = []; //will store objects which contain (hopefully) all of the necessary information for google Calendar
 
+//whether a calendar was created successfully or not
+var convSuccess = false;
+
 
 //This comment is mostly wrong.
 //ClassInfo object, each object will contain all needed information for the calendar exportation
@@ -515,6 +518,8 @@ function isEmpty(obj) {
     return true;
 }
 	
+
+
 	function convertDays(days)
 	{
 		var ret = new Array();
@@ -575,12 +580,12 @@ function isEmpty(obj) {
 		
 	}//Note:: MIGHT be an issue with classes that only meet once (we'll
 	//have to check && pad with an 8, per the API that Past-Alex wrote during the hackathon. //Think we solved this.
-
-		alert("Everything good");
-		alert(cal.length);
+        document.getElementById("checkId").style.display = "block";
+        setTimeout(function(){document.getElementById("checkId").style.display = "none";}, 3000);
 		console.dir(cal);
 		cal.download(cal); 
-		
+		              
+
 	}  
 
 //-------------------------------</Calendar>--------------------------------------
@@ -602,7 +607,7 @@ function getBoxSize(number){
 //nome - parsed name
 function cssEntry(backGColor, prof, nome){
 	
-		var txtShadow = 'font-size: 105%; text-shadow:1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0px 1px 0 #000, 1px 0px 0 #000, 0px -1px 0 #000, -1px 0px 0 #000, 4px 4px 3px #000; font-family:Verdana, Geneva, sans-serif;';
+		var txtShadow = 'font-size: 105%; text-shadow:1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0px 1px 0 #000, 1px 0px 0 #000, 0px -1px 0 #000, -1px 0px 0 #000, 2px 2px 1px #000; font-family:Verdana, Geneva, sans-serif;';
 		return '<tr> <td> <div style = "display:table; padding-left: 40px;margin-left: 0px; color:#b5d333;'+ txtShadow+ '">' + '<br>' + prof + ' </td> <td> <br><a style = "padding-left: 100px;text-shadow: none; text-decoration: none; color: white;' + txtShadow + '" href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome + '+Iowa+State+University'+'"> Check me out!</a> <br><br> </td></div></tr>';		
 	
 }
@@ -615,42 +620,33 @@ $(document).ready(function() {
 	
 	if (url == accessPlus || url == accessPlus1){
 
+ 
 		updateIDs(); 
 		updProfs = remRepeats(profs);
 		
 		var div = $('<div style = padding-top: 10px;></div>');
-		var imgDiv = $('<div style = "margin-left: 150px; ; z-index: 1; padding-top: 5px; position: absolute;"> <img src="http://miietl.mcmaster.ca/site/wp-content/uploads/2014/11/RateMyProfessors.com_Logo.jpg" alt="RMP" style="width:100px;height:50px"> </div>');
+		var imgDiv = $('<div style = "margin-left: 210px; ; z-index: 1; padding-top: 9px; position: absolute;"> <img src="http://miietl.mcmaster.ca/site/wp-content/uploads/2014/11/RateMyProfessors.com_Logo.jpg" alt="RMP" style="width:100px;height:50px"> </div>');
 
-		var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 5px; padding-top: 30px;"> </div>');
-		var title = $('<div style = "width:400px; height: 23px; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
+		var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>');
+		var title = $('<div style = "width:400px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
 		
-		
-		var btn = document.createElement("BUTTON"); 
-		btn.onclick=function(){ //^ω^
-			if (clicked == false) {
-			 	clicked = true;
-			 	element.append(img);
-			}
-			else{
-				clicked = false;
-				$(img).remove();
-			}
-		}
-		element.append(btn);
-		
-		//var expBut = $('<div style = "margin-left: 120px"><br><br><br><br> <button style = "-webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"id="myBtn" onclick="expSched()">Export My Calendar</button></div>');
-		
-		var expBut = $('<div style = "margin-left: 120px"><br><br><br><br> <button id="expBtn" style = "-webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;">Export My Calendar</button></div>');
-		element.append(expBut);	
+
+        
+        var checkDiv = $('<div id = "checkId" style= "display: none; float:left; margin-left: 350px;"><img src="http://www.clker.com/cliparts/e/3/9/7/1245686792938124914raemi_Check_mark.svg.hi.png" alt="Wheres My Checkmark?" style="width:35px;height:35px"> </div>');
+        element.append(checkDiv);
+
+        
+		var expBut = $('<div style = "float:left; position: absolute; padding-top: 15px; margin-left: 190px"><button id="expBtn" style = "border-style: outset; border-color:#A30000;; -webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;">Export My Calendar</button></div>');
+        element.append(expBut);	
 		document.getElementById("expBtn").addEventListener("click", function(){expSched()});
-		element.append("<br>");
-		element.append(expBut);
-		element.append("<br>");		
+        
+
+        element.append("<br><br><br> <br>");
 		
 		$(div).append(imgDiv);
 		$(box).append(title);		
 		$(div).append(box);		
-		$(div).append(expBut);	
+
 			
 		for (i = 0; i < updProfs.length; i++){ 
 			nome = parseName(updProfs[i]);
@@ -664,8 +660,23 @@ $(document).ready(function() {
 		}	
 
 		element.append(div);
-		element.append("<br><br>");
+		element.append("<br><br><br><br>");
 		
+        		
+		var btn = document.createElement("BUTTON"); 
+        btn.style = "position: absolute";
+		btn.onclick=function(){ //^ω^
+			if (clicked == false) {
+			 	clicked = true;
+			 	element.append(img);
+			}
+			else{
+				clicked = false;
+				$(img).remove();
+			}
+		}
+
+		element.append(btn);
 		getStartEndTime(meetingsT, meetingeT);
 		getMeetingDates(startEndDate);
 		getLocations(locations);
