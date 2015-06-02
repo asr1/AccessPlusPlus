@@ -1,1 +1,0 @@
-Adds an option to download your schedule by clicking on the extension's Icon.

@@ -632,7 +632,8 @@ function isEmpty(obj) {
 		//Display a checkmark if we downloaded successfully.
         document.getElementById("checkId").style.display = "block";
         setTimeout(function(){document.getElementById("checkId").style.display = "none";}, 3000);
-		cal.download(cal,".csv"); 
+		cal.download(cal); 
+		//cal.download(cal,".csv"); //If we want different extensions
 		              
 
 	}  
