@@ -570,7 +570,6 @@ function isEmpty(obj) {
 		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'EE 230 Lab', 'Coover 2250');
 		*/
 		alert("Everything good");
-		alert(cal.length);
 		console.dir(cal);
 		cal.download(cal); 
 		
