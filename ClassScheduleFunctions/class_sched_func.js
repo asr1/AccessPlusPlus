@@ -444,9 +444,9 @@ function showNotify() {
 		var hrs2 = hrs[1];//Grab the minutes and an A or P
 		var front = hrs2.split(' ');
 		var mins = front[0];
-		if(mins != 0)
+		if(mins > 30)
 		{
-			mins--;//*sigh*. It's an API thing. For some reason, if we don't end in 00, we get off by one errors in the minutes.--40 becomes 41. So we decrement. Not sure where the overlap starts, but this seems to fix it.
+			mins--;//*sigh*. It's an API thing. For some reason, if we don't end in 00, we get off by one errors in the minutes.--40 becomes 41. So we decrement. Not sure where the overlap starts, but it's after 20 and before 40. This seems to fix it.
 
 		}
 		return mins; 
@@ -758,9 +758,9 @@ $(document).ready(function() {
         var checkDiv = $('<div id = "checkId" style= "display: none; float:left; margin-left: 360px;"><img src="http://www.clker.com/cliparts/e/3/9/7/1245686792938124914raemi_Check_mark.svg.hi.png" alt="Wheres My Checkmark?" style="width:35px;height:35px"> </div>');
         element.append(checkDiv);
         
-		var expBut = $('<div style = "float:left; position: absolute; padding-top: 15px; margin-left: 190px"><button id="expBtn" style = "border-style: outset; border-color:#A30000;; -webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:15px;height:15px"> Export My Calendar</button></div>');
-        element.append(expBut);	
-		document.getElementById("expBtn").addEventListener("click", function(){expSched()});
+	    //var expBut = $('<div style = "float:left; position: absolute; padding-top: 15px; margin-left: 190px"><button id="expBtn" style = "border-style: outset; border-color:#A30000;; -webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:15px;height:15px"> Export My Calendar</button></div>');
+        //element.append(expBut);	
+		//document.getElementById("expBtn").addEventListener("click", function(){expSched()});
         
 
         element.append("<br><br><br> <br>");
