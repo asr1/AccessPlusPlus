@@ -430,9 +430,13 @@ function showNotify() {
 		var hrs2 = hrs[1];//Grab the minutes and an A or P
 		var pm = hrs2.split(' ');
 		var AorP = pm[1];//Grab the A or the P
-		if(AorP == 'p');
+		if(AorP == 'p')
 		{
 			hrs1 = parseInt(hrs1) + 12; //We're doing military time, boy.
+		}
+		else
+		{
+			hrs1 = parseInt(hrs1);
 		}
 		return hrs1;
 	}
@@ -574,6 +578,8 @@ function isEmpty(obj) {
 		//Create everything
 		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].nome,classInfoArr[i].loc);
 	
+	
+
 		
 	}//Note:: MIGHT be an issue with classes that only meet once (we'll
 	//have to check && pad with an 8, per the API that Past-Alex wrote during the hackathon. //Think we solved this.
@@ -626,7 +632,7 @@ function isEmpty(obj) {
 		//Display a checkmark if we downloaded successfully.
         document.getElementById("checkId").style.display = "block";
         setTimeout(function(){document.getElementById("checkId").style.display = "none";}, 3000);
-		cal.download(cal); 
+		cal.download(cal,".csv"); 
 		              
 
 	}  
