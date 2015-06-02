@@ -302,7 +302,6 @@ function checkValues (arr, isClassInfo){ //just for testing purposes
 
 }
 
-=======
 //meetingDate object, will contain the different parts of the meeting date string, such as month, date year
 //month - given month, has to be reduced by 1
 //day - given day
@@ -576,7 +575,6 @@ function isEmpty(obj) {
 		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].nome,classInfoArr[i].loc);
 	
 		
-		
 	}//Note:: MIGHT be an issue with classes that only meet once (we'll
 	//have to check && pad with an 8, per the API that Past-Alex wrote during the hackathon. //Think we solved this.
 	/*
@@ -624,32 +622,10 @@ function isEmpty(obj) {
 		WeekDays = new Array(3,8);
 		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'EE 230 Lab', 'Coover 2250');
 		*/
-		alert("Everything good");
-		console.dir(cal);
-		cal.download(cal); 
-	
-		//Convert Y/M/D to a date
-		var DateArrs = splitDates(classInfoArr[i].mDates);
-		var StartDate = new Date(DateArrs[0].year,DateArrs[0].month,DateArrs[0].day);
-		var EndDate = new Date(DateArrs[1].year,DateArrs[1].month,DateArrs[1].day);
-		
-		//Change days from M T R to 1 2 4
-		var meetDays = convertDays(classInfoArr[i].mDays);
-		
-		if(isEmptyString(classInfoArr[i].loc))
-		{
-			classInfoArr[i].loc = 'TBA';
-		}
-		//Create everything
-		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].nome,classInfoArr[i].loc);
-	
-		
-		
-	}//Note:: MIGHT be an issue with classes that only meet once (we'll
-	//have to check && pad with an 8, per the API that Past-Alex wrote during the hackathon. //Think we solved this.
+
+		//Display a checkmark if we downloaded successfully.
         document.getElementById("checkId").style.display = "block";
         setTimeout(function(){document.getElementById("checkId").style.display = "none";}, 3000);
-		console.dir(cal);
 		cal.download(cal); 
 		              
 
