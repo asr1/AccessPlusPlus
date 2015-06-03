@@ -430,14 +430,19 @@ function showNotify() {
 		var hrs2 = hrs[1];//Grab the minutes and an A or P
 		var pm = hrs2.split(' ');
 		var AorP = pm[1];//Grab the A or the P
-		if(AorP == 'p')
+		alert("time " + time);
+		if(AorP == 'P')
 		{
-			hrs1 = parseInt(hrs1) + 12; //We're doing military time, boy.
+			if(parseInt(hrs1) < 12) // it's PM and not noon.
+			{
+				hrs1 = parseInt(hrs1) + 12; //We're doing military time, boy.
+			}
 		}
 		else
 		{
-			hrs1 = parseInt(hrs1);
+				hrs1 = parseInt(hrs1);
 		}
+		alert("returning: "+hrs1);
 		return hrs1;
 	}
 	
