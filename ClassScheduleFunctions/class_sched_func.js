@@ -430,7 +430,6 @@ function showNotify() {
 		var hrs2 = hrs[1];//Grab the minutes and an A or P
 		var pm = hrs2.split(' ');
 		var AorP = pm[1];//Grab the A or the P
-		alert("time " + time);
 		if(AorP == 'P')
 		{
 			if(parseInt(hrs1) < 12) // it's PM and not noon.
@@ -442,7 +441,6 @@ function showNotify() {
 		{
 				hrs1 = parseInt(hrs1);
 		}
-		alert("returning: "+hrs1);
 		return hrs1;
 	}
 	
@@ -579,6 +577,8 @@ function isEmpty(obj) {
 		{
 			classInfoArr[i].loc = 'TBA';
 		}
+		
+		
 		
 		//Create everything
 		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].nome,classInfoArr[i].loc);
