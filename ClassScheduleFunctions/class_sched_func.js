@@ -578,6 +578,10 @@ function isEmpty(obj) {
 			classInfoArr[i].loc = 'TBA';
 		}
 		
+		alert("start: "+StartDate);
+		alert("end: "+EndDate);
+		alert("Start Time: " + new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))));
+		alert("end Time : " + new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))))
 		
 		
 		//Create everything
@@ -637,7 +641,7 @@ function isEmpty(obj) {
 		//Display a checkmark if we downloaded successfully.
         document.getElementById("checkId").style.display = "block";
         setTimeout(function(){document.getElementById("checkId").style.display = "none";}, 3000);
-		cal.download(cal); 
+		cal.download(cal,".csv"); 
 		//cal.download(cal,".csv"); //If we want different extensions
 		              
 
