@@ -12,7 +12,7 @@ var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_acti
 var bootstrap =  ' <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>';
 
 var img = document.createElement("img"); 
-img.src = "https://imgflip.com/s/meme/Jackie-Chan-WTF.jpg"; //I regret nothing
+img.src = "http://i.imgur.com/dSvcdl.gif"; //I regret nothing
 
 var clicked = false;
 
