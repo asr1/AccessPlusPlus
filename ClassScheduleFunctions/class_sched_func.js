@@ -678,7 +678,7 @@ function getBoxSize(number){
 function cssEntry(backGColor, prof, nome){
 	
 		var txtShadow = 'font-size: 1em; text-shadow: 1px 1px 0px rgba(150, 150, 150, 1); font-family:Verdana, Geneva, sans-serif;';
-		return '<tr> <td> <div style = "background-color:' + backGColor + 'display:table; padding-left: 40px; color:black;'+ txtShadow+ '">' + '<br>' + prof + ' </td></div><td> <br><a style = " border: 1px solid black;  padding-left: 100px;text-shadow: none; text-decoration: none; color: white;' + txtShadow + 'padding: 5px; background-color: #aac628; border-radius: 7px; margin: 5px;" href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome + '+Iowa+State+University'+'"> Check my rating!</a> <br><br> </td></tr>';		
+		return '<tr> <td> <div style = "background-color:' + backGColor + 'display:table; padding-left: 40px; color:black;'+ txtShadow+ '">' + '<br>' + prof + ' </td></div><td> <br><a style = " border: 1px solid black;  padding-left: 100px;text-shadow: none; text-decoration: none; color: white;' + txtShadow + 'padding: 5px; background-color: #aac628; border-radius: 7px; margin: 5px;" href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a> <br><br> </td></tr>';		
 	
 }
 
