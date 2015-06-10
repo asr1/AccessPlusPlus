@@ -61,7 +61,13 @@ function classInfo(nome, mDays, mTimesS, mTimesE, mDates, loc){
 		this.loc = loc;
 }
 
-//AccessPlus sucks, so to make our lives easier, lets give each table an id, and use these to search for the required info
+//AccessPlus is a website which was most definetly not created with plans for future development. 
+//No. Whoever developed this ancient tome decided to write this masterpeace as if we were still stuck in the 80s, 
+//where friggin ids were mythical beings who should never be disturbed for fear of divine retribution. 
+//So how on earth are we supposed to find the ridiculous amount of data that we need in order to get this plugin to work??
+//Well, after cussing at A++ with every insult known/unkown to men, and developing a dislike which burned like acidic poison 
+//for this rare gem of a website, i decided to wholeheartedly embrace hacky code. 
+//AKA: lets inject an id for each table and use them to search for the required info. IN YOUR FACE ACCESS PLUS
 //-----------------------------------------------------------------------------
 
 //Keeps track of the current row id
@@ -736,9 +742,11 @@ $(document).ready(function() {
 		element.append("<br><br><br><br>");
 		
         		
-		var btn = document.createElement("BUTTON"); 
-        btn.style = "position: absolute";
-		btn.onclick=function(){ //^ω^
+		var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.9);  border: none !important;"> </button> </div>'); 
+        element.append(btn);
+  		 document.getElementById("button").addEventListener("click", function(){func()});
+
+		function func(){ //^ω^
 			if (clicked == false) {
 			 	clicked = true;
 			 	element.append(img);
@@ -749,7 +757,6 @@ $(document).ready(function() {
 			}
 		}
 
-		element.append(btn);
 		getStartEndTime(meetingsT, meetingeT);
 		getMeetingDates(startEndDate);
 		getLocations(locations);
