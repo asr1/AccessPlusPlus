@@ -459,11 +459,6 @@ function showNotify() {
 		var hrs2 = hrs[1];//Grab the minutes and an A or P
 		var front = hrs2.split(' ');
 		var mins = front[0];
-		if(mins > 30)
-		{
-			mins--;//*sigh*. It's an API thing. For some reason, if we don't end in 00, we get off by one errors in the minutes.--40 becomes 41. So we decrement. Not sure where the overlap starts, but it's after 20 and before 40. This seems to fix it.
-
-		}
 		return mins; 
 	}
 	
