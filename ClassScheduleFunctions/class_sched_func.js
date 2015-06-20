@@ -709,101 +709,79 @@ function cssEntry(backGColor, prof, nome){
 
 //Where the magic happens //Uhh I didn't write this. Flavia, was this you?
 $(document).ready(function() {
-	var updProfs = []; //updated array with the professor information, will not contain any repeated names
-	var nome = [];	
-	//$(document).append(bootstrap);
-	
-	if (url == accessPlus || url == accessPlus1){
+ var updProfs = []; //updated array with the professor information, will not contain any repeated names
+ var nome = []; 
+ //$(document).append(bootstrap);
+ 
+ if (url == accessPlus || url == accessPlus1){
 
  
-		updateIDs(); 
-		updProfs = remRepeats(profs);
-		
-		var div = $('<div style = padding-top: 20px;></div>');
-		var imgDiv = $('<div style = "margin-left: 170px; ; z-index: 1;  position: absolute;"> <img src="http://www.userlogos.org/files/logos/Karmody/Rate_My_Prof_01.png" alt="RMP" style="width:130px;height:120px"> </div>');
+  updateIDs(); 
+  updProfs = remRepeats(profs);
+  
+  var div = $('<div style = padding-top: 20px;></div>');
+  var imgDiv = $('<div style = "margin-left: 170px; ; z-index: 1;  position: absolute;"> <img src="http://www.userlogos.org/files/logos/Karmody/Rate_My_Prof_01.png" alt="RMP" style="width:130px;height:120px"> </div>');
 
-		var hatDiv = $('<div style = "margin-left: 345px; ; z-index: 1; padding-top: 9px; position: absolute;"> <img src="http://www.pyramidcg.com/blog/wp-content/uploads/2013/01/hat1.png" style = "-webkit-transform: rotate(15deg); width: 60px; height: 40px;"> </div>');
+  var hatDiv = $('<div style = "margin-left: 345px; ; z-index: 1; padding-top: 9px; position: absolute;"> <img src="http://www.pyramidcg.com/blog/wp-content/uploads/2013/01/hat1.png" style = "-webkit-transform: rotate(15deg); width: 60px; height: 40px;"> </div>');
 
-		var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>');
-		var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
-		
-		var btn = document.createElement("BUTTON"); 
-		btn.onclick=function(){ //^ω^
-			if (clicked == false) {
-			 	clicked = true;
-			 	element.append(img);
-			}
-			else{
-				clicked = false;
-				$(img).remove();
-			}
-		}
-		element.append(btn);
-		
-		//var expBut = $('<div style = "margin-left: 120px"><br><br><br><br> <button style = "-webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"id="myBtn" onclick="expSched()">Export My Calendar</button></div>');
-		
-		var expBut = $('<div style = "margin-left: 120px"><br><br><br><br> <button id="expBtn" style = "-webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;">Export My Calendar</button></div>');
-		element.append(expBut);	
-		document.getElementById("expBtn").addEventListener("click", function(){expSched()});
-		element.append("<br>");
-		element.append(expBut);
-		element.append("<br>");		
+  var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>');
+  var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
+  
 
         
         var checkDiv = $('<div id = "checkId" style= "display: none; float:left; margin-left: 320px; top: 5px;"><img src="http://www.clker.com/cliparts/e/3/9/7/1245686792938124914raemi_Check_mark.svg.hi.png" alt="Wheres My Checkmark?" style="width:25px;height:25px"> </div>');
         element.append(checkDiv);
         
-
-		var expBut = $('<div style = "float:left; position: absolute; padding-top: 15px; margin-left: 150px"><button id="expBtn" style = "border-style: outset; border-color:#A30000;; -webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:15px;height:15px"> Export My Calendar</button></div>');
-        element.append(expBut);	
-		document.getElementById("expBtn").addEventListener("click", function(){expSched()});
+  var expBut = $('<div style = "float:left; position: absolute; padding-top: 15px; margin-left: 150px"><button id="expBtn" style = "border-style: outset; border-color:#A30000;; -webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:15px;height:15px"> Export My Calendar</button></div>');
+        element.append(expBut); 
+  document.getElementById("expBtn").addEventListener("click", function(){expSched()});
         
+
         element.append("<br><br><br>");
-		
-		$(element).append(imgDiv);
-        	element.append("<br> <br>");
-		$(div).append(hatDiv);
-		$(box).append(title);		
-		$(div).append(box);		
+  
+  $(element).append(imgDiv);
+         element.append("<br> <br>");
+  $(div).append(hatDiv);
+  $(box).append(title);  
+  $(div).append(box);  
 
-			
-		for (i = 0; i < updProfs.length; i++){ 
-			nome = parseName(updProfs[i]);
-			if (!(i%2 == 0)) {
-				$(box).append(cssEntry('#E8E8E8', updProfs[i], nome[0]));
-			}
-			
-			else {
-				$(box).append(cssEntry('white', updProfs[i], nome[0]));
-			}
-		}	
+   
+  for (i = 0; i < updProfs.length; i++){ 
+   nome = parseName(updProfs[i]);
+   if (!(i%2 == 0)) {
+    $(box).append(cssEntry('#E8E8E8', updProfs[i], nome[0]));
+   }
+   
+   else {
+    $(box).append(cssEntry('white', updProfs[i], nome[0]));
+   }
+  } 
 
-		element.append(div);
-		element.append("<br><br><br><br>");
-		
-        		
-		var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.9);  border: none !important;"> </button> </div>'); 
+  element.append(div);
+  element.append("<br><br><br><br>");
+  
+          
+  var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.9);  border: none !important;"> </button> </div>'); 
         element.append(btn);
-  		 document.getElementById("button").addEventListener("click", function(){func()});
+     document.getElementById("button").addEventListener("click", function(){func()});
 
-		function func(){ //^ω^
-			if (clicked == false) {
-			 	clicked = true;
-			 	element.append(img);
-			}
-			else{
-				clicked = false;
-				$(img).remove();
-			}
-		}
+  function func(){ //^ω^
+   if (clicked == false) {
+     clicked = true;
+     element.append(img);
+   }
+   else{
+    clicked = false;
+    $(img).remove();
+   }
+  }
 
-		getStartEndTime(meetingsT, meetingeT);
-		getMeetingDates(startEndDate);
-		getLocations(locations);
-		createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
-		//checkValues(classInfoArr, true);
-		//alert(classInfoArr[3].mDates);
-	}
+  getStartEndTime(meetingsT, meetingeT);
+  getMeetingDates(startEndDate);
+  getLocations(locations);
+  createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
+  //checkValues(classInfoArr, true);
+  //alert(classInfoArr[3].mDates);
+ }
 
-}); 
-
+});
