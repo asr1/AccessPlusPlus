@@ -12,7 +12,7 @@ var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_acti
 var bootstrap =  ' <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>';
 
 var img = document.createElement("img"); 
-img.src = "https://imgflip.com/s/meme/Jackie-Chan-WTF.jpg"; //I regret nothing
+img.src = "http://i.imgur.com/dSvcdl.gif"; //I regret nothing
 
 var clicked = false;
 
@@ -61,7 +61,13 @@ function classInfo(nome, mDays, mTimesS, mTimesE, mDates, loc){
 		this.loc = loc;
 }
 
-//AccessPlus sucks, so to make our lives easier, lets give each table an id, and use these to search for the required info
+//AccessPlus is a website which was most definetly not created with plans for future development. 
+//No. Whoever developed this ancient tome decided to write this masterpeace as if we were still stuck in the 80s, 
+//where friggin ids were mythical beings who should never be disturbed for fear of divine retribution. 
+//So how on earth are we supposed to find the ridiculous amount of data that we need in order to get this plugin to work??
+//Well, after cussing at A++ with every insult known/unkown to men, and developing a dislike which burned like acidic poison 
+//for this rare gem of a website, i decided to wholeheartedly embrace hacky code. 
+//AKA: lets inject an id for each table and use them to search for the required info. IN YOUR FACE ACCESS PLUS
 //-----------------------------------------------------------------------------
 
 //Keeps track of the current row id
@@ -596,6 +602,7 @@ function isEmpty(obj) {
 	}//Note:: MIGHT be an issue with classes that only meet once (we'll
 	//have to check && pad with an 8, per the API that Past-Alex wrote during the hackathon. //Think we solved this.
 	/*
+		//Old version for reference
 		//Start wtih  Com Sci 311 Lecture
 		var StartDate = new Date(2015,07,24);//Same for every class this semester
 		var EndDate = new Date(2015,11,18);
@@ -603,52 +610,16 @@ function isEmpty(obj) {
 		var EndTime = new Date(StartDate).setHours(14,0);
 		var WeekDays= new Array(2,4);//Tuesday and Thursday
 		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'Com Sci 311', 'Atanassoff 310');
-		
-		//Then Com Sci 311 recitation
-		StartTime = new Date(StartDate.setHours(14,10));
-		EndTime = new Date(StartDate.setHours(15,00));
-		WeekDays = new Array(4,8);
-		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'Com Sci 311', 'Carver 129');
-	
-		//Now Com Sci 336
-		StartTime = new Date(StartDate.setHours(11,00));
-		EndTime = new Date(StartDate.setHours(12,20));
-		WeekDays = new Array(2,4);
-		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'Com Sci 336', 'Durham 171');
-	
-		//Now Cpre 491
-		StartTime = new Date(StartDate.setHours(14,10));
-		EndTime = new Date(StartDate.setHours(16,00));
-		WeekDays = new Array(2,8);
-		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'CPRE 491', 'Coover 2253');
-	
-		//Cpre 494
-		StartTime = new Date(StartDate.setHours(15,10));
-		EndTime = new Date(StartDate.setHours(16,00));
-		WeekDays = new Array(3,8);
-		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'CPRE 494', 'Physics 3');
-	
-		//EE 230 Lecture
-		StartTime = new Date(StartDate.setHours(08,0));
-		EndTime = new Date(StartDate.setHours(08,50));
-		WeekDays = new Array(1,3,5);
-		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'EE 230', 'Hoover 1213');
-	
-		//EE 230 Lab
-		StartTime = new Date(StartDate.setHours(11,00));
-		EndTime = new Date(StartDate.setHours(13,50));
-		WeekDays = new Array(3,8);
-		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'EE 230 Lab', 'Coover 2250');
-		*/
+	*/
 
 		//Display a checkmark if we downloaded successfully.
         document.getElementById("checkId").style.display = "block";
-        setTimeout(function(){document.getElementById("checkId").style.display = "none";}, 3000);
+        setTimeout(function(){document.getElementById("checkId").style.display = "none";}, 1500);
 		cal.download(cal); //ICS format 
 		//cal.download(cal,".csv"); //If we want different extensions
 		              
 
-	}  
+	}   
 
 //-------------------------------</Calendar>--------------------------------------
 
@@ -704,6 +675,7 @@ function splitDates(date){
 	return objArr;
 }
 
+/*
 //Was attempting to send a request to a website to be able to parse 
 //the received page. Apparently cross-domain access is illegal with ajax - bummer
 function getPage() { //illegal
@@ -712,6 +684,8 @@ function getPage() { //illegal
 			alert(pageHtml.html());
 	});
 }
+*/
+
 
 //Calculates the "ideal" div size according to the number of found teachers
 //@param number - number of teachers
@@ -728,8 +702,8 @@ function getBoxSize(number){
 //nome - parsed name
 function cssEntry(backGColor, prof, nome){
 	
-		var txtShadow = 'font-size: 105%; text-shadow:1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0px 1px 0 #000, 1px 0px 0 #000, 0px -1px 0 #000, -1px 0px 0 #000, 2px 2px 1px #000; font-family:Verdana, Geneva, sans-serif;';
-		return '<tr> <td> <div style = "display:table; padding-left: 40px;margin-left: 0px; color:#b5d333;'+ txtShadow+ '">' + '<br>' + prof + ' </td> <td> <br><a style = "padding-left: 100px;text-shadow: none; text-decoration: none; color: white;' + txtShadow + '" href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome + '+Iowa+State+University'+'"> Check me out!</a> <br><br> </td></div></tr>';		
+		var txtShadow = 'font-size: 1em; text-shadow: 1px 1px 0px rgba(150, 150, 150, 1); font-family:Verdana, Geneva, sans-serif;';
+		return '<tr> <td> <div style = "background-color:' + backGColor + 'display:table; padding-left: 40px; color:black;'+ txtShadow+ '">' + '<br>' + prof + ' </td></div><td> <br><a style = " border: 1px solid black;  padding-left: 100px;text-shadow: none; text-decoration: none; color: white;' + txtShadow + 'padding: 5px; background-color: #aac628; border-radius: 7px; margin: 5px;" href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a> <br><br> </td></tr>';		
 	
 }
 
@@ -745,11 +719,13 @@ $(document).ready(function() {
 		updateIDs(); 
 		updProfs = remRepeats(profs);
 		
-		var div = $('<div style = padding-top: 10px;></div>');
-		var imgDiv = $('<div style = "margin-left: 210px; ; z-index: 1; padding-top: 9px; position: absolute;"> <img src="http://miietl.mcmaster.ca/site/wp-content/uploads/2014/11/RateMyProfessors.com_Logo.jpg" alt="RMP" style="width:100px;height:50px"> </div>');
+		var div = $('<div style = padding-top: 20px;></div>');
+		var imgDiv = $('<div style = "margin-left: 170px; ; z-index: 1;  position: absolute;"> <img src="http://www.userlogos.org/files/logos/Karmody/Rate_My_Prof_01.png" alt="RMP" style="width:130px;height:120px"> </div>');
+
+		var hatDiv = $('<div style = "margin-left: 345px; ; z-index: 1; padding-top: 9px; position: absolute;"> <img src="http://www.pyramidcg.com/blog/wp-content/uploads/2013/01/hat1.png" style = "-webkit-transform: rotate(15deg); width: 60px; height: 40px;"> </div>');
 
 		var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>');
-		var title = $('<div style = "width:400px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
+		var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
 		
 		var btn = document.createElement("BUTTON"); 
 		btn.onclick=function(){ //^ω^
@@ -774,17 +750,19 @@ $(document).ready(function() {
 		element.append("<br>");		
 
         
-        var checkDiv = $('<div id = "checkId" style= "display: none; float:left; margin-left: 360px;"><img src="http://www.clker.com/cliparts/e/3/9/7/1245686792938124914raemi_Check_mark.svg.hi.png" alt="Wheres My Checkmark?" style="width:35px;height:35px"> </div>');
+        var checkDiv = $('<div id = "checkId" style= "display: none; float:left; margin-left: 320px; top: 5px;"><img src="http://www.clker.com/cliparts/e/3/9/7/1245686792938124914raemi_Check_mark.svg.hi.png" alt="Wheres My Checkmark?" style="width:25px;height:25px"> </div>');
         element.append(checkDiv);
         
-	    //var expBut = $('<div style = "float:left; position: absolute; padding-top: 15px; margin-left: 190px"><button id="expBtn" style = "border-style: outset; border-color:#A30000;; -webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:15px;height:15px"> Export My Calendar</button></div>');
-        //element.append(expBut);	
-		//document.getElementById("expBtn").addEventListener("click", function(){expSched()});
-        
 
-        element.append("<br><br><br> <br>");
+		var expBut = $('<div style = "float:left; position: absolute; padding-top: 15px; margin-left: 150px"><button id="expBtn" style = "border-style: outset; border-color:#A30000;; -webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:15px;height:15px"> Export My Calendar</button></div>');
+        element.append(expBut);	
+		document.getElementById("expBtn").addEventListener("click", function(){expSched()});
+        
+        element.append("<br><br><br>");
 		
-		$(div).append(imgDiv);
+		$(element).append(imgDiv);
+        	element.append("<br> <br>");
+		$(div).append(hatDiv);
 		$(box).append(title);		
 		$(div).append(box);		
 
@@ -804,9 +782,11 @@ $(document).ready(function() {
 		element.append("<br><br><br><br>");
 		
         		
-		var btn = document.createElement("BUTTON"); 
-        btn.style = "position: absolute";
-		btn.onclick=function(){ //^ω^
+		var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.9);  border: none !important;"> </button> </div>'); 
+        element.append(btn);
+  		 document.getElementById("button").addEventListener("click", function(){func()});
+
+		function func(){ //^ω^
 			if (clicked == false) {
 			 	clicked = true;
 			 	element.append(img);
@@ -817,7 +797,6 @@ $(document).ready(function() {
 			}
 		}
 
-		element.append(btn);
 		getStartEndTime(meetingsT, meetingeT);
 		getMeetingDates(startEndDate);
 		getLocations(locations);
@@ -826,13 +805,5 @@ $(document).ready(function() {
 		//alert(classInfoArr[3].mDates);
 	}
 
-	
-	
-	//Alexandro, all the stuff you need (i hope) are in the classInfoArr -> className, meeting days, meeting time start, meeting time end, start/end date, and location
-	//you can access them by using basic OOP like classInfoArr[0].loc to get the location for that specific class object
-	//you can look at the createClassInfo function - at the very top- for more info
-	//you'll probably need to do some string manipulation when creating your calendar- nothing difficult - 
-	//your calendar creatiion is kinda weird and im not too certain about some parameters + I dont want to look at this for a while so ill leave the rest of the calendar for you ;D
-	//anyways it should be straight forward everything you need is in that array 
 }); 
 
