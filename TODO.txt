@@ -4,3 +4,4 @@
 •Try to send a request to Rate My Prof page to get prof rating (viability depends on security)
 •Calendar Export: (low priority) import the pull request to add repeating events, and then rewrite to 
 	use that library so we have repeating events.
+•Remove registration, publish to app store and on ISU computer majors. Ask for feature requests (including registration)
