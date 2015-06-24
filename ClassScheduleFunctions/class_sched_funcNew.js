@@ -363,6 +363,16 @@ function splitDates(date){
 
 
 
+
+
+
+
+
+
+
+
+
+
 //Dependencies. I'm so sorry for what I've done to what used to resemble organization in this place.
 !function(a){"use strict";if(a.URL=a.URL||a.webkitURL,a.Blob&&a.URL)try{return void new Blob}catch(b){}var c=a.BlobBuilder||a.WebKitBlobBuilder||a.MozBlobBuilder||function(a){var b=function(a){return Object.prototype.toString.call(a).match(/^\[object\s(.*)\]$/)[1]},c=function(){this.data=[]},d=function(a,b,c){this.data=a,this.size=a.length,this.type=b,this.encoding=c},e=c.prototype,f=d.prototype,g=a.FileReaderSync,h=function(a){this.code=this[this.name=a]},i="NOT_FOUND_ERR SECURITY_ERR ABORT_ERR NOT_READABLE_ERR ENCODING_ERR NO_MODIFICATION_ALLOWED_ERR INVALID_STATE_ERR SYNTAX_ERR".split(" "),j=i.length,k=a.URL||a.webkitURL||a,l=k.createObjectURL,m=k.revokeObjectURL,n=k,o=a.btoa,p=a.atob,q=a.ArrayBuffer,r=a.Uint8Array,s=/^[\w-]+:\/*\[?[\w\.:-]+\]?(?::[0-9]+)?/;for(d.fake=f.fake=!0;j--;)h.prototype[i[j]]=j+1;return k.createObjectURL||(n=a.URL=function(a){var b,c=document.createElementNS("http://www.w3.org/1999/xhtml","a");return c.href=a,"origin"in c||("data:"===c.protocol.toLowerCase()?c.origin=null:(b=a.match(s),c.origin=b&&b[1])),c}),n.createObjectURL=function(a){var b,c=a.type;return null===c&&(c="application/octet-stream"),a instanceof d?(b="data:"+c,"base64"===a.encoding?b+";base64,"+a.data:"URI"===a.encoding?b+","+decodeURIComponent(a.data):o?b+";base64,"+o(a.data):b+","+encodeURIComponent(a.data)):l?l.call(k,a):void 0},n.revokeObjectURL=function(a){"data:"!==a.substring(0,5)&&m&&m.call(k,a)},e.append=function(a){var c=this.data;if(r&&(a instanceof q||a instanceof r)){for(var e="",f=new r(a),i=0,j=f.length;j>i;i++)e+=String.fromCharCode(f[i]);c.push(e)}else if("Blob"===b(a)||"File"===b(a)){if(!g)throw new h("NOT_READABLE_ERR");var k=new g;c.push(k.readAsBinaryString(a))}else a instanceof d?"base64"===a.encoding&&p?c.push(p(a.data)):"URI"===a.encoding?c.push(decodeURIComponent(a.data)):"raw"===a.encoding&&c.push(a.data):("string"!=typeof a&&(a+=""),c.push(unescape(encodeURIComponent(a))))},e.getBlob=function(a){return arguments.length||(a=null),new d(this.data.join(""),a,"raw")},e.toString=function(){return"[object BlobBuilder]"},f.slice=function(a,b,c){var e=arguments.length;return 3>e&&(c=null),new d(this.data.slice(a,e>1?b:this.data.length),c,this.encoding)},f.toString=function(){return"[object Blob]"},f.close=function(){this.size=0,delete this.data},c}(a);a.Blob=function(a,b){var d=b?b.type||"":"",e=new c;if(a)for(var f=0,g=a.length;g>f;f++)e.append(a[f]);return e.getBlob(d)}}("undefined"!=typeof self&&self||"undefined"!=typeof window&&window||this.content||this);var saveAs=saveAs||"undefined"!=typeof navigator&&navigator.msSaveOrOpenBlob&&navigator.msSaveOrOpenBlob.bind(navigator)||function(a){"use strict";if("undefined"==typeof navigator||!/MSIE [1-9]\./.test(navigator.userAgent)){var b=a.document,c=function(){return a.URL||a.webkitURL||a},d=b.createElementNS("http://www.w3.org/1999/xhtml","a"),e=!a.externalHost&&"download"in d,f=function(c){var d=b.createEvent("MouseEvents");d.initMouseEvent("click",!0,!1,a,0,0,0,0,0,!1,!1,!1,!1,0,null),c.dispatchEvent(d)},g=a.webkitRequestFileSystem,h=a.requestFileSystem||g||a.mozRequestFileSystem,i=function(b){(a.setImmediate||a.setTimeout)(function(){throw b},0)},j="application/octet-stream",k=0,l=10,m=function(b){var d=function(){"string"==typeof b?c().revokeObjectURL(b):b.remove()};a.chrome?d():setTimeout(d,l)},n=function(a,b,c){b=[].concat(b);for(var d=b.length;d--;){var e=a["on"+b[d]];if("function"==typeof e)try{e.call(a,c||a)}catch(f){i(f)}}},o=function(b,i){var l,o,p,q=this,r=b.type,s=!1,t=function(){n(q,"writestart progress write writeend".split(" "))},u=function(){if((s||!l)&&(l=c().createObjectURL(b)),o)o.location.href=l;else{var d=a.open(l,"_blank");void 0==d&&"undefined"!=typeof safari&&(a.location.href=l)}q.readyState=q.DONE,t(),m(l)},v=function(a){return function(){return q.readyState!==q.DONE?a.apply(this,arguments):void 0}},w={create:!0,exclusive:!1};return q.readyState=q.INIT,i||(i="download"),e?(l=c().createObjectURL(b),d.href=l,d.download=i,f(d),q.readyState=q.DONE,t(),void m(l)):(a.chrome&&r&&r!==j&&(p=b.slice||b.webkitSlice,b=p.call(b,0,b.size,j),s=!0),g&&"download"!==i&&(i+=".download"),(r===j||g)&&(o=a),h?(k+=b.size,void h(a.TEMPORARY,k,v(function(a){a.root.getDirectory("saved",w,v(function(a){var c=function(){a.getFile(i,w,v(function(a){a.createWriter(v(function(c){c.onwriteend=function(b){o.location.href=a.toURL(),q.readyState=q.DONE,n(q,"writeend",b),m(a)},c.onerror=function(){var a=c.error;a.code!==a.ABORT_ERR&&u()},"writestart progress write abort".split(" ").forEach(function(a){c["on"+a]=q["on"+a]}),c.write(b),q.abort=function(){c.abort(),q.readyState=q.DONE},q.readyState=q.WRITING}),u)}),u)};a.getFile(i,{create:!1},v(function(a){a.remove(),c()}),v(function(a){a.code===a.NOT_FOUND_ERR?c():u()}))}),u)}),u)):void u())},p=o.prototype,q=function(a,b){return new o(a,b)};return p.abort=function(){var a=this;a.readyState=a.DONE,n(a,"abort")},p.readyState=p.INIT=0,p.WRITING=1,p.DONE=2,p.error=p.onwritestart=p.onprogress=p.onwrite=p.onabort=p.onerror=p.onwriteend=null,q}}("undefined"!=typeof self&&self||"undefined"!=typeof window&&window||this.content);"undefined"!=typeof module&&null!==module?module.exports=saveAs:"undefined"!=typeof define&&null!==define&&null!=define.amd&&define([],function(){return saveAs});var ics=function(){"use strict";if(navigator.userAgent.indexOf("MSIE")>-1&&-1==navigator.userAgent.indexOf("MSIE 10"))return void console.log("Unsupported Browser");var a=-1!==navigator.appVersion.indexOf("Win")?"\r\n":"\n",b=[],c=["BEGIN:VCALENDAR","VERSION:2.0"].join(a),d=a+"END:VCALENDAR";return{events:function(){return b},calendar:function(){return c+a+b.join(a)+d},addEvent:function(c,d,e,f,g,h){if("undefined"==typeof c||"undefined"==typeof d||"undefined"==typeof e||"undefined"==typeof f||"undefined"==typeof g)return!1;if(h&&!h.rule){if("YEARLY"!==h.freq&&"MONTHLY"!==h.freq&&"WEEKLY"!==h.freq&&"DAILY"!==h.freq)throw"Recurrence rule frequency must be provided and be one of the following: 'YEARLY', 'MONTHLY', 'WEEKLY', or 'DAILY'";if(h.until&&isNaN(Date.parse(h.until)))throw"Recurrence rule 'until' must be a valid date string";if(h.interval&&isNaN(parseInt(h.interval)))throw"Recurrence rule 'interval' must be an integer";if(h.count&&isNaN(parseInt(h.count)))throw"Recurrence rule 'count' must be an integer"}var i=new Date(f),j=new Date(g),k=("0000"+i.getFullYear().toString()).slice(-4),l=("00"+(i.getMonth()+1).toString()).slice(-2),m=("00"+i.getDate().toString()).slice(-2),n=("00"+i.getHours().toString()).slice(-2),o=("00"+i.getMinutes().toString()).slice(-2),p=("00"+i.getMinutes().toString()).slice(-2),q=("0000"+j.getFullYear().toString()).slice(-4),r=("00"+(j.getMonth()+1).toString()).slice(-2),s=("00"+j.getDate().toString()).slice(-2),t=("00"+j.getHours().toString()).slice(-2),u=("00"+j.getMinutes().toString()).slice(-2),v=("00"+j.getMinutes().toString()).slice(-2),w="",x="";o+p+u+v!==0&&(w="T"+n+o+p,x="T"+t+u+v);var y,z=k+l+m+w,A=q+r+s+x;if(h)if(h.rule)y=h.rule;else{if(y="RRULE:FREQ="+h.freq,h.until){var B=new Date(Date.parse(h.until)).toISOString();y+=";UNTIL="+B.substring(0,B.length-13).replace(/[-]/g,"")+"000000Z"}h.interval&&(y+=";INTERVAL="+h.interval),h.count&&(y+=";COUNT="+h.count)}var C=["BEGIN:VEVENT","CLASS:PUBLIC","DESCRIPTION:"+d,"DTSTART;VALUE=DATE:"+z,"DTEND;VALUE=DATE:"+A,"LOCATION:"+e,"SUMMARY;LANGUAGE=en-us:"+c,"TRANSP:TRANSPARENT","END:VEVENT"];return y&&C.splice(4,0,y),C=C.join(a),b.push(C),C},download:function(e,f){if(b.length<1)return!1;f="undefined"!=typeof f?f:".ics",e="undefined"!=typeof e?e:"calendar";var g,h=c+a+b.join(a)+d;if(-1===navigator.userAgent.indexOf("MSIE 10"))g=new Blob([h]);else{var i=new BlobBuilder;i.append(h),g=i.getBlob("text/x-vCalendar;charset="+document.characterSet)}return saveAs(g,e+f),h}}};
 var ics = function() {
@@ -547,6 +557,30 @@ var ics = function() {
 };
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//This is a library we're using. Or possibly jquery. I'm not sure, the hackathon was 4 months ago. Just...keep scrolling or //something. //It's ics.js //With some pull requests (and bastardizations of the aforementioned pull requests) the Devs haven't got around to accepting. In 8 months. I hope they're OK.
+//var saveAs=saveAs||typeof navigator!=="undefined"&&navigator.msSaveOrOpenBlob&&navigator.msSaveOrOpenBlob.bind(navigator)||function(){"use strict";if(navigator.userAgent.indexOf("MSIE")>-1&&-1==navigator.userAgent.indexOf("MSIE 10"))return void console.log("Unsupported Browser");var a=-1!==navigator.appVersion.indexOf("Win")?"\r\n":"\n",b=[],c=["BEGIN:VCALENDAR","VERSION:2.0"].join(a),d=a+"END:VCALENDAR";return{events:function(){return b},calendar:function(){return c+a+b.join(a)+d},addEvent:function(c,d,e,f,g,h){if("undefined"==typeof c||"undefined"==typeof d||"undefined"==typeof e||"undefined"==typeof f||"undefined"==typeof g)return!1;if(h&&!h.rule){if("YEARLY"!==h.freq&&"MONTHLY"!==h.freq&&"WEEKLY"!==h.freq&&"DAILY"!==h.freq)throw"Recurrence rule frequency must be provided and be one of the following: 'YEARLY', 'MONTHLY', 'WEEKLY', or 'DAILY'";if(h.until&&isNaN(Date.parse(h.until)))throw"Recurrence rule 'until' must be a valid date string";if(h.interval&&isNaN(parseInt(h.interval)))throw"Recurrence rule 'interval' must be an integer";if(h.count&&isNaN(parseInt(h.count)))throw"Recurrence rule 'count' must be an integer"}var i=new Date(f),j=new Date(g),k=("0000"+i.getFullYear().toString()).slice(-4),l=("00"+(i.getMonth()+1).toString()).slice(-2),m=("00"+i.getDate().toString()).slice(-2),n=("00"+i.getHours().toString()).slice(-2),o=("00"+i.getMinutes().toString()).slice(-2),p=("00"+i.getMinutes().toString()).slice(-2),q=("0000"+j.getFullYear().toString()).slice(-4),r=("00"+(j.getMonth()+1).toString()).slice(-2),s=("00"+j.getDate().toString()).slice(-2),t=("00"+j.getHours().toString()).slice(-2),u=("00"+j.getMinutes().toString()).slice(-2),v=("00"+j.getMinutes().toString()).slice(-2),w="",x="";o+p+u+v!==0&&(w="T"+n+o+p,x="T"+t+u+v);var y,z=k+l+m+w,A=q+r+s+x;if(h)if(h.rule)y=h.rule;else{if(y="RRULE:FREQ="+h.freq,h.until){var B=new Date(Date.parse(h.until)).toISOString();y+=";UNTIL="+B.substring(0,B.length-13).replace(/[-]/g,"")+"000000Z"}h.interval&&(y+=";INTERVAL="+h.interval),h.count&&(y+=";COUNT="+h.count)}var C=["BEGIN:VEVENT","CLASS:PUBLIC","DESCRIPTION:"+d,"DTSTART;VALUE=DATE-TIME:"+z,"DTEND;VALUE=DATE-TIME:"+A,"LOCATION:"+e,"SUMMARY;LANGUAGE=en-us:"+c,"TRANSP:TRANSPARENT","END:VEVENT"];return y&&C.splice(4,0,y),C=C.join(a),b.push(C),C},download:function(e,f){if(b.length<1)return!1;f="undefined"!=typeof f?f:".ics",e="undefined"!=typeof e?e:"calendar";var g,h=c+a+b.join(a)+d;if(-1===navigator.userAgent.indexOf("MSIE 10")){g=new Blob([h])}else{var i=new BlobBuilder;i.append(h);g=i.getBlob("text/x-vCalendar;charset="+document.characterSet)}saveAs(g,e+f);return h}}};
+
 var notifier, dialog;
 var cal = ics();//Make our new Calendar (globally)
 var firstTime = true; //We'll use this to solve an "empty date" problem.
@@ -567,6 +601,7 @@ function showNotify() {
     }
 }    
 
+		
 	//Probably the best textbook example for when you should make a function.
 	//Takes in the start and end date and repeat frequency, does some ugly formatting
 	//And churns out a schedule
@@ -576,7 +611,7 @@ function showNotify() {
 	function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, location) //Got rid  of the subject parameter since this isnt something i can get from A++ page, not sure if its necessary
 	{
 	
-	
+
 		//Forcible typecasty garbage to bypass
 		//JS's loosely typed shenanigans -- don't judge, Alex -_-
 		var start = new Date(start);
@@ -585,14 +620,8 @@ function showNotify() {
 		var eventTimeEnd = new Date(eventTimeEnd);
 
 	
-	    while(start <= end)
-		{
-		//Now update our counter to tomorrow
-	
 		  var eventStart = new Date(start.setHours(eventTime.getHours(), eventTime.getMinutes()));
 		  var eventEnd = new Date(start.setHours(eventTimeEnd.getHours(),eventTimeEnd.getMinutes()));
-		  var newDate = start.setDate(start.getDate() + 1);
-	      start = new Date(newDate);
 		
 		   //Hopefully the longest, grossest line of parsey Javascript I will ever produce. --Did you see all the crap I had to write?
 		   //It converts the event to a properly formatted string
@@ -601,8 +630,7 @@ function showNotify() {
 		 //There is a discrepancy between indexing in months, hence the + 1
 		 var eventEndString = (eventEnd.getMonth()+1).toString().concat("/").concat(eventEnd.getDate().toString()).concat("/").concat(eventEnd.getFullYear().toString()).concat(" ").concat(eventEnd.getHours().toString()).concat(":").concat(eventEnd.getMinutes().toString());//.concat(" PM"));
 	
-
-				var rule = {
+			var rule = {
 			  freq: "WEEKLY",
 			  until: new Date(end.setHours(1,0))
 			};
@@ -616,9 +644,18 @@ function showNotify() {
 					cal.addEvent(name, "Class",location, new Date(eventStartString) ,new Date(eventEndString), rule);
 				}
 			  }
-		}
+
 	}
 	
+	//JavaScript doesn't include this. Why? No one knows.
+	function contains(a, obj) {
+    for (var i = 0; i < a.length; i++) {
+        if (a[i] === obj) {
+            return true;
+        }
+    }
+    return false;
+}
 	
 	//Used for expSched string formatting garbage
 	function timeParseHours(time)
@@ -777,7 +814,6 @@ function isEmpty(obj) {
 		// alert("Start Time: " + new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))));
 		// alert("end Time : " + new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))))
 		
-		
 		//Create everything
 		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].nome,classInfoArr[i].loc);
 	
@@ -917,7 +953,7 @@ $(document).ready(function() {
         var checkDiv = $('<div id = "checkId" style= "display: none; float:left; margin-left: 320px; top: 5px;"><img src="http://www.clker.com/cliparts/e/3/9/7/1245686792938124914raemi_Check_mark.svg.hi.png" alt="Wheres My Checkmark?" style="width:25px;height:25px"> </div>');
         element.append(checkDiv);
         
-  var expBut = $('<div style = "float:left; position: absolute; padding-top: 15px; margin-left: 150px"><button id="expBtn" style = "border-style: outset; border-color:#A30000;; -webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:15px;height:15px"> Export My Calendar</button></div>');
+  var expBut = $('<div style = "float:left; position: absolute; padding-top: 15px; margin-left: 150px"><button id="expBtn" style = "border-style: outset; border-color:#A30000;; -webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:15px;height:15px;cursor:pointer"> Export My Calendar</button></div>');
         element.append(expBut); 
   document.getElementById("expBtn").addEventListener("click", function(){expSched()});
         
