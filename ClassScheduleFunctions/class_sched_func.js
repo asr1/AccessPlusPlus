@@ -360,8 +360,192 @@ function splitDates(date){
 	return objArr;
 }
 
-//This is a library we're using. Or possibly jquery. I'm not sure, the hackathon was 4 months ago. Just...keep scrolling or //something. //It's ics.js
-var saveAs=saveAs||typeof navigator!=="undefined"&&navigator.msSaveOrOpenBlob&&navigator.msSaveOrOpenBlob.bind(navigator)||function(e){"use strict";if(typeof navigator!=="undefined"&&/MSIE [1-9]\./.test(navigator.userAgent)){return}var t=e.document,n=function(){return e.URL||e.webkitURL||e},r=e.URL||e.webkitURL||e,i=t.createElementNS("http://www.w3.org/1999/xhtml","a"),s=!e.externalHost&&"download"in i,o=function(n){var r=t.createEvent("MouseEvents");r.initMouseEvent("click",true,false,e,0,0,0,0,0,false,false,false,false,0,null);n.dispatchEvent(r)},u=e.webkitRequestFileSystem,a=e.requestFileSystem||u||e.mozRequestFileSystem,f=function(t){(e.setImmediate||e.setTimeout)(function(){throw t},0)},l="application/octet-stream",c=0,h=[],p=function(){var e=h.length;while(e--){var t=h[e];if(typeof t==="string"){r.revokeObjectURL(t)}else{t.remove()}}h.length=0},d=function(e,t,n){t=[].concat(t);var r=t.length;while(r--){var i=e["on"+t[r]];if(typeof i==="function"){try{i.call(e,n||e)}catch(s){f(s)}}}},v=function(r,o){var f=this,p=r.type,v=false,m,g,y=function(){var e=n().createObjectURL(r);h.push(e);return e},b=function(){d(f,"writestart progress write writeend".split(" "))},w=function(){if(v||!m){m=y(r)}if(g){g.location.href=m}else{window.open(m,"_blank")}f.readyState=f.DONE;b()},E=function(e){return function(){if(f.readyState!==f.DONE){return e.apply(this,arguments)}}},S={create:true,exclusive:false},x;f.readyState=f.INIT;if(!o){o="download"}if(s){m=y(r);t=e.document;i=t.createElementNS("http://www.w3.org/1999/xhtml","a");i.href=m;i.download=o;var T=t.createEvent("MouseEvents");T.initMouseEvent("click",true,false,e,0,0,0,0,0,false,false,false,false,0,null);i.dispatchEvent(T);f.readyState=f.DONE;b();return}if(e.chrome&&p&&p!==l){x=r.slice||r.webkitSlice;r=x.call(r,0,r.size,l);v=true}if(u&&o!=="download"){o+=".download"}if(p===l||u){g=e}if(!a){w();return}c+=r.size;a(e.TEMPORARY,c,E(function(e){e.root.getDirectory("saved",S,E(function(e){var t=function(){e.getFile(o,S,E(function(e){e.createWriter(E(function(t){t.onwriteend=function(t){g.location.href=e.toURL();h.push(e);f.readyState=f.DONE;d(f,"writeend",t)};t.onerror=function(){var e=t.error;if(e.code!==e.ABORT_ERR){w()}};"writestart progress write abort".split(" ").forEach(function(e){t["on"+e]=f["on"+e]});t.write(r);f.abort=function(){t.abort();f.readyState=f.DONE};f.readyState=f.WRITING}),w)}),w)};e.getFile(o,{create:false},E(function(e){e.remove();t()}),E(function(e){if(e.code===e.NOT_FOUND_ERR){t()}else{w()}}))}),w)}),w)},m=v.prototype,g=function(e,t){return new v(e,t)};m.abort=function(){var e=this;e.readyState=e.DONE;d(e,"abort")};m.readyState=m.INIT=0;m.WRITING=1;m.DONE=2;m.error=m.onwritestart=m.onprogress=m.onwrite=m.onabort=m.onerror=m.onwriteend=null;e.addEventListener("unload",p,false);g.unload=function(){p();e.removeEventListener("unload",p,false)};return g}(typeof self!=="undefined"&&self||typeof window!=="undefined"&&window||this.content);if(typeof module!=="undefined")module.exports=saveAs;if(!(typeof Blob==="function"||typeof Blob==="object")||typeof URL==="undefined")if((typeof Blob==="function"||typeof Blob==="object")&&typeof webkitURL!=="undefined")self.URL=webkitURL;else var Blob=function(e){"use strict";var t=e.BlobBuilder||e.WebKitBlobBuilder||e.MozBlobBuilder||e.MSBlobBuilder||function(e){var t=function(e){return Object.prototype.toString.call(e).match(/^\[object\s(.*)\]$/)[1]},n=function(){this.data=[]},r=function(t,n,r){this.data=t;this.size=t.length;this.type=n;this.encoding=r},i=n.prototype,s=r.prototype,o=e.FileReaderSync,u=function(e){this.code=this[this.name=e]},a=("NOT_FOUND_ERR SECURITY_ERR ABORT_ERR NOT_READABLE_ERR ENCODING_ERR "+"NO_MODIFICATION_ALLOWED_ERR INVALID_STATE_ERR SYNTAX_ERR").split(" "),f=a.length,l=e.URL||e.webkitURL||e,c=l.createObjectURL,h=l.revokeObjectURL,p=l,d=e.btoa,v=e.atob,m=e.ArrayBuffer,g=e.Uint8Array;r.fake=s.fake=true;while(f--){u.prototype[a[f]]=f+1}if(!l.createObjectURL){p=e.URL={}}p.createObjectURL=function(e){var t=e.type,n;if(t===null){t="application/octet-stream"}if(e instanceof r){n="data:"+t;if(e.encoding==="base64"){return n+";base64,"+e.data}else if(e.encoding==="URI"){return n+","+decodeURIComponent(e.data)}if(d){return n+";base64,"+d(e.data)}else{return n+","+encodeURIComponent(e.data)}}else if(c){return c.call(l,e)}};p.revokeObjectURL=function(e){if(e.substring(0,5)!=="data:"&&h){h.call(l,e)}};i.append=function(e){var n=this.data;if(g&&(e instanceof m||e instanceof g)){var i="",s=new g(e),a=0,f=s.length;for(;a<f;a++){i+=String.fromCharCode(s[a])}n.push(i)}else if(t(e)==="Blob"||t(e)==="File"){if(o){var l=new o;n.push(l.readAsBinaryString(e))}else{throw new u("NOT_READABLE_ERR")}}else if(e instanceof r){if(e.encoding==="base64"&&v){n.push(v(e.data))}else if(e.encoding==="URI"){n.push(decodeURIComponent(e.data))}else if(e.encoding==="raw"){n.push(e.data)}}else{if(typeof e!=="string"){e+=""}n.push(unescape(encodeURIComponent(e)))}};i.getBlob=function(e){if(!arguments.length){e=null}return new r(this.data.join(""),e,"raw")};i.toString=function(){return"[object BlobBuilder]"};s.slice=function(e,t,n){var i=arguments.length;if(i<3){n=null}return new r(this.data.slice(e,i>1?t:this.data.length),n,this.encoding)};s.toString=function(){return"[object Blob]"};return n}(e);return function(n,r){var i=r?r.type||"":"";var s=new t;if(n){for(var o=0,u=n.length;o<u;o++){s.append(n[o])}}return s.getBlob(i)}}(typeof self!=="undefined"&&self||typeof window!=="undefined"&&window||this.content||this);var ics=function(){"use strict";if(navigator.userAgent.indexOf("MSIE")>-1&&navigator.userAgent.indexOf("MSIE 10")==-1){console.log("Unsupported Browser");return}var e=navigator.appVersion.indexOf("Win")!==-1?"\r\n":"\n";var t=[];var n=["BEGIN:VCALENDAR","VERSION:2.0"].join(e);var r=e+"END:VCALENDAR";return{events:function(){return t},calendar:function(){return n+e+t.join(e)+r},addEvent:function(n,r,i,s,o){if(typeof n==="undefined"||typeof r==="undefined"||typeof i==="undefined"||typeof s==="undefined"||typeof o==="undefined"){return false}var u=new Date(s);var a=new Date(o);var f=("0000"+u.getFullYear().toString()).slice(-4);var l=("00"+(u.getMonth()+1).toString()).slice(-2);var c=("00"+u.getDate().toString()).slice(-2);var h=("00"+u.getHours().toString()).slice(-2);var p=("00"+u.getMinutes().toString()).slice(-2);var d=("00"+u.getMinutes().toString()).slice(-2);var v=("0000"+a.getFullYear().toString()).slice(-4);var m=("00"+(a.getMonth()+1).toString()).slice(-2);var g=("00"+a.getDate().toString()).slice(-2);var y=("00"+a.getHours().toString()).slice(-2);var b=("00"+a.getMinutes().toString()).slice(-2);var w=("00"+a.getMinutes().toString()).slice(-2);var E="";var S="";if(p+d+b+w!=0){E="T"+h+p+d;S="T"+y+b+w}var x=f+l+c+E;var T=v+m+g+S;var N=["BEGIN:VEVENT","CLASS:PUBLIC","DESCRIPTION:"+r,"DTSTART;VALUE=DATE-TIME:"+x,"DTEND;VALUE=DATE-TIME:"+T,"LOCATION:"+i,"SUMMARY;LANGUAGE=en-us:"+n,"TRANSP:TRANSPARENT","END:VEVENT"].join(e);t.push(N);return N},download:function(i,s){if(t.length<1){return false}s=typeof s!=="undefined"?s:".ics";i=typeof i!=="undefined"?i:"calendar";var o=n+e+t.join(e)+r;var u;if(navigator.userAgent.indexOf("MSIE 10")===-1){u=new Blob([o])}else{var a=new BlobBuilder;a.append(o);u=a.getBlob("text/x-vCalendar;charset="+document.characterSet)}saveAs(u,i+s);return o}}}
+
+
+
+//Dependencies. I'm so sorry for what I've done to what used to resemble organization in this place.
+!function(a){"use strict";if(a.URL=a.URL||a.webkitURL,a.Blob&&a.URL)try{return void new Blob}catch(b){}var c=a.BlobBuilder||a.WebKitBlobBuilder||a.MozBlobBuilder||function(a){var b=function(a){return Object.prototype.toString.call(a).match(/^\[object\s(.*)\]$/)[1]},c=function(){this.data=[]},d=function(a,b,c){this.data=a,this.size=a.length,this.type=b,this.encoding=c},e=c.prototype,f=d.prototype,g=a.FileReaderSync,h=function(a){this.code=this[this.name=a]},i="NOT_FOUND_ERR SECURITY_ERR ABORT_ERR NOT_READABLE_ERR ENCODING_ERR NO_MODIFICATION_ALLOWED_ERR INVALID_STATE_ERR SYNTAX_ERR".split(" "),j=i.length,k=a.URL||a.webkitURL||a,l=k.createObjectURL,m=k.revokeObjectURL,n=k,o=a.btoa,p=a.atob,q=a.ArrayBuffer,r=a.Uint8Array,s=/^[\w-]+:\/*\[?[\w\.:-]+\]?(?::[0-9]+)?/;for(d.fake=f.fake=!0;j--;)h.prototype[i[j]]=j+1;return k.createObjectURL||(n=a.URL=function(a){var b,c=document.createElementNS("http://www.w3.org/1999/xhtml","a");return c.href=a,"origin"in c||("data:"===c.protocol.toLowerCase()?c.origin=null:(b=a.match(s),c.origin=b&&b[1])),c}),n.createObjectURL=function(a){var b,c=a.type;return null===c&&(c="application/octet-stream"),a instanceof d?(b="data:"+c,"base64"===a.encoding?b+";base64,"+a.data:"URI"===a.encoding?b+","+decodeURIComponent(a.data):o?b+";base64,"+o(a.data):b+","+encodeURIComponent(a.data)):l?l.call(k,a):void 0},n.revokeObjectURL=function(a){"data:"!==a.substring(0,5)&&m&&m.call(k,a)},e.append=function(a){var c=this.data;if(r&&(a instanceof q||a instanceof r)){for(var e="",f=new r(a),i=0,j=f.length;j>i;i++)e+=String.fromCharCode(f[i]);c.push(e)}else if("Blob"===b(a)||"File"===b(a)){if(!g)throw new h("NOT_READABLE_ERR");var k=new g;c.push(k.readAsBinaryString(a))}else a instanceof d?"base64"===a.encoding&&p?c.push(p(a.data)):"URI"===a.encoding?c.push(decodeURIComponent(a.data)):"raw"===a.encoding&&c.push(a.data):("string"!=typeof a&&(a+=""),c.push(unescape(encodeURIComponent(a))))},e.getBlob=function(a){return arguments.length||(a=null),new d(this.data.join(""),a,"raw")},e.toString=function(){return"[object BlobBuilder]"},f.slice=function(a,b,c){var e=arguments.length;return 3>e&&(c=null),new d(this.data.slice(a,e>1?b:this.data.length),c,this.encoding)},f.toString=function(){return"[object Blob]"},f.close=function(){this.size=0,delete this.data},c}(a);a.Blob=function(a,b){var d=b?b.type||"":"",e=new c;if(a)for(var f=0,g=a.length;g>f;f++)e.append(a[f]);return e.getBlob(d)}}("undefined"!=typeof self&&self||"undefined"!=typeof window&&window||this.content||this);var saveAs=saveAs||"undefined"!=typeof navigator&&navigator.msSaveOrOpenBlob&&navigator.msSaveOrOpenBlob.bind(navigator)||function(a){"use strict";if("undefined"==typeof navigator||!/MSIE [1-9]\./.test(navigator.userAgent)){var b=a.document,c=function(){return a.URL||a.webkitURL||a},d=b.createElementNS("http://www.w3.org/1999/xhtml","a"),e=!a.externalHost&&"download"in d,f=function(c){var d=b.createEvent("MouseEvents");d.initMouseEvent("click",!0,!1,a,0,0,0,0,0,!1,!1,!1,!1,0,null),c.dispatchEvent(d)},g=a.webkitRequestFileSystem,h=a.requestFileSystem||g||a.mozRequestFileSystem,i=function(b){(a.setImmediate||a.setTimeout)(function(){throw b},0)},j="application/octet-stream",k=0,l=10,m=function(b){var d=function(){"string"==typeof b?c().revokeObjectURL(b):b.remove()};a.chrome?d():setTimeout(d,l)},n=function(a,b,c){b=[].concat(b);for(var d=b.length;d--;){var e=a["on"+b[d]];if("function"==typeof e)try{e.call(a,c||a)}catch(f){i(f)}}},o=function(b,i){var l,o,p,q=this,r=b.type,s=!1,t=function(){n(q,"writestart progress write writeend".split(" "))},u=function(){if((s||!l)&&(l=c().createObjectURL(b)),o)o.location.href=l;else{var d=a.open(l,"_blank");void 0==d&&"undefined"!=typeof safari&&(a.location.href=l)}q.readyState=q.DONE,t(),m(l)},v=function(a){return function(){return q.readyState!==q.DONE?a.apply(this,arguments):void 0}},w={create:!0,exclusive:!1};return q.readyState=q.INIT,i||(i="download"),e?(l=c().createObjectURL(b),d.href=l,d.download=i,f(d),q.readyState=q.DONE,t(),void m(l)):(a.chrome&&r&&r!==j&&(p=b.slice||b.webkitSlice,b=p.call(b,0,b.size,j),s=!0),g&&"download"!==i&&(i+=".download"),(r===j||g)&&(o=a),h?(k+=b.size,void h(a.TEMPORARY,k,v(function(a){a.root.getDirectory("saved",w,v(function(a){var c=function(){a.getFile(i,w,v(function(a){a.createWriter(v(function(c){c.onwriteend=function(b){o.location.href=a.toURL(),q.readyState=q.DONE,n(q,"writeend",b),m(a)},c.onerror=function(){var a=c.error;a.code!==a.ABORT_ERR&&u()},"writestart progress write abort".split(" ").forEach(function(a){c["on"+a]=q["on"+a]}),c.write(b),q.abort=function(){c.abort(),q.readyState=q.DONE},q.readyState=q.WRITING}),u)}),u)};a.getFile(i,{create:!1},v(function(a){a.remove(),c()}),v(function(a){a.code===a.NOT_FOUND_ERR?c():u()}))}),u)}),u)):void u())},p=o.prototype,q=function(a,b){return new o(a,b)};return p.abort=function(){var a=this;a.readyState=a.DONE,n(a,"abort")},p.readyState=p.INIT=0,p.WRITING=1,p.DONE=2,p.error=p.onwritestart=p.onprogress=p.onwrite=p.onabort=p.onerror=p.onwriteend=null,q}}("undefined"!=typeof self&&self||"undefined"!=typeof window&&window||this.content);"undefined"!=typeof module&&null!==module?module.exports=saveAs:"undefined"!=typeof define&&null!==define&&null!=define.amd&&define([],function(){return saveAs});var ics=function(){"use strict";if(navigator.userAgent.indexOf("MSIE")>-1&&-1==navigator.userAgent.indexOf("MSIE 10"))return void console.log("Unsupported Browser");var a=-1!==navigator.appVersion.indexOf("Win")?"\r\n":"\n",b=[],c=["BEGIN:VCALENDAR","VERSION:2.0"].join(a),d=a+"END:VCALENDAR";return{events:function(){return b},calendar:function(){return c+a+b.join(a)+d},addEvent:function(c,d,e,f,g,h){if("undefined"==typeof c||"undefined"==typeof d||"undefined"==typeof e||"undefined"==typeof f||"undefined"==typeof g)return!1;if(h&&!h.rule){if("YEARLY"!==h.freq&&"MONTHLY"!==h.freq&&"WEEKLY"!==h.freq&&"DAILY"!==h.freq)throw"Recurrence rule frequency must be provided and be one of the following: 'YEARLY', 'MONTHLY', 'WEEKLY', or 'DAILY'";if(h.until&&isNaN(Date.parse(h.until)))throw"Recurrence rule 'until' must be a valid date string";if(h.interval&&isNaN(parseInt(h.interval)))throw"Recurrence rule 'interval' must be an integer";if(h.count&&isNaN(parseInt(h.count)))throw"Recurrence rule 'count' must be an integer"}var i=new Date(f),j=new Date(g),k=("0000"+i.getFullYear().toString()).slice(-4),l=("00"+(i.getMonth()+1).toString()).slice(-2),m=("00"+i.getDate().toString()).slice(-2),n=("00"+i.getHours().toString()).slice(-2),o=("00"+i.getMinutes().toString()).slice(-2),p=("00"+i.getMinutes().toString()).slice(-2),q=("0000"+j.getFullYear().toString()).slice(-4),r=("00"+(j.getMonth()+1).toString()).slice(-2),s=("00"+j.getDate().toString()).slice(-2),t=("00"+j.getHours().toString()).slice(-2),u=("00"+j.getMinutes().toString()).slice(-2),v=("00"+j.getMinutes().toString()).slice(-2),w="",x="";o+p+u+v!==0&&(w="T"+n+o+p,x="T"+t+u+v);var y,z=k+l+m+w,A=q+r+s+x;if(h)if(h.rule)y=h.rule;else{if(y="RRULE:FREQ="+h.freq,h.until){var B=new Date(Date.parse(h.until)).toISOString();y+=";UNTIL="+B.substring(0,B.length-13).replace(/[-]/g,"")+"000000Z"}h.interval&&(y+=";INTERVAL="+h.interval),h.count&&(y+=";COUNT="+h.count)}var C=["BEGIN:VEVENT","CLASS:PUBLIC","DESCRIPTION:"+d,"DTSTART;VALUE=DATE:"+z,"DTEND;VALUE=DATE:"+A,"LOCATION:"+e,"SUMMARY;LANGUAGE=en-us:"+c,"TRANSP:TRANSPARENT","END:VEVENT"];return y&&C.splice(4,0,y),C=C.join(a),b.push(C),C},download:function(e,f){if(b.length<1)return!1;f="undefined"!=typeof f?f:".ics",e="undefined"!=typeof e?e:"calendar";var g,h=c+a+b.join(a)+d;if(-1===navigator.userAgent.indexOf("MSIE 10"))g=new Blob([h]);else{var i=new BlobBuilder;i.append(h),g=i.getBlob("text/x-vCalendar;charset="+document.characterSet)}return saveAs(g,e+f),h}}};
+var ics = function() {
+    'use strict';
+
+    if (navigator.userAgent.indexOf('MSIE') > -1 && navigator.userAgent.indexOf('MSIE 10') == -1) {
+        console.log('Unsupported Browser');
+        return;
+    }
+
+    var SEPARATOR = (navigator.appVersion.indexOf('Win') !== -1) ? '\r\n' : '\n';
+    var calendarEvents = [];
+    var calendarStart = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0'
+    ].join(SEPARATOR);
+    var calendarEnd = SEPARATOR + 'END:VCALENDAR';
+
+    return {
+        /**
+         * Returns events array
+         * @return {array} Events
+         */
+        'events': function() {
+            return calendarEvents;
+        },
+
+        /**
+         * Returns calendar
+         * @return {string} Calendar in iCalendar format
+         */
+        'calendar': function() {
+            return calendarStart + SEPARATOR + calendarEvents.join(SEPARATOR) + calendarEnd;
+        },
+
+        /**
+         * Add event to the calendar
+         * @param  {string} subject     Subject/Title of event
+         * @param  {string} description Description of event
+         * @param  {string} location    Location of event
+         * @param  {string} begin       Beginning date of event
+         * @param  {string} stop        Ending date of event
+         */
+        'addEvent': function(subject, description, location, begin, stop, rrule) {
+            // I'm not in the mood to make these optional... So they are all required
+            if (typeof subject === 'undefined' ||
+                typeof description === 'undefined' ||
+                typeof location === 'undefined' ||
+                typeof begin === 'undefined' ||
+                typeof stop === 'undefined'
+            ) {
+                return false;
+            }
+
+            // validate rrule
+            if (rrule) {
+              if (!rrule.rule) {
+                if (rrule.freq !== 'YEARLY' && rrule.freq !== 'MONTHLY' && rrule.freq !== 'WEEKLY' && rrule.freq !== 'DAILY') {
+                  throw "Recurrence rule frequency must be provided and be one of the following: 'YEARLY', 'MONTHLY', 'WEEKLY', or 'DAILY'";
+                }
+
+                if (rrule.until) {
+                  if (isNaN(Date.parse(rrule.until))) {
+                    throw "Recurrence rule 'until' must be a valid date string";
+                  }
+                }
+
+                if (rrule.interval) {
+                  if (isNaN(parseInt(rrule.interval))) {
+                    throw "Recurrence rule 'interval' must be an integer";
+                  }
+                }
+
+                if (rrule.count) {
+                  if (isNaN(parseInt(rrule.count))) {
+                    throw "Recurrence rule 'count' must be an integer";
+                  }
+                }
+              }
+            }
+
+            //TODO add time and time zone? use moment to format?
+            var start_date = new Date(begin);
+            var end_date = new Date(stop);
+
+            var start_year = ("0000" + (start_date.getFullYear().toString())).slice(-4);
+            var start_month = ("00" + ((start_date.getMonth() + 1).toString())).slice(-2);
+            var start_day = ("00" + ((start_date.getDate()).toString())).slice(-2);
+            var start_hours = ("00" + (start_date.getHours().toString())).slice(-2);
+            var start_minutes = ("00" + (start_date.getMinutes().toString())).slice(-2);
+            var start_seconds = ("00" + (start_date.getMinutes().toString())).slice(-2);
+
+            var end_year = ("0000" + (end_date.getFullYear().toString())).slice(-4);
+            var end_month = ("00" + ((end_date.getMonth() + 1).toString())).slice(-2);
+            var end_day = ("00" + ((end_date.getDate()).toString())).slice(-2);
+            var end_hours = ("00" + (end_date.getHours().toString())).slice(-2);
+            var end_minutes = ("00" + (end_date.getMinutes().toString())).slice(-2);
+            var end_seconds = ("00" + (end_date.getMinutes().toString())).slice(-2);
+
+            // Since some calendars don't add 0 second events, we need to remove time if there is none...
+            var start_time = '';
+            var end_time = '';
+            if (start_minutes + start_seconds + end_minutes + end_seconds !== 0) {
+                start_time = 'T' + start_hours + start_minutes + start_seconds;
+                end_time = 'T' + end_hours + end_minutes + end_seconds;
+            }
+
+            var start = start_year + start_month + start_day + start_time;
+            var end = end_year + end_month + end_day + end_time;
+
+            // recurrence rule vars
+            var rruleString;
+            if (rrule) {
+              if (rrule.rule) {
+                rruleString = rrule.rule;
+              } else {
+                rruleString = 'RRULE:FREQ=' + rrule.freq;
+
+                if (rrule.until) {
+                  var uDate = new Date(Date.parse(rrule.until)).toISOString();
+                  rruleString += ';UNTIL=' + uDate.substring(0, uDate.length - 13).replace(/[-]/g, '') + '000000Z';
+                }
+
+                if (rrule.interval) {
+                  rruleString += ';INTERVAL=' + rrule.interval;
+                }
+
+                if (rrule.count) {
+                  rruleString += ';COUNT=' + rrule.count;
+                }
+              }
+            }
+
+            var calendarEvent = [
+                'BEGIN:VEVENT',
+                'CLASS:PUBLIC',
+                'DESCRIPTION:' + description,
+                'DTSTART;VALUE=DATE-TIME:' + start,
+                'DTEND;VALUE=DATE-TIME:' + end,
+                'LOCATION:' + location,
+                'SUMMARY;LANGUAGE=en-us:' + subject,
+                'TRANSP:TRANSPARENT',
+                'END:VEVENT'
+            ];
+
+            if (rruleString) {
+              calendarEvent.splice(4, 0, rruleString);
+            }
+
+            calendarEvent = calendarEvent.join(SEPARATOR);
+
+            calendarEvents.push(calendarEvent);
+            return calendarEvent;
+        },
+
+        /**
+         * Download calendar using the saveAs function from filesave.js
+         * @param  {string} filename Filename
+         * @param  {string} ext      Extention
+         */
+        'download': function(filename, ext) {
+            if (calendarEvents.length < 1) {
+                return false;
+            }
+
+            ext = (typeof ext !== 'undefined') ? ext : '.ics';
+            filename = (typeof filename !== 'undefined') ? filename : 'calendar';
+            var calendar = calendarStart + SEPARATOR + calendarEvents.join(SEPARATOR) + calendarEnd;
+
+            var blob;
+            if (navigator.userAgent.indexOf('MSIE 10') === -1) { // chrome or firefox
+                blob = new Blob([calendar]);
+            } else { // ie
+                var bb = new BlobBuilder();
+                bb.append(calendar);
+                blob = bb.getBlob('text/x-vCalendar;charset=' + document.characterSet);
+            }
+            saveAs(blob, filename + ext);
+            return calendar;
+        }
+    };
+};
+
 
 var notifier, dialog;
 var cal = ics();//Make our new Calendar (globally)
@@ -418,12 +602,18 @@ function showNotify() {
 		 var eventEndString = (eventEnd.getMonth()+1).toString().concat("/").concat(eventEnd.getDate().toString()).concat("/").concat(eventEnd.getFullYear().toString()).concat(" ").concat(eventEnd.getHours().toString()).concat(":").concat(eventEnd.getMinutes().toString());//.concat(" PM"));
 	
 
+				var rule = {
+			  freq: "WEEKLY",
+			  until: new Date(end.setHours(1,0))
+			};
+			
+			
 			//Check to see if it's on the right day of the week.
 			 for(x = 0; x < WeekDays.length; x++)
 			 {
 				if(eventStart.getDay().toString() == WeekDays[x])
 				{   
-					cal.addEvent(name, "Class",location, new Date(eventStartString) ,new Date(eventEndString));
+					cal.addEvent(name, "Class",location, new Date(eventStartString) ,new Date(eventEndString), rule);
 				}
 			  }
 		}
@@ -459,11 +649,6 @@ function showNotify() {
 		var hrs2 = hrs[1];//Grab the minutes and an A or P
 		var front = hrs2.split(' ');
 		var mins = front[0];
-		if(mins > 30)
-		{
-			mins--;//*sigh*. It's an API thing. For some reason, if we don't end in 00, we get off by one errors in the minutes.--40 becomes 41. So we decrement. Not sure where the overlap starts, but it's after 20 and before 40. This seems to fix it.
-
-		}
 		return mins; 
 	}
 	
@@ -601,8 +786,16 @@ function isEmpty(obj) {
 		
 	}//Note:: MIGHT be an issue with classes that only meet once (we'll
 	//have to check && pad with an 8, per the API that Past-Alex wrote during the hackathon. //Think we solved this.
-	
-	
+	/*
+		//Old version for reference
+		//Start wtih  Com Sci 311 Lecture
+		var StartDate = new Date(2015,07,24);//Same for every class this semester
+		var EndDate = new Date(2015,11,18);
+		var StartTime =  new Date(StartDate).setHours(12,39);
+		var EndTime = new Date(StartDate).setHours(14,0);
+		var WeekDays= new Array(2,4);//Tuesday and Thursday
+		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'Com Sci 311', 'Atanassoff 310');
+	*/
 
 		//Display a checkmark if we downloaded successfully.
         document.getElementById("checkId").style.display = "block";
@@ -614,7 +807,6 @@ function isEmpty(obj) {
 	}   
 
 //-------------------------------</Calendar>--------------------------------------
-
 
 //meetingDate object, will contain the different parts of the meeting date string, such as month, date year
 //month - given month, has to be reduced by 1
@@ -668,6 +860,18 @@ function splitDates(date){
 	return objArr;
 }
 
+/*
+//Was attempting to send a request to a website to be able to parse 
+//the received page. Apparently cross-domain access is illegal with ajax - bummer
+function getPage() { //illegal
+	$.ajax({url: 'https://www.ratemyprofessors.com/search.jsp?query=LATHROP+Iowa+State+University'}).
+		done(function(pageHtml) {
+			alert(pageHtml.html());
+	});
+}
+*/
+
+
 //Calculates the "ideal" div size according to the number of found teachers
 //@param number - number of teachers
 function getBoxSize(number){
@@ -684,85 +888,89 @@ function getBoxSize(number){
 function cssEntry(backGColor, prof, nome){
 	
 		var txtShadow = 'font-size: 1em; text-shadow: 1px 1px 0px rgba(150, 150, 150, 1); font-family:Verdana, Geneva, sans-serif;';
-		return '<tr> <td> <div style = "background-color:' + backGColor + 'display:table; padding-left: 40px; color:black;'+ txtShadow+ '">' + '<br>' + prof + ' </td></div><td> <br><a style = " border: 1px solid black;  padding-left: 100px;text-shadow: none; text-decoration: none; color: white;' + txtShadow + 'padding: 5px; background-color: #aac628; border-radius: 7px; margin: 5px;" href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a> <br><br> </td></tr>';		
+		return '<div style="background-color:' + backGColor + ';    border-radius: 5px;padding-bottom:10px;display:table; width:320px; height: 20px;">\
+                <table style=""><tr><td style="padding-left: 30px; padding-top: 10px;width:150px;'+txtShadow+'">'+prof+'</td>\
+                <td style="width:150px"><br>\
+                <a style = " border: 1px solid black; padding-left: 100px;text-shadow: none; text-decoration: none; color: white; padding: 5px; background-color: #aac628; border-radius: 7px;" href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a>\
+                </td></tr></table></div>';		
 	
 }
 
 //Where the magic happens //Uhh I didn't write this. Flavia, was this you?
 $(document).ready(function() {
-	var updProfs = []; //updated array with the professor information, will not contain any repeated names
-	var nome = [];	
-	//$(document).append(bootstrap);
-	
-	if (url == accessPlus || url == accessPlus1){
+ var updProfs = []; //updated array with the professor information, will not contain any repeated names
+ var nome = []; 
+ //$(document).append(bootstrap);
+ 
+ if (url == accessPlus || url == accessPlus1){
 
  
-		updateIDs(); 
-		updProfs = remRepeats(profs);
-		
-		var div = $('<div style = padding-top: 20px;></div>');
-		var imgDiv = $('<div style = "margin-left: 170px; ; z-index: 1;  position: absolute;"> <img src="http://www.userlogos.org/files/logos/Karmody/Rate_My_Prof_01.png" alt="RMP" style="width:130px;height:120px"> </div>');
+  updateIDs(); 
+  updProfs = remRepeats(profs);
+  
+  var div = $('<div style = padding-top: 20px;></div>');
+  var imgDiv = $('<div style = "margin-left: 170px; ; z-index: 1;  position: absolute;"> <img src="http://www.userlogos.org/files/logos/Karmody/Rate_My_Prof_01.png" alt="RMP" style="width:130px;height:120px"> </div>');
 
-		var hatDiv = $('<div style = "margin-left: 345px; ; z-index: 1; padding-top: 9px; position: absolute;"> <img src="http://www.pyramidcg.com/blog/wp-content/uploads/2013/01/hat1.png" style = "-webkit-transform: rotate(15deg); width: 60px; height: 40px;"> </div>');
+  var hatDiv = $('<div style = "margin-left: 345px; ; z-index: 1; padding-top: 9px; position: absolute;"> <img src="http://www.pyramidcg.com/blog/wp-content/uploads/2013/01/hat1.png" style = "-webkit-transform: rotate(15deg); width: 60px; height: 40px;"> </div>');
 
-		var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>');
-		var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
-		
+  var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>');
+  var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
+  
 
         
-        var checkDiv = $('<div id = "checkId" style= "display: none; float:left; margin-left: 320px; top: 5px;"><img src="http://www.clker.com/cliparts/e/3/9/7/1245686792938124914raemi_Check_mark.svg.hi.png" alt="Wheres My Checkmark?" style="width:25px;height:25px"> </div>');
-        element.append(checkDiv);
+  var checkDiv = $('<div id = "checkId" style= "display: none; float:left; margin-left: 320px; top: 5px;"><img src="http://www.clker.com/cliparts/e/3/9/7/1245686792938124914raemi_Check_mark.svg.hi.png" alt="Wheres My Checkmark?" style="width:25px;height:25px"> </div>');
+    element.append(checkDiv);
         
-		var expBut = $('<div style = "float:left; position: absolute; padding-top: 15px; margin-left: 150px"><button id="expBtn" style = "border-style: outset; border-color:#A30000;; -webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:15px;height:15px"> Export My Calendar</button></div>');
-        element.append(expBut);	
-		document.getElementById("expBtn").addEventListener("click", function(){expSched()});
+  var expBut = $('<div style = "float:left; position: absolute; padding-top: 15px; margin-left: 150px"><button id="expBtn" style = "border-style: outset; border-color:#A30000;; -webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:15px;height:15px"> Export My Calendar</button></div>');
+  element.append(expBut); 
+  document.getElementById("expBtn").addEventListener("click", function(){expSched()});
         
 
-        element.append("<br><br><br>");
-		
-		$(element).append(imgDiv);
-        	element.append("<br> <br>");
-		$(div).append(hatDiv);
-		$(box).append(title);		
-		$(div).append(box);		
+  element.append("<br><br>");
+  
+  $(element).append(imgDiv);
+  element.append("<br> <br>");
+  $(div).append(hatDiv);
+  $(box).append(title);  
+  $(div).append(box);  
 
-			
-		for (i = 0; i < updProfs.length; i++){ 
-			nome = parseName(updProfs[i]);
-			if (!(i%2 == 0)) {
-				$(box).append(cssEntry('#E8E8E8', updProfs[i], nome[0]));
-			}
-			
-			else {
-				$(box).append(cssEntry('white', updProfs[i], nome[0]));
-			}
-		}	
+   
+  for (i = 0; i < updProfs.length; i++){ 
+   nome = parseName(updProfs[i]);
+   if (!(i%2 == 0)) {
+    $(box).append(cssEntry('#E8E8E8', updProfs[i], nome[0]));
+   }
+   
+   else {
+    $(box).append(cssEntry('white', updProfs[i], nome[0]));
+   }
+  } 
 
-		element.append(div);
-		element.append("<br><br><br><br>");
-		
-        		
-		var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.9);  border: none !important;"> </button> </div>'); 
+  element.append(div);
+  element.append('<br><br><div style = "padding-left: 70px;font-size: 0.6em; width:320px;"><b>Note:</b> There is no guarantee that a given professor will have a Rate My Professor page.</div><br><br>');
+  
+          
+  var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.9);  border: none !important;"> </button> </div>'); 
         element.append(btn);
-  		 document.getElementById("button").addEventListener("click", function(){func()});
+     document.getElementById("button").addEventListener("click", function(){func()});
 
-		function func(){ //^ω^
-			if (clicked == false) {
-			 	clicked = true;
-			 	element.append(img);
-			}
-			else{
-				clicked = false;
-				$(img).remove();
-			}
-		}
+  function func(){ //^ω^
+   if (clicked == false) {
+     clicked = true;
+     element.append(img);
+   }
+   else{
+    clicked = false;
+    $(img).remove();
+   }
+  }
 
-		getStartEndTime(meetingsT, meetingeT);
-		getMeetingDates(startEndDate);
-		getLocations(locations);
-		createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
-		//checkValues(classInfoArr, true);
-		//alert(classInfoArr[3].mDates);
-	}
+  getStartEndTime(meetingsT, meetingeT);
+  getMeetingDates(startEndDate);
+  getLocations(locations);
+  createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
+  //checkValues(classInfoArr, true);
+  //alert(classInfoArr[3].mDates);
+ }
 
-}); 
+});
