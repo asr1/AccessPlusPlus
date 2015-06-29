@@ -4,9 +4,6 @@ var strPage3 = window.location.href; //The URL we are on.
 var appPage = "https://accessplus.iastate.edu/servlet/adp.A_Plus"; //The registration applet
 var classReg = false;
 
-function appendSched(){
-	
-}
 
 $(document).ready(function() {
     if((strPage2.substring(0,8) === "Add/Drop" && strPage === "Class Registration") || (strPage === "Class Schedule" && strPage3 == appPage && (document.getElementById("appDiv").innerHTML).indexOf("Search for Class") > -1)){
