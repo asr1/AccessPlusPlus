@@ -921,7 +921,7 @@ $(document).ready(function() {
   var checkDiv = $('<div id = "checkId" style= "display: none; float:left; margin-left: 320px; top: 5px;"><img src="http://www.clker.com/cliparts/e/3/9/7/1245686792938124914raemi_Check_mark.svg.hi.png" alt="Wheres My Checkmark?" style="width:25px;height:25px"> </div>');
     element.append(checkDiv);
         
-  var expBut = $('<br><div title="Generate an .ics Calendar" style = "float:left; position: absolute; padding-top: 15px; margin-left: 145px"><button id="expBtn" style = " color: #FFF;background-color: #900;font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:15px;height:15px"> Export My Calendar</button></div>');
+  var expBut = $('<br><div title="Generate an .ics Calendar" style = "float:left; position: absolute; padding: 15px; margin-left: 145px"><button id="expBtn" style = "padding: 5px;color: #FFF;background-color: #900;font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:17px;height:17px"> Export My Calendar</button></div>');
   element.append(expBut); 
   document.getElementById("expBtn").addEventListener("click", function(){expSched()});
         
