@@ -908,7 +908,7 @@ $(document).ready(function() {
   updateIDs(); 
   updProfs = remRepeats(profs);
   
-  var div = $('<div style = padding-top: 20px;></div>');
+  var div = $('<div id = "rmpBox" style = padding-top: 20px;></div>');
   var imgDiv = $('<div style = "margin-left: 170px; ; z-index: 1;  position: absolute;"> <img src="http://www.userlogos.org/files/logos/Karmody/Rate_My_Prof_01.png" alt="RMP" style="width:130px;height:120px"> </div>');
 
   var hatDiv = $('<div style = "margin-left: 340px; ; z-index: 1; padding-top: 9px; position: absolute;"> <img src="http://findicons.com/files/icons/2677/educons/128/graduation_hat.png" style = "-webkit-transform: rotate(15deg); width: 57px; height: 50px;"> </div>');
@@ -921,7 +921,7 @@ $(document).ready(function() {
   var checkDiv = $('<div id = "checkId" style= "display: none; float:left; margin-left: 320px; top: 5px;"><img src="http://www.clker.com/cliparts/e/3/9/7/1245686792938124914raemi_Check_mark.svg.hi.png" alt="Wheres My Checkmark?" style="width:25px;height:25px"> </div>');
     element.append(checkDiv);
         
-  var expBut = $('<br><div style = "float:left; position: absolute; padding-top: 15px; margin-left: 145px"><button id="expBtn" style = "border-style: outset; border-color:#A30000;; -webkit-border-radius: 5px;  color: #FFF; background-color: #900; font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:15px;height:15px"> Export My Calendar</button></div>');
+  var expBut = $('<br><div title="Generate an .ics Calendar" style = "float:left; position: absolute; padding-top: 15px; margin-left: 145px"><button id="expBtn" style = " color: #FFF;background-color: #900;font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:15px;height:15px"> Export My Calendar</button></div>');
   element.append(expBut); 
   document.getElementById("expBtn").addEventListener("click", function(){expSched()});
         
@@ -950,7 +950,7 @@ $(document).ready(function() {
   element.append('<br><br><div style = "padding-left: 70px;font-size: 0.6em; width:320px;"><b>Note:</b> There is no guarantee that a given professor will have a Rate My Professor page.</div><br><br>');
   
           
-  var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.9);  border: none !important;"> </button> </div>'); 
+  var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.8);  border: none !important;"> </button> </div>'); 
         element.append(btn);
      document.getElementById("button").addEventListener("click", function(){func()});
 
