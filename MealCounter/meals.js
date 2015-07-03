@@ -18,6 +18,7 @@ var regex = new RegExp("[0-9]{1,3}") ;
 var meals_left= meals_left_str.match(regex)[0];		
 var mealLeft = 0;
 var timef = "day";
+var isHoliday = false;
 
 //String containing the student's dining information 
 var str =$("td[class='alignvt'][valign='top'][colspan='1'][rowspan='1'][width='19%']").text();
@@ -37,8 +38,16 @@ function mealsInfo(semester, planSem, sDate, sMonth, eDate, eMonth){
 		this.eMonth = eMonth;
 }
 
-function isHoliday(){
+//Meal plan isn't used during hollidays. For now i'm only checking for thanksgiving
+function getHoliday(year){
+    year+=1900;
+    //Thanksgiving fourth thursday of november
+    var thanksgivingD = new Date("November 21, " + year);
+    while(thanksgivingD.getDay() != 4){
+        thanksgivingD.setDate(thanksgivingD.getDate() + 1);
+    }
 
+    if (date.getDay == thanksgivingD.getDay) isHoliday = true;
 }
 
 function getPlanSem(str){
@@ -173,9 +182,10 @@ function initMeals (str){
 
 //Calculates the number of extra meals the student has
 function calcExtra (){
+    getHoliday(date.getYear());
     //make sure we're still in the term 
     if (date.getMonth() >= meals.sMonth && date.getMonth() <= meals.eMonth){
-        if (!((date.getMonth() == meals.sMonth && (date.getDate() <= meals.sDate)) || (date.getMonth() == meals.eMonth && (date.getDate() >= meals.eDate)))){ //check the extremes - make sure we're not before/after the start/end periods
+        if (!((date.getMonth() == meals.sMonth && (date.getDate() <= meals.sDate)) || (date.getMonth() == meals.eMonth && (date.getDate() >= meals.eDate))) && isHoliday == false){ //check the extremes - make sure we're not before/after the start/end periods nor during a holiday
                  
         }
     }
@@ -191,8 +201,10 @@ function updBorder(id){
 
 function updText(timef, avgMeals){
    if (meals.planSem != meals.semester){
-        document.getElementById("onDisplay").innerHTML = '<div style = "padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
-        } else { document.getElementById("onDisplay").innerHTML = '<div style = "padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</B<br> You can still have <u><b>'+mealLeft+'</b></u> meal(s) this '+timef+'</div>';
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
+        } else if (startMeals == 0){
+            document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.semester + '.</div>';
+        }else { document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> You can still have <u><b>'+mealLeft+'</b></u> meal(s) this '+timef+'</div>';
         }
 }
 
@@ -217,20 +229,20 @@ function monthlyFunc(){
 function numMeals(num){
     if(num == "exactly"){
         if (meals.planSem != meals.semester){
-            return '<div  style = "padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;"> Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ week is: <b>'+avgMealsW+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
+            return '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMealsD+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
         } else {
-            return '<div style = "padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;"> Total number of Meals for the '+meals.planSem+': '+startMeals+'<br>Average number of meals p/ week is: '+avgMealsW+'<br> You can still have <u>'+mealLeft+'</u> meal(s) this week </div>';
-        }
+            return '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMealsD+'</B<br> You can still have <u><b>'+mealLeft+'</b></u> meal(s) this '+timef+'</div>';
+        }        
     }
     else if(num == "none"){
-        return '<div style = "padding: 8px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.semester + '.</div>';
+        return '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.semester + '.</div>';
     }
     else if (num < 0){
-        return '<div style = "font-size: 1em; text-align: center; width: 125px;"><b><br>You are currently '+ num +' meals <u>below</u> expected.</b></div>';
+          return '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMealsD+'</B<br> Your meal count is below by: <u><b>'+mealLeft+'</b></u></div>';    
     }
     
     else{
-        return '<div style = "font-size: 1em; text-align: center; width: 125px;"><b><br>You are currently '+ num +' meals <u>above</u> planned.</b></div>';
+            return '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMealsD+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
     }
 }
 
@@ -259,9 +271,9 @@ if($("title").text()== dining){
                                     <div style = "padding:30px; padding-left: 0px; height: 200px; width: 280px; margin:auto; ">\
                                         <div style = "width: 200px; margin-left: auto; margin-right:auto;"> <span style = "color:#8aa237; font-size: 2.3em; font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif">MEAL</span> <span style = "color: #61bb17; font-size: 2.3em; font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif">TRACKER</span></div>\
                                         <div style = "margin:auto; margin-top:30px; width:95px; height:95px;"><img src="http://www.clker.com/cliparts/y/W/e/8/a/1/red-plate-with-knife-and-fork-md.png" style = "width:95px; height:95px; "></div>\
-                                        <div id = "onDisplay" style = "width:240px; margin:auto;">'+toAppend+'<br></div>\
+                                        <div id = "onDisplay" style = "width:260px; margin:auto;">'+toAppend+'</div>\
                                             <div style = "padding-left: 25px;width: 220px;  margin-left: auto; margin-right:auto; position:aboslute;">\
-                                                <button id="dailyBut" type="button" style = "margin-right:10px; color: #900; border: 2px solid #900; font-weight: bold;">Daily</button>\
+                                                <button id="dailyBut" type="button" style = "margin-right:10px; color: #900; border: 2px solid #DE0000; font-weight: bold;">Daily</button>\
                                                 <button id="weeklyBut" type="button" style = "margin-right:10px; color: #900; border: 2px solid #900; font-weight: bold;">Weekly</button>\
                                                 <button id="monthlyBut" type="button" style = "margin-right:10px; color: #900; border: 2px solid #900; font-weight: bold;">Monthly</button>\
                                 </div>\
