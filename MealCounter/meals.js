@@ -327,11 +327,11 @@ $(document).ready(function() {
 
 
             var img = $('<div style = "float:left; padding: 10px; padding-top: 70px;"> <img src = "http://www.webweaver.nu/clipart/img/misc/food/fast-food/hot-dog.png" style = "width:50px; height: 50px;" <br></div>');
-            var interrogation = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 35px; height: 35px; padding-left: 10px; margin-left: -30px; margin-top: -280px; z-index:2; position:absolute;"><img src = "http://www.icone-png.com/png/54/53888.png" style = "width:35px; height: 35px;"></div>');
-            var bubble = $('<div style = "margin-top:20px;  margin-bottom: 20px; width:300px; height:325px; background:rgb(248, 248, 248); border: 10px solid rgba(97,187,23, 0.3); border-radius:15px;">\
+            var interrogation = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 35px; height: 35px; padding-left: 10px; margin-left: -30px; margin-top: -280px; z-index:2; position:absolute;"><img src = "http://www.clker.com/cliparts/b/F/3/q/f/M/help-browser-hi.png" style = "width:35px; height: 35px;"></div>');
+            var bubble = $('<div style = "margin-top:20px;  margin-bottom: 20px; width:300px; height:325px; background:rgb(248, 248, 248); border: 10px solid rgba(0,128,128, 0.3); border-radius:15px;">\
                                         <div style = "padding:30px; padding-left: 0px; height: 200px; width: 300px; margin:auto; ">\
-                                            <div style = "width: 215px; margin-left: auto; margin-right:auto;"> <span style = "color:#8aa237; font-size: 2.3em; font-weight: bold;">MEAL</span> <span style = "color: #61bb17; font-size: 2.3em; font-weight: bold;">TRACKER</span><hr style = "width:85%;"></div>\
-                                            <div style = "margin:auto; margin-top:30px; width:95px; height:95px;"><img src="http://www.clker.com/cliparts/y/W/e/8/a/1/red-plate-with-knife-and-fork-md.png" style = "width:95px; height:95px; "></div>\
+                                            <div style = "width: 215px; margin-left: auto; margin-right:auto;"> <span style = "color:#326899; font-size: 2.3em; font-weight: bold;">MEAL</span> <span style = "color: #4abce8; font-size: 2.3em; font-weight: bold;">TRACKER</span><hr style = "width:85%;"></div>\
+                                            <div style = "margin:auto; margin-top:10px; width:115px; height:115px;"><img src="http://www.juniata.edu/life/i/redesign/dining/diningicon.png" style = "width:115px; height:115px; "></div>\
                                             <div id = "onDisplay" style = "width:260px; margin:auto;">'+toAppend+'</div>\
                                                 <div style = "padding-left: 25px;width: 220px;  margin-left: auto; margin-right:auto; position:aboslute;">\
                                                     <button id="dailyBut" type="button" style = "margin-right:10px; color: #900; border: 2px solid #DE0000; font-weight: bold;">Daily</button>\
