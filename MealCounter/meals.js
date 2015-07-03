@@ -47,7 +47,7 @@ function getHoliday(year){
         thanksgivingD.setDate(thanksgivingD.getDate() + 1);
     }
 
-    if (date.getDay == thanksgivingD.getDay) isHoliday = true;
+    if (date.getDate() == thanksgivingD.getDate()) isHoliday = true;
 }
 
 function getPlanSem(str){
