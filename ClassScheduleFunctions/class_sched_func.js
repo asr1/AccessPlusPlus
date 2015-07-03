@@ -950,7 +950,7 @@ $(document).ready(function() {
   element.append('<br><br><div style = "padding-left: 70px;font-size: 0.6em; width:320px;"><b>Note:</b> There is no guarantee that a given professor will have a Rate My Professor page.</div><br><br>');
   
           
-  var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.8);  border: none !important;"> </button> </div>'); 
+  var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.6);  border: none !important;"> </button> </div>'); 
         element.append(btn);
      document.getElementById("button").addEventListener("click", function(){func()});
 
