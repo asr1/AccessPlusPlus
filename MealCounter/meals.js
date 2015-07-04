@@ -195,6 +195,21 @@ function checkTerm (){
     else return false;
 }
 
+//Yeah we need this function since some months change its number of days
+//Blast you february
+//Also to keep track of months that have 30/31 days
+//start - the current month
+//numMonths - how many months have passed since the start of the term
+function daysinMonth(start, numMonths, year){
+    var count = 0;
+    var i;
+    for (i = start; i > (start - numMonths); i--){
+        count += new Date(year, i, 0).getDate();
+    }
+    
+    return count;
+}
+
 // returns the total number of times the timeF has passed
 function getTimeFrame(per){
     var numMonths = 0;
@@ -205,7 +220,7 @@ function getTimeFrame(per){
         numMonths = date.getMonth() - meals.sMonth;
         
         if (per == "day"){
-            numDays = date.getDate() + numMonths*30; //some dates have 31 days...
+            numDays = date.getDate() + daysinMonth(date.getMonth(), numMonths, date.getYear()); //some dates have 31 days...
             return numDays;
         }
 
