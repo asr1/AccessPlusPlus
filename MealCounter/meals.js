@@ -1,14 +1,14 @@
 //Hackyness is hacky
-//This part of the plugin is responsible for keeping track of the amount of meals that the student has
+//This part of the plugin is responsible for keeping track of the amount of meals that the student has 
 
 var url = window.location.href;
 var dining = "Dining Summary";
 
-var element = $("input[name='KEY_CYCL']").next("table").children().children(":nth-child(3)").children(":nth-child(2)");
+var element = $("input[name='KEY_CYCL']").next("table").children().children(":nth-child(3)").children(":nth-child(2)"); //where we are appending Meal Tracker to
 var date = new Date(); 
-var meals; //object which will contain all of our info
+var meals; //object which will contain all of our meal plan info
 var startMeals; //the number of meals the student has initially
-var avgMealsD; //the average number of meals one can have per day with the given meal plan
+var avgMealsD; //the average number of meals one can have per day with the given meal plan (object)
 var avgMealsW; //the average number of meals one can have per week with the given meal plan
 var avgMealsM; //the average number of meals one can have per month with the given meal plan
 
@@ -17,7 +17,7 @@ var meals_left_str=$("input[name='KEY_CYCL']").next("table").children().children
 var regex = new RegExp("[0-9]{1,3}") ;
 var meals_left= meals_left_str.match(regex)[0];		
 var mealLeft = 0;
-var timef = "day";
+var timef = "day"; //let's initially start @daily
 var isHoliday = false;
 
 //String containing the student's dining information 
@@ -38,10 +38,17 @@ function mealsInfo(semester, planSem, sDate, sMonth, eDate, eMonth){
 		this.eMonth = eMonth;
 }
 
+//Saving the daily meal info in an object since its the only time frame that includes extras per week and str representation
+function mealsD(avgMeals, extraW, avgMealsDstr){
+    this.avgMeals = avgMeals;
+    this.extraW = extraW;
+    this.avgMealsDstr = avgMealsDstr;
+}
+
 //Meal plan isn't used during hollidays. For now i'm only checking for thanksgiving
 function getHoliday(year){
     year+=1900;
-    //Thanksgiving fourth thursday of november
+    //Thanksgiving-- fourth thursday of november
     var thanksgivingD = new Date("November 21, " + year);
     while(thanksgivingD.getDay() != 4){
         thanksgivingD.setDate(thanksgivingD.getDate() + 1);
@@ -137,23 +144,23 @@ function initStart(){
 }
 
 function initMeals (str){
-        //checks to see what meal plan you have
-		//By searching for meal name
         if((str.indexOf("No meal plan") > -1) || (str.indexOf("fall meal plan balance") > -1 && meals_left_str.indexOf("fall") == -1) || (str.indexOf("spring meal plan balance") > -1 && meals_left_str.indexOf("spring") == -1) || (str.indexOf("summer meal plan balance") > -1 && meals_left_str.indexOf("summer") == -1)){
             startMeals = 0;
-            avgMealsD = 0;
+            avgMealsD = new mealsD(0, 0, "0");
+            avgMealsW = 0;
+            avgMealsM = 0;          
         }
     
 		else if(str.indexOf("Bronze") > -1){
 			startMeals = 125;
-            avgMealsD = "1 (+1)";
+            avgMealsD = new mealsD(1, 1, "1(+1)");
             avgMealsW = 8;
             avgMealsM = 32;            
 		}
         
         else if(str.indexOf("Silver") > -1){
 			startMeals = 175;
-            avgMealsD = "1 (+4)";
+            avgMealsD = new mealsD(1, 4, "1(+4)");
             avgMealsW = 11;
             avgMealsM = 44;
 		}
@@ -161,21 +168,21 @@ function initMeals (str){
         else if(str.indexOf("Gold") > -1){
 			startMeals = 225;
             avgMealsW = 14;
-            avgMealsD = 2;
+            avgMealsD = new mealsD(2, 0, "2");
             avgMealsM = 56;
 		}
         
         else if (str.indexOf("Cardinal") > -1){
 			startMeals = 275;
             avgMealsW = 17;
-            avgMealsD = "2 (+3)";
+            avgMealsD = new mealsD(2, 3, "2(+3)");
             avgMealsM = "68";
 		}
         
         else if (str.indexOf("Cyclone") > -1){
 			startMeals = 304;
             avgMealsW = 19;
-            avgMealsD = "2 (+5)";
+            avgMealsD = new mealsD(2, 5, "2(+5)");
             avgMealsM = 76;
 		}
     
@@ -224,7 +231,7 @@ function calcExtra (){
     //make sure we're still in the term 
     if (checkTerm()){ //check the extremes - make sure we're not before/after the start/end periods nor during a holiday 
             if(timef == "day") {
-                extraMeals = avgMealsD;
+                extraMeals = avgMealsD.avgMeals;
                 
             }
             
@@ -245,26 +252,50 @@ function calcExtra (){
 //Updates the borders around the buttons when one is clicked
 function updBorder(id){
     document.getElementById(id).style.border = "2px solid #DE0000";
-    if (id != "dailyBut")   document.getElementById("dailyBut").style.border = "2px solid #900";
-    if (id != "weeklyBut")   document.getElementById("weeklyBut").style.border = "2px solid #900";
-    if (id != "monthlyBut")   document.getElementById("monthlyBut").style.border = "2px solid #900";
+    document.getElementById(id).style.boxShadow = "none";
+    
+    if (id != "dailyBut"){
+        document.getElementById("dailyBut").style.border = "2px solid #900";
+        document.getElementById("dailyBut").style.boxShadow= "3px 3px 1px #888888";
+    }
+    if (id != "weeklyBut"){
+        document.getElementById("weeklyBut").style.border = "2px solid #900";
+        document.getElementById("weeklyBut").style.boxShadow= "3px 3px 1px #888888";
+    }
+    if (id != "monthlyBut"){
+        document.getElementById("monthlyBut").style.border = "2px solid #900";
+        document.getElementById("monthlyBut").style.boxShadow= "3px 3px 1px #888888";
+    }
 
 }
 
 
 function updText(timef, avgMeals){
-   if (meals.planSem != meals.semester){
+   if (meals.planSem != meals.semester){ //possible meal plan for the future term, but we're not currently in that term
         document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
-        } else if (startMeals == 0){
+    }
+
+    else if (startMeals == 0){ //no meal plan for the active term
             document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.semester + '.</div>';
-        }else { document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> You can still have <u><b>'+mealLeft+'</b></u> meal(s) this '+timef+'</div>';
-        }
+    }
+    
+    else if (mealLeft == 0){ //user is on track
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> You can still have <u><b>'+mealLeft+'</b></u> meal(s) this '+timef+'</div>';      
+    }
+        
+    else if (mealLeft < 0){
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> Your meal count is <u>below</u> by: <b>'+mealLeft+'</b></div>'; 
+    }
+    
+    else if (mealLeft > 0){
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> Your meal count is <u>above</u> by: <b>'+mealLeft+'</b></div>';   
+    }
 }
 
 function dailyFunc(){
     timef = "day";
     calcExtra();
-    updText(timef, avgMealsD);
+    updText(timef, avgMealsD.avgMealsDstr);
     updBorder("dailyBut");
 }
 
@@ -282,59 +313,29 @@ function monthlyFunc(){
     updBorder("monthlyBut");
 }
 
-function numMeals(num){
-    if(num == "exactly"){
-        if (meals.planSem != meals.semester){
-            return '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMealsD+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
-        } else {
-            return '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMealsD+'</B<br> You can still have <u><b>'+mealLeft+'</b></u> meal(s) this '+timef+'</div>';
-        }        
-    }
-    else if(num == "none"){
-        return '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.semester + '.</div>';
-    }
-    else if (num < 0){
-          return '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMealsD+'</B<br> Your meal count is below by: <u><b>'+mealLeft+'</b></u></div>';    
-    }
-    
-    else{
-            return '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMealsD+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
-    }
-}
 
 function help(){
-    alert("HELP \n\n Select Daily/Weekly/Monthly to view how many meals you have for that time frame and how many you still have available.\n\nWhat does it mean to have 1(+1) meals?\nThis means that you have an average of one meal per day, with an extra one for the week.");
+    alert("MEAL TRACKER: Is supposed to help you plan your meal usage throughout the semester.\n\nClick on one of the buttons (Daily/Weekly/Monthly) to view your number of available meals for your chosen time frame, as well as how many you still have available in order to keep up with your meal plan.\n\nWhat does it mean to have 1(+1) meals?\nThis means that you have an average of one meal per day, with an extra one for the week.");
 }
 
 $(document).ready(function() {
 
     //check to see whether the html page actually is the dining page
     if($("title").text()== dining){
-            var toAppend = "";
             initStart();
             initMeals(str);
             calcExtra();
-
-            if(extraMeals){
-                toAppend = numMeals(extraMeals);
-            }
-
-            else if(startMeals == 0){
-                toAppend = numMeals("none");
-            }   
-
-            else toAppend = numMeals("exactly");
-
+        
 
             var img = $('<div style = "float:left; padding: 10px; padding-top: 70px;"> <img src = "http://www.webweaver.nu/clipart/img/misc/food/fast-food/hot-dog.png" style = "width:50px; height: 50px;" <br></div>');
             var interrogation = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 35px; height: 35px; padding-left: 10px; margin-left: -30px; margin-top: -280px; z-index:2; position:absolute;"><img src = "http://www.clker.com/cliparts/b/F/3/q/f/M/help-browser-hi.png" style = "width:35px; height: 35px;"></div>');
-            var bubble = $('<div style = "margin-top:20px;  margin-bottom: 20px; width:300px; height:325px; background:rgb(248, 248, 248); border: 10px solid; border-image: linear-gradient(to bottom, rgba(0, 3, 173, 0.5), rgba(0, 116, 232, 0.5)) 1 100%;border-radius:15px;">\
+            var bubble = $('<div style = "margin-top:20px;  margin-bottom: 20px; width:300px; height:325px; background:rgb(248, 248, 248); border: 10px solid; border-image: linear-gradient(rgba(50, 104, 153, 0.7), rgba(74, 188, 232, 0.5)) 1 100%; border-radius:15px;">\
                                         <div style = "padding:30px; padding-left: 0px; height: 200px; width: 300px; margin:auto; ">\
                                             <div style = "width: 215px; margin-left: auto; margin-right:auto;"> <span style = "color:#326899; font-size: 2.3em; font-weight: bold;">MEAL</span> <span style = "color: #4abce8; font-size: 2.3em; font-weight: bold;">TRACKER</span><hr style = "width:85%;"></div>\
                                             <div style = "margin:auto; margin-top:10px; width:115px; height:115px;"><img src="http://www.juniata.edu/life/i/redesign/dining/diningicon.png" style = "width:115px; height:115px; "></div>\
-                                            <div id = "onDisplay" style = "width:260px; margin:auto;">'+toAppend+'</div>\
+                                            <div id = "onDisplay" style = "width:260px; margin:auto;"></div>\
                                                 <div style = "padding-left: 25px;width: 220px;  margin-left: auto; margin-right:auto; position:aboslute;">\
-                                                    <button id="dailyBut" type="button" style = "box-shadow: 3px 3px 1px #888888; margin-right:10px; color: #900; border: 2px solid #DE0000; font-weight: bold;">Daily</button>\
+                                                    <button id="dailyBut" type="button" style = "box-shadow: none; margin-right:10px; color: #900; border: 2px solid #DE0000; font-weight: bold;">Daily</button>\
                                                     <button id="weeklyBut" type="button" style = "box-shadow: 3px 3px 1px #888888; margin-right:10px; color: #900; border: 2px solid #900; font-weight: bold;">Weekly</button>\
                                                     <button id="monthlyBut" type="button" style = "box-shadow: 3px 3px 1px #888888; margin-right:10px; color: #900; border: 2px solid #900; font-weight: bold;">Monthly</button>\
                                     </div>\
@@ -347,6 +348,7 @@ $(document).ready(function() {
 
             bubble.append(interrogation);
             element.append(bubble);
+            updText("day", avgMealsD.avgMealsDstr);
             document.getElementById("dailyBut").addEventListener("click", function(){dailyFunc()});
             document.getElementById("weeklyBut").addEventListener("click", function(){weeklyFunc()});
             document.getElementById("monthlyBut").addEventListener("click", function(){monthlyFunc()});
