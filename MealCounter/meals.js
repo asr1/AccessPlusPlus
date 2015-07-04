@@ -16,7 +16,6 @@ var extraMeals;
 var meals_left_str=$("input[name='KEY_CYCL']").next("table").children().children(":nth-child(3)").children().prev().text();
 var regex = new RegExp("[0-9]{1,3}") ;
 var meals_left= meals_left_str.match(regex)[0];		
-var mealLeft = 0;
 var timef = "day"; //let's initially start @daily
 var isHoliday = false;
 
@@ -167,22 +166,22 @@ function initMeals (str){
         
         else if(str.indexOf("Gold") > -1){
 			startMeals = 225;
-            avgMealsW = 14;
             avgMealsD = new mealsD(2, 0, "2");
+            avgMealsW = 14;
             avgMealsM = 56;
 		}
         
         else if (str.indexOf("Cardinal") > -1){
 			startMeals = 275;
-            avgMealsW = 17;
             avgMealsD = new mealsD(2, 3, "2(+3)");
-            avgMealsM = "68";
+            avgMealsW = 17;
+            avgMealsM = 68;
 		}
         
         else if (str.indexOf("Cyclone") > -1){
 			startMeals = 304;
-            avgMealsW = 19;
             avgMealsD = new mealsD(2, 5, "2(+5)");
+            avgMealsW = 19;
             avgMealsM = 76;
 		}
     
@@ -223,29 +222,22 @@ function getTimeFrame(per){
 
 //Calculates the number of extra meals the student has
 function calcExtra (){
-    getHoliday(date.getYear()); //???
-    var usedMeals = startMeals - meals_left_str;
-    var predictedMeals = 0;
-    var stat = 0;
     
     //make sure we're still in the term 
     if (checkTerm()){ //check the extremes - make sure we're not before/after the start/end periods nor during a holiday 
             if(timef == "day") {
-                extraMeals = avgMealsD.avgMeals;
-                
+                extraMeals = avgMealsD.avgMeals*getTimeFrame("day") + avgMealsD.extraW*getTimeFrame("week");                
             }
             
             else if(timef == "week") {
-                extraMeals = avgMealsW;
-                predictedMeals = getTimeFrame("week")*avgMealsW;
-                stat = predictedMeals - usedMeals;
-                if (stat < 0) extraMeals += stat; //if its negative value then add it to extraMeals
-                else extraMeals -= stat;
+                extraMeals = avgMealsW*getTimeFrame("week");
             }
             
             else {
-                extraMeals = avgMealsM; 
+                extraMeals = avgMealsM*getTimeFrame("month"); 
             }
+            
+            extraMeals-=(startMeals-meals_left);
     }
 }
 
@@ -279,16 +271,16 @@ function updText(timef, avgMeals){
             document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.semester + '.</div>';
     }
     
-    else if (mealLeft == 0){ //user is on track
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> You can still have <u><b>'+mealLeft+'</b></u> meal(s) this '+timef+'</div>';      
+    else if (extraMeals == 0 ||  extraMeals == avgMeals){ //user is on track
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> You can still have <u><b>'+extraMeals+'</b></u> meal(s) this '+timef+'</div>';      
     }
         
-    else if (mealLeft < 0){
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> Your meal count is <u>below</u> by: <b>'+mealLeft+'</b></div>'; 
+    else if (extraMeals < 0){
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>below</u> by: <b>'+extraMeals+'</b></div>'; 
     }
     
-    else if (mealLeft > 0){
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> Your meal count is <u>above</u> by: <b>'+mealLeft+'</b></div>';   
+    else if (extraMeals > avgMeals){
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>above</u> by: <b>'+extraMeals+'</b></div>';   
     }
 }
 
@@ -315,7 +307,7 @@ function monthlyFunc(){
 
 
 function help(){
-    alert("MEAL TRACKER: Is supposed to help you plan your meal usage throughout the semester.\n\nClick on one of the buttons (Daily/Weekly/Monthly) to view your number of available meals for your chosen time frame, as well as how many you still have available in order to keep up with your meal plan.\n\nWhat does it mean to have 1(+1) meals?\nThis means that you have an average of one meal per day, with an extra one for the week.");
+    alert("MEAL TRACKER: Is supposed to help you plan your meal usage throughout the semester.\n\nClick on one of the buttons (Daily/Weekly/Monthly) to view your number of available meals for your chosen time frame, as well as how many you still have available in order to keep up with your meal plan.\n\nWhat does it mean to have x(+y) meals?\nThis means that you have an average of 'x' meal(s) per day, with an extra 'y' meal(s) for the week.\nEx: 1(+1) -> 1 meal per day with an extra meal for the week.");
 }
 
 $(document).ready(function() {
@@ -344,8 +336,7 @@ $(document).ready(function() {
                                     </div>\
                                     </div>\
                                     </div>');
-            //creates a box to display alert
-
+        
             bubble.append(interrogation);
             element.append(bubble);
             updText("day", avgMealsD.avgMealsDstr);
