@@ -18,6 +18,8 @@ var regex = new RegExp("[0-9]{1,3}") ;
 var meals_left= meals_left_str.match(regex)[0];		
 var timef = "day"; //let's initially start @daily
 var isHoliday = false;
+var debug = true; //testing purposes
+var toPrint = ""; //string where we're printing all of our debug info
 
 //String containing the student's dining information 
 var str =$("td[class='alignvt'][valign='top'][colspan='1'][rowspan='1'][width='19%']").text();
@@ -96,11 +98,11 @@ function getTerm (month, day, year){
             var fallEndStr = "December 1, " + year; 
             var fallEnd = new Date(fallEndStr);
             
-            while ((fallStr.getDay() != 2)){
+            while ((fallStr.getDay() != 2)){ //tuesday
                 fallStr.setDate(fallStr.getDate() + 1);
             }
 
-            while ((fallEnd.getDay() != 6)){
+            while ((fallEnd.getDay() != 6)){ //saturday
                 fallEnd.setDate(fallEnd.getDate() + 1);
             }  //Saturday of the 3rd week
         }
@@ -116,11 +118,11 @@ function getTerm (month, day, year){
             var sprEndStr = "May 7, " + year; //we know the term ends sometime during the second week
             var sprEnd = new Date(fallEndStr);  
 
-            while ((sprStr.getDay() != 6)){
+            while ((sprStr.getDay() != 6)){ //saturday
                 sprStr.setDate(sprStr.getDate() + 1);
             }
 
-            while ((sprEnd.getDay() != 0)){
+            while ((sprEnd.getDay() != 0)){ //sunday
                 sprEnd.setDate(sprEnd.getDate() + 1);
             }  //Sunday of the 2nd week
         }
@@ -143,6 +145,7 @@ function initStart(){
 }
 
 function initMeals (str){
+        //if we just dont have a meal plan OR we have a meal plan for a future semester and not one for the current one
         if((str.indexOf("No meal plan") > -1) || (str.indexOf("fall meal plan balance") > -1 && meals_left_str.indexOf("fall") == -1) || (str.indexOf("spring meal plan balance") > -1 && meals_left_str.indexOf("spring") == -1) || (str.indexOf("summer meal plan balance") > -1 && meals_left_str.indexOf("summer") == -1)){
             startMeals = 0;
             avgMealsD = new mealsD(0, 0, "0");
@@ -190,7 +193,12 @@ function initMeals (str){
 //Checks whether we are still in the semester time frame
 function checkTerm (){
    if (date.getMonth() >= meals.sMonth && date.getMonth() <= meals.eMonth){
-        if (!((date.getMonth() == meals.sMonth && (date.getDate() <= meals.sDate)) || (date.getMonth() == meals.eMonth && (date.getDate() >= meals.eDate))) && !isHoliday) return true;
+        if (!((date.getMonth() == meals.sMonth && (date.getDate() <= meals.sDate)) || (date.getMonth() == meals.eMonth && (date.getDate() >= meals.eDate))) && !isHoliday){
+            if (debug) toPrint+= ("Check term: true -> " + meals.semester + "\n\n");
+            if (!(meals.planSem != meals.semester) || debug == true){
+                return true;
+            }
+        }
    }
     else return false;
 }
@@ -219,18 +227,20 @@ function getTimeFrame(per){
     
     if (checkTerm()){
         numMonths = date.getMonth() - meals.sMonth;
-        
         if (per == "day"){
             numDays = date.getDate() + daysinMonth(date.getMonth(), numMonths, date.getYear()); //some dates have 31 days...
+            if (debug) toPrint += ("Calculated number of passed days : " + numDays + "\n\n");
             return numDays;
         }
 
         else if (per == "week"){
             numWeeks = (Math.floor(date.getDate()/7))+numMonths*4;
+            if (debug) toPrint += ("Calculated number of passed weeks : " + numWeeks + "\n\n");
             return numWeeks;
         }
 
         else if (per == "month"){
+            if (debug) toPrint += ("Calculated number of passed months : " + numMonths + "\n\n");
             return numMonths;
         }
     }
@@ -242,18 +252,25 @@ function calcExtra (){
     //make sure we're still in the term 
     if (checkTerm()){ //check the extremes - make sure we're not before/after the start/end periods nor during a holiday 
             if(timef == "day") {
-                extraMeals = avgMealsD.avgMeals*getTimeFrame("day") + avgMealsD.extraW*getTimeFrame("week");                
+                extraMeals = avgMealsD.avgMeals*getTimeFrame("day") + avgMealsD.extraW*getTimeFrame("week"); 
+                if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
             
             else if(timef == "week") {
                 extraMeals = avgMealsW*getTimeFrame("week");
+                if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
             
             else {
                 extraMeals = avgMealsM*getTimeFrame("month"); 
+                if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
             
             extraMeals-=(startMeals-meals_left);
+            if (debug){
+                toPrint += ("\n\nNumber of meals left is: " + meals_left + "\n");
+                toPrint += ("\n\nAvailable meals for this " + timef + " is " + extraMeals + "\nPAY ATTENTION to the active semester");
+            }
     }
 }
 
@@ -268,23 +285,25 @@ function updBorder(id, circleId){
     if (id != "dailyBut"){
         document.getElementById("dailyBut").style.boxShadow= "2px 2px 1px #888888";
         document.getElementById("dailyButCircle").style.boxShadow = "none";
-        document.getElementById("dailyButCircle").style.background = "linear-gradient(rgb(255, 255, 34), rgb(255, 192, 0))";
+        document.getElementById("dailyButCircle").style.background = "linear-gradient(rgb(255, 255, 34), orange)";
     }
     if (id != "weeklyBut"){
         document.getElementById("weeklyBut").style.boxShadow= "2px 2px 1px #888888";
         document.getElementById("weeklyButCircle").style.boxShadow = "none";
-        document.getElementById("weeklyButCircle").style.background = "linear-gradient(rgb(255, 255, 34), rgb(255, 192, 0))";
+        document.getElementById("weeklyButCircle").style.background = "linear-gradient(rgb(255, 255, 34), orange)";
     }
     if (id != "monthlyBut"){
         document.getElementById("monthlyBut").style.boxShadow= "2px 2px 1px #888888";
         document.getElementById("monthlyButCircle").style.boxShadow = "none";
-        document.getElementById("monthlyButCircle").style.background = "linear-gradient(rgb(255, 255, 34), rgb(255, 192, 0))";
+        document.getElementById("monthlyButCircle").style.background = "linear-gradient(rgb(255, 255, 34), orange)";
     }
 
 }
 
 
 function updText(timef, avgMeals){
+   if (debug) alert(toPrint);
+
    if (meals.planSem != meals.semester){ //possible meal plan for the future term, but we're not currently in that term
         document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
     }
@@ -329,7 +348,7 @@ function monthlyFunc(){
 
 
 function help(){
-    alert("MEAL TRACKER: Is supposed to help you plan your meal usage throughout the semester.\n\nClick on one of the buttons (Daily/Weekly/Monthly) to view your number of available meals for your chosen time frame, as well as how many you still have available in order to keep up with your meal plan.\n\nWhat does it mean to have x(+y) meals?\nThis means that you have an average of 'x' meal(s) per day, with an extra 'y' meal(s) for the week.\nEx: 1(+1) -> 1 meal per day with an extra meal for the week.");
+    alert("MEAL TRACKER Is supposed to help you plan your meal usage throughout the semester.\n\nClick on one of the buttons (Daily/Weekly/Monthly) to view your number of available meals for your chosen time frame, as well as how many you still have available in order to keep up with your meal plan.\n\nWhat does it mean to have x(+y) meals?\nThis means that you have an average of 'x' meal(s) per day, with an extra 'y' meal(s) for the week.\nEx: 1(+1) -> 1 meal per day with an extra meal for the week.");
 }
 
 $(document).ready(function() {
@@ -342,7 +361,7 @@ $(document).ready(function() {
         
 
             var img = $('<div style = "float:left; padding: 10px; padding-top: 70px;"> <img src = "http://www.webweaver.nu/clipart/img/misc/food/fast-food/hot-dog.png" style = "width:50px; height: 50px;" <br></div>');
-            var interrogation = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 35px; height: 35px; padding-left: 10px; margin-left: -30px; margin-top: -280px; z-index:2; position:absolute;"><img src = "http://www.clker.com/cliparts/b/F/3/q/f/M/help-browser-hi.png" style = "width:35px; height: 35px;"></div>');
+            var interrogation = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 50px; height: 50px; padding-left: 10px; margin-left: -40px; margin-top: -280px; z-index:2; position:absolute;"><img src = "http://img3.wikia.nocookie.net/__cb20140921131252/criminal-case-grimsborough/images/a/a7/Question_Mark-Icon.png" style = "width:50px; height: 50px;"></div>');
             var bubble = $('<div style = "margin-top:20px;  margin-bottom: 20px; width:300px; height:325px; background:rgb(248, 248, 248); border: 10px solid; border-image: linear-gradient(rgba(50, 104, 153, 0.7), rgba(74, 188, 232, 0.5)) 1 100%; border-radius:15px;">\
                                         <div style = "padding:30px; padding-left: 0px; height: 200px; width: 300px; margin:auto; ">\
                                             <div style = "width: 215px; margin-left: auto; margin-right:auto;"> <span style = "color:#326899; font-size: 2.3em; font-weight: bold;">MEAL</span> <span style = "color: #4abce8; font-size: 2.3em; font-weight: bold;">TRACKER</span><hr style = "width:85%;"></div>\
@@ -350,8 +369,8 @@ $(document).ready(function() {
                                             <div id = "onDisplay" style = "width:260px; margin:auto;"></div>\
                                                 <div style = "padding-left: 25px;width: 250px;  margin-left: auto; margin-right:auto; position:aboslute;">\
                                                     <button id="dailyBut" type="button" style = "width: 60px;box-shadow: none; margin-right:10px; height:25px; background: #006699; border-radius: 5px; font-weight: bold;"><div style = "float:left; color: white;">Daily</div> <div id = "dailyButCircle" style = "margin-left: 38px; margin-top: 4px;width: 7px; height: 7px; box-shadow: 1px 1px 1px #f0ff00; border-radius: 50%; background: #f5ff5a;"></div></button>\
-                                                    <button id="weeklyBut" type="button" style = "width: 70px; box-shadow: 2px 2px 1px #888888; margin-right:10px; height:25px; border-radius: 5px; background: #006699; font-weight: bold;"><div style = "float:left; color: white;">Weekly</div> <div id = "weeklyButCircle" style = "margin-left: 48px; margin-top: 4px;width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(rgb(255, 255, 34), rgb(255, 192, 0));"></div></button>\
-                                              <button id="monthlyBut" type="button" style = "width: 75px; box-shadow: 2px 2px 1px #888888; margin-right:10px; height:25px; border-radius: 5px; background: #006699; font-weight: bold;"><div style = "float:left; color: white;">Monthly</div> <div id = "monthlyButCircle" style = "margin-left: 53px; margin-top: 4px;width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(rgb(255, 255, 34), rgb(255, 192, 0));"></div></button>\
+                                                    <button id="weeklyBut" type="button" style = "width: 70px; box-shadow: 2px 2px 1px #888888; margin-right:10px; height:25px; border-radius: 5px; background: #006699; font-weight: bold;"><div style = "float:left; color: white;">Weekly</div> <div id = "weeklyButCircle" style = "margin-left: 48px; margin-top: 4px;width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(rgb(255, 255, 34), orange);"></div></button>\
+                                              <button id="monthlyBut" type="button" style = "width: 75px; box-shadow: 2px 2px 1px #888888; margin-right:10px; height:25px; border-radius: 5px; background: #006699; font-weight: bold;"><div style = "float:left; color: white;">Monthly</div> <div id = "monthlyButCircle" style = "margin-left: 53px; margin-top: 4px;width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(rgb(255, 255, 34), orange);"></div></button>\
                                     </div>\
                                     </div>\
                                     </div>\
@@ -366,6 +385,9 @@ $(document).ready(function() {
             document.getElementById("weeklyBut").addEventListener("click", function(){weeklyFunc()});
             document.getElementById("monthlyBut").addEventListener("click", function(){monthlyFunc()});
             document.getElementById("helpMe").addEventListener("click", function(){help()});
-
+            if (debug){
+                toPrint+=("\n\nStarting month for: " + meals.semester + " is " + meals.sMonth + "\n\n" + "Starting date is: " + meals.sDate);
+                alert(toPrint);
+            }
         }
     });
