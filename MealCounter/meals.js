@@ -201,6 +201,7 @@ function checkTerm (){
 //start - the current month
 //numMonths - how many months have passed since the start of the term
 function daysinMonth(start, numMonths, year){
+    year+=1900;
     var count = 0;
     var i;
     for (i = start; i > (start - numMonths); i--){
@@ -257,21 +258,27 @@ function calcExtra (){
 }
 
 //Updates the borders around the buttons when one is clicked
-function updBorder(id){
-    document.getElementById(id).style.border = "2px solid #DE0000";
+//Im missing something here with JS. Not sure if it is unable to interpret the given ids as variables. 
+//I assume they need extra quotes to be interpreted correctly
+function updBorder(id, circleId){
+    document.getElementById(circleId).style.boxShadow = "1px 1px 1px #f0ff00";
+    document.getElementById(circleId).style.background = "#f5ff5a";
     document.getElementById(id).style.boxShadow = "none";
     
     if (id != "dailyBut"){
-        document.getElementById("dailyBut").style.border = "2px solid #900";
-        document.getElementById("dailyBut").style.boxShadow= "3px 3px 1px #888888";
+        document.getElementById("dailyBut").style.boxShadow= "2px 2px 1px #888888";
+        document.getElementById("dailyButCircle").style.boxShadow = "none";
+        document.getElementById("dailyButCircle").style.background = "linear-gradient(rgb(255, 255, 34), rgb(255, 192, 0))";
     }
     if (id != "weeklyBut"){
-        document.getElementById("weeklyBut").style.border = "2px solid #900";
-        document.getElementById("weeklyBut").style.boxShadow= "3px 3px 1px #888888";
+        document.getElementById("weeklyBut").style.boxShadow= "2px 2px 1px #888888";
+        document.getElementById("weeklyButCircle").style.boxShadow = "none";
+        document.getElementById("weeklyButCircle").style.background = "linear-gradient(rgb(255, 255, 34), rgb(255, 192, 0))";
     }
     if (id != "monthlyBut"){
-        document.getElementById("monthlyBut").style.border = "2px solid #900";
-        document.getElementById("monthlyBut").style.boxShadow= "3px 3px 1px #888888";
+        document.getElementById("monthlyBut").style.boxShadow= "2px 2px 1px #888888";
+        document.getElementById("monthlyButCircle").style.boxShadow = "none";
+        document.getElementById("monthlyButCircle").style.background = "linear-gradient(rgb(255, 255, 34), rgb(255, 192, 0))";
     }
 
 }
@@ -303,21 +310,21 @@ function dailyFunc(){
     timef = "day";
     calcExtra();
     updText(timef, avgMealsD.avgMealsDstr);
-    updBorder("dailyBut");
+    updBorder("dailyBut", "dailyButCircle");
 }
 
 function weeklyFunc(){
     timef = "week";
     calcExtra();
     updText(timef, avgMealsW);
-    updBorder("weeklyBut");
+    updBorder("weeklyBut", "weeklyButCircle");
 }
 
 function monthlyFunc(){
     timef = "month";
     calcExtra();
     updText(timef, avgMealsM);
-    updBorder("monthlyBut");
+    updBorder("monthlyBut", "monthlyButCircle");
 }
 
 
@@ -341,10 +348,10 @@ $(document).ready(function() {
                                             <div style = "width: 215px; margin-left: auto; margin-right:auto;"> <span style = "color:#326899; font-size: 2.3em; font-weight: bold;">MEAL</span> <span style = "color: #4abce8; font-size: 2.3em; font-weight: bold;">TRACKER</span><hr style = "width:85%;"></div>\
                                             <div style = "margin:auto; margin-top:10px; width:115px; height:115px;"><img src="http://www.juniata.edu/life/i/redesign/dining/diningicon.png" style = "width:115px; height:115px; "></div>\
                                             <div id = "onDisplay" style = "width:260px; margin:auto;"></div>\
-                                                <div style = "padding-left: 25px;width: 220px;  margin-left: auto; margin-right:auto; position:aboslute;">\
-                                                    <button id="dailyBut" type="button" style = "box-shadow: none; margin-right:10px; color: #900; border: 2px solid #DE0000; font-weight: bold;">Daily</button>\
-                                                    <button id="weeklyBut" type="button" style = "box-shadow: 3px 3px 1px #888888; margin-right:10px; color: #900; border: 2px solid #900; font-weight: bold;">Weekly</button>\
-                                                    <button id="monthlyBut" type="button" style = "box-shadow: 3px 3px 1px #888888; margin-right:10px; color: #900; border: 2px solid #900; font-weight: bold;">Monthly</button>\
+                                                <div style = "padding-left: 25px;width: 250px;  margin-left: auto; margin-right:auto; position:aboslute;">\
+                                                    <button id="dailyBut" type="button" style = "width: 60px;box-shadow: none; margin-right:10px; height:25px; background: #006699; border-radius: 5px; font-weight: bold;"><div style = "float:left; color: white;">Daily</div> <div id = "dailyButCircle" style = "margin-left: 38px; margin-top: 4px;width: 7px; height: 7px; box-shadow: 1px 1px 1px #f0ff00; border-radius: 50%; background: #f5ff5a;"></div></button>\
+                                                    <button id="weeklyBut" type="button" style = "width: 70px; box-shadow: 2px 2px 1px #888888; margin-right:10px; height:25px; border-radius: 5px; background: #006699; font-weight: bold;"><div style = "float:left; color: white;">Weekly</div> <div id = "weeklyButCircle" style = "margin-left: 48px; margin-top: 4px;width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(rgb(255, 255, 34), rgb(255, 192, 0));"></div></button>\
+                                              <button id="monthlyBut" type="button" style = "width: 75px; box-shadow: 2px 2px 1px #888888; margin-right:10px; height:25px; border-radius: 5px; background: #006699; font-weight: bold;"><div style = "float:left; color: white;">Monthly</div> <div id = "monthlyButCircle" style = "margin-left: 53px; margin-top: 4px;width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(rgb(255, 255, 34), rgb(255, 192, 0));"></div></button>\
                                     </div>\
                                     </div>\
                                     </div>\
