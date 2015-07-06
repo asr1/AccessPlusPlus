@@ -212,10 +212,10 @@ function daysinMonth(start, numMonths, year){
     year+=1900;
     var count = 0;
     var i;
-    for (i = start; i > (start - numMonths); i--){
+    for (i = (start-1); i > (start - numMonths); i--){
         count += new Date(year, i, 0).getDate();
     }
-    
+    count+=((new Date(year, meals.sMonth, 0)).getDate() - meals.sDate); //we have to add the remaining days of the initial month
     return count;
 }
 
@@ -228,7 +228,7 @@ function getTimeFrame(per){
     if (checkTerm()){
         numMonths = date.getMonth() - meals.sMonth;
         if (per == "day"){
-            numDays = date.getDate() + daysinMonth(date.getMonth(), numMonths, date.getYear()); //some dates have 31 days...
+            numDays = date.getDate() + daysinMonth(date.getMonth(), numMonths, date.getYear()); //some dates have 31, 30, or 28 (yeah im watching you february) days...
             if (debug) toPrint += ("Calculated number of passed days : " + numDays + "\n\n");
             return numDays;
         }
