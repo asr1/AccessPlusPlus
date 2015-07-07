@@ -46,13 +46,26 @@ function mealsD(avgMeals, extraW, avgMealsDstr){
     this.avgMealsDstr = avgMealsDstr;
 }
 
-//Meal plan isn't used during hollidays. For now i'm only checking for thanksgiving
+//Meal plan isn't used during hollidays. 
+//Pretty sure it aint served during thanksgiving
+//No meals are served May 25 (Memorial Day)
+//Dinner is not served on July 4 (Independance Day) - WHY only dinner?? WHy do YoU MaKE My LIfE HarDEeEeeEEr?
 function getHoliday(year){
     year+=1900;
     //Thanksgiving-- fourth thursday of november
     var thanksgivingD = new Date("November 21, " + year);
+    var memDay = new Date ("May 21, " + year); //last monday of may
+    
     while(thanksgivingD.getDay() != 4){
         thanksgivingD.setDate(thanksgivingD.getDate() + 1);
+    }
+    
+    if ((date.getDate() >= thanksgivingD.getDate().getDate()) && (date.getDate() <= (thanksgivingD.getDate()+7))){//gotta check - thanksgiving is a week yes?
+        isHoliday = true;
+    }
+    
+    while (memDay.getDay() != 1){
+        memDay.setDate(memDay.getDate() + 1);
     }
 
     if (date.getDate() == thanksgivingD.getDate()) isHoliday = true;
@@ -386,7 +399,7 @@ $(document).ready(function() {
             document.getElementById("monthlyBut").addEventListener("click", function(){monthlyFunc()});
             document.getElementById("helpMe").addEventListener("click", function(){help()});
             if (debug){
-                toPrint+=("\n\nStarting month for: " + meals.semester + " is " + meals.sMonth + "\n\n" + "Starting date is: " + meals.sDate);
+                toPrint+=("\n\nStarting month for: " + meals.semester + " is " + meals.sMonth + "\n\n" + "Starting date is: " + meals.sDate + "\n\nEnding month is: " + meals.eMonth + "\n\nEnding date is: " + meals.eDate + "\n\nIs Holiday? " + isHoliday);
                 alert(toPrint);
             }
         }
