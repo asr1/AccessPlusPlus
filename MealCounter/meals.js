@@ -315,7 +315,7 @@ function updBorder(id, circleId){
 
 
 function updText(timef, avgMeals){
-   if (debug) alert(toPrint);
+   if (debug) console.log(toPrint);
 
    if (meals.planSem != meals.semester){ //possible meal plan for the future term, but we're not currently in that term
         document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
@@ -400,7 +400,7 @@ $(document).ready(function() {
             document.getElementById("helpMe").addEventListener("click", function(){help()});
             if (debug){
                 toPrint+=("\n\nStarting month for: " + meals.semester + " is " + meals.sMonth + "\n\n" + "Starting date is: " + meals.sDate + "\n\nEnding month is: " + meals.eMonth + "\n\nEnding date is: " + meals.eDate + "\n\nIs Holiday? " + isHoliday);
-                alert(toPrint);
+                console.log(toPrint);
             }
         }
     });
