@@ -316,11 +316,16 @@ function updBorder(id, circleId){
 
 function updText(timef, avgMeals){
    if (debug) console.log(toPrint);
-
+   var avgMealsComp = avgMeals;
+    
+   if (timef == "day"){
+        avgMealsComp = avgMealsD.avgMeals;
+   }
+    
    if (startMeals == 0){ //no meal plan for the active term
             if (str.indexOf(meals.semester) == -1){
                 document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.planSem + '.</div>';
-            }
+            } //if you're looking at a future semester that does not have a meal plan
        
             else document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.semester + '.</div>';
     }
@@ -329,7 +334,7 @@ function updText(timef, avgMeals){
         document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
     }
     
-    else if (extraMeals == 0 ||  extraMeals == avgMeals){ //user is on track
+    else if (extraMeals == 0 ||  extraMeals == avgMealsComp){ //user is on track
         document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> You can still have <u><b>'+extraMeals+'</b></u> meal(s) this '+timef+'</div>';      
     }
         
@@ -337,7 +342,7 @@ function updText(timef, avgMeals){
         document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>below</u> by: <b>'+extraMeals+'</b></div>'; 
     }
     
-    else if (extraMeals > avgMeals){
+    else if (extraMeals > avgMealsComp){
         document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>above</u> by: <b>'+extraMeals+'</b></div>';   
     }
 }
@@ -345,7 +350,7 @@ function updText(timef, avgMeals){
 function dailyFunc(){
     timef = "day";
     calcExtra();
-    updText(timef, avgMealsD.avgMeals);
+    updText(timef, avgMealsD.avgMealsDstr);
     updBorder("dailyBut", "dailyButCircle");
 }
 
