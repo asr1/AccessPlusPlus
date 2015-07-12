@@ -396,7 +396,8 @@ $(document).ready(function() {
             updText("day", avgMealsD.avgMealsDstr);
                                       document.getElementById("dailyBut").addEventListener("click", function(){dailyFunc()});
             document.getElementById("dailyBut" ).onmouseover = function(){
-            this.style.backgroundColor = "#3366FF";
+                this.style.backgroundColor = "#3366FF";
+                this.style.cursor = "pointer";
             }
 
             document.getElementById("dailyBut" ).onmouseout = function(){
@@ -404,7 +405,8 @@ $(document).ready(function() {
             }
                         document.getElementById("weeklyBut").addEventListener("click", function(){weeklyFunc()});
             document.getElementById("weeklyBut" ).onmouseover = function(){
-            this.style.backgroundColor = "#3366FF";
+                this.style.backgroundColor = "#3366FF";
+                this.style.cursor = "pointer";
             }
 
             document.getElementById("weeklyBut" ).onmouseout = function(){
@@ -413,13 +415,17 @@ $(document).ready(function() {
 
             document.getElementById("monthlyBut").addEventListener("click", function(){monthlyFunc()});
             document.getElementById("monthlyBut" ).onmouseover = function(){
-            this.style.backgroundColor = "#3366FF";
+                this.style.backgroundColor = "#3366FF";
+                this.style.cursor = "pointer";
             }
 
             document.getElementById("monthlyBut" ).onmouseout = function(){
             this.style.backgroundColor = "#006699";
             }
             document.getElementById("helpMe").addEventListener("click", function(){help()});
+            document.getElementById("helpMe").onmouseover = function(){
+                    this.style.cursor = "pointer";
+            }
             if (debug){
                 toPrint+=("\n\nStarting month for: " + meals.semester + " is " + meals.sMonth + "\n\n" + "Starting date is: " + meals.sDate + "\n\nEnding month is: " + meals.eMonth + "\n\nEnding date is: " + meals.eDate + "\n\nIs Holiday? " + isHoliday);
                 console.log(toPrint);
