@@ -318,7 +318,11 @@ function updText(timef, avgMeals){
    if (debug) console.log(toPrint);
 
    if (startMeals == 0){ //no meal plan for the active term
-            document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.semester + '.</div>';
+            if (str.indexOf(meals.semester) == -1){
+                document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.planSem + '.</div>';
+            }
+       
+            else document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.semester + '.</div>';
     }
 
     else if (meals.planSem != meals.semester){ //possible meal plan for the future term, but we're not currently in that term
