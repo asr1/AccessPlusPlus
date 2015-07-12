@@ -919,6 +919,13 @@ $(document).ready(function() {
   var expBut = $('<br><div title="Generate an .ics Calendar" style = "float:left; position: absolute; padding: 15px; margin-left: 133px"><button id="exportBut" style = "border-radius: 5px; box-shadow: 1px 1px 1px #888888; padding: 5px;color: #FFF;background-color: #900;font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:17px;height:17px; margin-right: 3px;"> Export My Calendar</button></div>');
   element.append(expBut); 
   document.getElementById("exportBut").addEventListener("click", function(){expSched()});
+  document.getElementById("exportBut" ).onmouseover = function(){
+    this.style.backgroundColor = "#CC0000";
+  }
+  
+  document.getElementById("exportBut" ).onmouseout = function(){
+    this.style.backgroundColor = "#900";
+  }
 
   var waitDiv = $('<div id = "wait" style= "display: none; float:left; margin-left: 320px;"><img src="https://order.mediacomcable.com/Content/images/spinner.gif" alt="Wheres My Checkmark?" style="width:25px;height:25px"> </div>');
   element.append(waitDiv);
