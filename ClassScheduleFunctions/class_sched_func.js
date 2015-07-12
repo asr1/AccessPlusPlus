@@ -900,13 +900,9 @@ function cssEntry(backGColor, prof, nome){
 //Where the magic happens //Uhh I didn't write this. Flavia, was this you?
 $(document).ready(function() {
  var updProfs = []; //updated array with the professor information, will not contain any repeated names
-<<<<<<< HEAD
- var nome = [];  
-=======
  var nome = []; 
  //$(document).append(bootstrap);
  
->>>>>>> FlaviaR-master
  if (url == accessPlus || url == accessPlus1){
 
  
@@ -921,11 +917,6 @@ $(document).ready(function() {
   var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>');
   var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
   
-<<<<<<< HEAD
-       
-=======
-        
->>>>>>> FlaviaR-master
   var expBut = $('<br><div title="Generate an .ics Calendar" style = "float:left; position: absolute; padding: 15px; margin-left: 133px"><button id="exportBut" style = "border-radius: 5px; box-shadow: 1px 1px 1px #888888; padding: 5px;color: #FFF;background-color: #900;font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:17px;height:17px; margin-right: 3px;"> Export My Calendar</button></div>');
   element.append(expBut); 
   document.getElementById("exportBut").addEventListener("click", function(){expSched()});
