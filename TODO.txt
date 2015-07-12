@@ -1,3 +1,4 @@
 ﻿•Meal Counter: Fix math
 •Meal counter: dynamically search for start dates of each semester
 •Try to send a request to Rate My Prof page to get prof rating (viability depends on security)
+•Move deps, maybe ICS to new file (cal builder). Add reference.
