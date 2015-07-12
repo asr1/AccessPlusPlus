@@ -923,6 +923,7 @@ $(document).ready(function() {
   document.getElementById("exportBut").addEventListener("click", function(){expSched()});
   document.getElementById("exportBut" ).onmouseover = function(){
     this.style.backgroundColor = "#CC0000";
+    this.style.cursor = "pointer";
   }
   
   document.getElementById("exportBut" ).onmouseout = function(){
