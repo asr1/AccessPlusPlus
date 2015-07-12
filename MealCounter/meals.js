@@ -317,12 +317,12 @@ function updBorder(id, circleId){
 function updText(timef, avgMeals){
    if (debug) console.log(toPrint);
 
-   if (meals.planSem != meals.semester){ //possible meal plan for the future term, but we're not currently in that term
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
+   if (startMeals == 0){ //no meal plan for the active term
+            document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.semester + '.</div>';
     }
 
-    else if (startMeals == 0){ //no meal plan for the active term
-            document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.semester + '.</div>';
+    else if (meals.planSem != meals.semester){ //possible meal plan for the future term, but we're not currently in that term
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
     }
     
     else if (extraMeals == 0 ||  extraMeals == avgMeals){ //user is on track
@@ -341,7 +341,7 @@ function updText(timef, avgMeals){
 function dailyFunc(){
     timef = "day";
     calcExtra();
-    updText(timef, avgMealsD.avgMealsDstr);
+    updText(timef, avgMealsD.avgMeals);
     updBorder("dailyBut", "dailyButCircle");
 }
 
