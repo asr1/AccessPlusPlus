@@ -962,10 +962,6 @@ $(document).ready(function() {
   } 
 
   element.append(div);
-<<<<<<< HEAD
-
-=======
->>>>>>> FlaviaR-master
   element.append('<br><br><div style = "padding-left: 70px;font-size: 0.6em; width:320px;"><b>Note:</b> There is no guarantee that a given professor will have a Rate My Professor page.</div><br><br>');
   
           
