@@ -250,6 +250,9 @@ function checkClassName(id){
 	var tr = '#' + id;
 	if($(tr).html().indexOf('<!-- %=') != -1){
 		var names = $(tr).html().split('nd()">');
+        if (names[1] == undefined){ //friggin experimental classes
+            names = $(tr).html().split('/exp/">');
+        }
 		var Names = names[1].split('</a>'); //names[1] contains the class name, but it also includes a ton of stuff after it that we do not care about
 		classNames.push(Names[0]);
 		lastClassName = Names[0];
@@ -976,6 +979,7 @@ $(document).ready(function() {
   getMeetingDates(startEndDate);
   getLocations(locations);
   createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
+ 
   //checkValues(classInfoArr, true);
   //alert(classInfoArr[3].mDates);
  }
