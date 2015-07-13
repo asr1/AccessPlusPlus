@@ -250,7 +250,6 @@ function checkClassName(id){
 	var tr = '#' + id;
 	if($(tr).html().indexOf('<!-- %=') != -1){
 		var names = $(tr).html().split('nd()">');
-	//	alert(names[1]);
 		var Names = names[1].split('</a>'); //names[1] contains the class name, but it also includes a ton of stuff after it that we do not care about
 		classNames.push(Names[0]);
 		lastClassName = Names[0];
