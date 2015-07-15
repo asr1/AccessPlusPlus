@@ -284,7 +284,8 @@ function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrDates, arrLoc){
 		
 		obj = new classInfo(arrCN[i], arrMD[i], arrMTS[i], arrMTE[i], arrDates[i], arrLoc[i]);	
 		classInfoArr.push(obj);
-		
+		//alert("Debug logged obj");//debug delete me
+		//console.log(obj);//Me too
 	}		
 		
 }
@@ -751,11 +752,13 @@ function isEmpty(obj) {
 			firstTime = false;
 		}
 		//All classes have the same meeting time, in theory.
-		//NOTE that this breaks if our first class is only half a semester long and
-		//we have a class without a date. Ooops, sorry.
 		if(isEmptyString(classInfoArr[i].mDates))
 		{
 			classInfoArr[i].mDates = safetyNet;
+		}
+		else
+		{
+			safetyNet = classInfoArr[i].mDates;
 		}
 
 		//Convert Y/M/D to a date
@@ -780,7 +783,7 @@ function isEmpty(obj) {
 		
 		//Create everything
 		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].nome,classInfoArr[i].loc);
-	
+		//break;//Debug let's see if it works.
 	
 
 		
