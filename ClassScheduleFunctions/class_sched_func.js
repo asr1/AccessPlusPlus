@@ -759,7 +759,7 @@ function isEmpty(obj) {
 		{
 			classInfoArr[i].mDates = safetyNet;
 		}
-		else
+		else//This fixed the issue of having the first class be a half semester classes causing a recitation to only appear for half the semester
 		{
 			safetyNet = classInfoArr[i].mDates;
 		}
