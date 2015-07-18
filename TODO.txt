@@ -2,3 +2,9 @@
 •Meal counter: dynamically search for start dates of each semester
 •Try to send a request to Rate My Prof page to get prof rating (viability depends on security)
 •Move deps, maybe ICS to new file (cal builder). Add reference.
+
+
+Calendar: Off by one errors?
+Make one event for Monday, Wednesday, Friday not one for Monday, etc.
+
+if it says ARR, drop it from the calendar.
