@@ -256,7 +256,6 @@ function checkClassName(id){
 		var Names = names[1].split('</a>'); //names[1] contains the class name, but it also includes a ton of stuff after it that we do not care about
 		classNames.push(Names[0]);
 		lastClassName = Names[0];
-		//alert(classNames);
 	}
 }
 
@@ -287,8 +286,6 @@ function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrDates, arrLoc){
 		
 		obj = new classInfo(arrCN[i], arrMD[i], arrMTS[i], arrMTE[i], arrDates[i], arrLoc[i]);	
 		classInfoArr.push(obj);
-		//alert("Debug logged obj");//debug delete me
-		//console.log(obj);//Me too
 	}		
 		
 }
@@ -588,8 +585,9 @@ function showNotify() {
 		var eventTime = new Date(eventTime);
 		var eventTimeEnd = new Date(eventTimeEnd);
 
+		var count = 7; //The code shouldn't run more than 7 times-- we were having an issue where it was creating a new, reccurring event every week! This would lead to ~114 events in the last week of the semester, which is undesireable behavior (I've been informed).
 	
-	    while(start <= end)
+	    while(start <= end && count)
 		{
 		//Now update our counter to tomorrow
 	
@@ -597,6 +595,7 @@ function showNotify() {
 		  var eventEnd = new Date(start.setHours(eventTimeEnd.getHours(),eventTimeEnd.getMinutes()));
 		  var newDate = start.setDate(start.getDate() + 1);
 	      start = new Date(newDate);
+		
 		
 		   //Hopefully the longest, grossest line of parsey Javascript I will ever produce. --Did you see all the crap I had to write?
 		   //It converts the event to a properly formatted string
@@ -611,7 +610,6 @@ function showNotify() {
 			  until: new Date(end.setHours(1,0))
 			};
 			
-			
 			//Check to see if it's on the right day of the week.
 			 for(x = 0; x < WeekDays.length; x++)
 			 {
@@ -620,6 +618,7 @@ function showNotify() {
 					cal.addEvent(name, "Class",location, new Date(eventStartString) ,new Date(eventEndString), rule);
 				}
 			  }
+			count--;
 		}
 	}
 	
@@ -777,21 +776,10 @@ function isEmpty(obj) {
 			classInfoArr[i].loc = 'TBA';
 		}
 		
-		//DEBUG-- can be removed
-		// alert("start: "+StartDate);
-		// alert("end: "+EndDate);
-		// alert("Start Time: " + new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))));
-		// alert("end Time : " + new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))))
-		
-		
 		//Create everything
-		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].nome,classInfoArr[i].loc);
-		//break;//Debug let's see if it works.
-	
-
+		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].nome,classInfoArr[i].loc);	
 		
-	}//Note:: MIGHT be an issue with classes that only meet once (we'll
-	//have to check && pad with an 8, per the API that Past-Alex wrote during the hackathon. //Think we solved this.
+	}
 	/*
 		//Old version for reference
 		//Start wtih  Com Sci 311 Lecture
@@ -981,9 +969,7 @@ $(document).ready(function() {
   getMeetingDates(startEndDate);
   getLocations(locations);
   createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
- 
-  //checkValues(classInfoArr, true);
-  //alert(classInfoArr[3].mDates);
+
  }
 
 });

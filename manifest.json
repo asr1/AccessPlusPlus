@@ -2,7 +2,7 @@
 	"manifest_version":2,
 	"name":"Access++",
 	"description":"A hackathon project originally intended to parse accessplus and create a schedule that can be exported to Google Calendar",
-	"version":"1.0.1.0",
+	"version":"1.1.0.0",
 	"permissions":["activeTab", "tabs", "notifications", "https://accessplus.iastate.edu/*", "webNavigation"],
 	
 	"icons": { 
