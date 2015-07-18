@@ -20,6 +20,7 @@ Fixed an (unreported) issue where if the first class on a schedule was only half
 
 **Version 1.0.1.0**
 Added support for experimental classes
+Changed name of Calendar from [Object Object] to ISU Class Schedule.
 
 **Version 1.0.0.1**
 Fixed initial release.
