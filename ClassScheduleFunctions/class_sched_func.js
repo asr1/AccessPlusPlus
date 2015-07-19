@@ -228,7 +228,7 @@ function getMeetingDates(dates){
 //@param id - id of the given row
 function checkDates(id){
 	var tr = '#' + id;
-	if ($(tr).html().indexOf('&nbsp;') != -1 && containsDW(id)){
+	if ($(tr).html().indexOf('&nbsp;') != -1 && containsDW(id) || $(tr).html().indexOf('ARR.') != -1){
 		var date = $(tr).html().split(';');	
 			
 		meetingD.push(date[3]);
@@ -285,6 +285,10 @@ function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrDates, arrLoc){
 	for (i = 0; i < arrCN.length; i++){
 		
 		obj = new classInfo(arrCN[i], arrMD[i], arrMTS[i], arrMTE[i], arrDates[i], arrLoc[i]);	
+		if(arrMD[i] == "ARR.")
+		{
+			continue;
+		}
 		classInfoArr.push(obj);
 	}		
 		
@@ -626,6 +630,11 @@ function showNotify() {
 	//Used for expSched string formatting garbage
 	function timeParseHours(time)
 	{
+		if(time == '  ') //Handle ARRANGED classes.
+		{
+			return 0;
+		}
+	
 		var hrs = time.split(':');
 		var hrs1 = hrs[0];//Grab just the time
 		var hrs2 = hrs[1];//Grab the minutes and an A or P
@@ -648,6 +657,11 @@ function showNotify() {
 	//See comment above, re: garbage.
 	function timeParseMinutes(time)
 	{
+		if(time == '  ') //Handle ARRANGED classes.
+		{
+			return 0;
+		}
+	
 		var hrs = time.split(':');
 		var hrs2 = hrs[1];//Grab the minutes and an A or P
 		var front = hrs2.split(' ');
