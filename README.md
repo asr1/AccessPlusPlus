@@ -1,37 +1,31 @@
 # AccessPlusPlus
-A hackathon project originally intended to parse accessplus and create a schedule that can be exported to Google Calendar.
+This project was started in <a href="http://hackisu.com/">HackISU</a> 2015. It adds four features to <a href="https://accessplus.iastate.edu/frontdoor/login.jsp">AccessPlus for Iowa State University</a>:
 
-This project adds four features to Access Plus for Iowa State:
+* Meal counter on the dining page
+* Links to <a href="http://www.ratemyprofessors.com/">Rate My Professor</a> reviews on schedule page
+* Schedule can be exported to .ics
+* Existing schedule is displayed on registration page
 
-• Adds a meal counter to the dining page
-
-• Adds integration with Rate My Professor to the sechdule page
-
-• Allows for the exporting of a schedule to .ics from the schedule page
-
-• Displays existing schedule on registration page, updating in real time.
-
-
-#Changelog:
+# Changelog:
 
 **Version 1.2.0.0:**
-Cleaned up event creation. Now each class is one event. Before, each day of a class (M, W, F) would be created as a separate event. No more!
-I told you wasn't binary.
+* Cleaned up event creation. Now each class is one event. Before, each day of a class (M, W, F) would be created as a separate event. No more!
+(I told you wasn't binary.)
 
 **Version 1.1.0.1:**
-Added support for arranged classes. It used to be that the class appearing after an arranged class in a schedule would take on the name of the arranged class. Now the arranged class does not appear in the calendar at all.
-Also, the version numbers are not intended to be binary.
+* Fixed a bug where arranged classes would appear on the calendar. 
+(Also, the version numbers are not intended to be binary.)
 
 **Version 1.1.0.0:**
-Fixed an issue where some people were seeing classes duplicated 114 times in their schedule, progressing over each week.
-Fixed an (unreported) issue where if the first class on a schedule was only half a semester, any recitations would only appear for half a semester.
+* Fixed a bug where some schedules had classes duplicated 114 times in their schedule, progressing over each week.
+* Fixed a bug where if the first class on a schedule was only half a semester, any recitations would only appear for half a semester.
 
 **Version 1.0.1.0**
-Added support for experimental classes
-Changed name of Calendar from [Object Object] to ISU Class Schedule.
+* Added support for experimental classes.
+* Changed name of Calendar from "[Object Object]" to "ISU Class Schedule".
 
 **Version 1.0.0.1**
-Fixed initial release.
+* Fixed initial release.
 
 **Version 1.0**
-Initial release
+* Initial release.
