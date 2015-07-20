@@ -17,10 +17,12 @@ This project was started in <a href="http://hackisu.com/">HackISU</a> 2015. It a
 
 **Version 1.2.0.0:**
 * Cleaned up event creation. Now each class is one event. Before, each day of a class (M, W, F) would be created as a separate event. No more!
+
 (I told you wasn't binary.)
 
 **Version 1.1.0.1:**
 * Fixed a bug where arranged classes would appear on the calendar. 
+
 (Also, the version numbers are not intended to be binary.)
 
 **Version 1.1.0.0:**
