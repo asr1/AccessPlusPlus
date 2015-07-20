@@ -1,3 +1,2 @@
-﻿•Move dependenciess, maybe ICS to new file (cal builder). Add reference.
-•Calendar: Off by one errors (classes starting at ?
-•Make one event for Monday, Wednesday, Friday not one for Monday, etc.
+﻿•Calendar: Off by one errors (classes starting at 9:31). (Have we been able to reproduce this?)
+
