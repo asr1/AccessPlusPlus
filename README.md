@@ -1,10 +1,12 @@
 # AccessPlusPlus
-This project was started in <a href="http://hackisu.com/">HackISU</a> 2015. It adds four features to <a href="https://accessplus.iastate.edu/frontdoor/login.jsp">AccessPlus for Iowa State University</a>:
+AccessPlusPlus is a Chrome extension to improve <a href="https://accessplus.iastate.edu/frontdoor/login.jsp">AccessPlus for Iowa State University</a>. It adds four features to AccessPlus:
 
 * Meal counter on the dining page
 * Links to <a href="http://www.ratemyprofessors.com/">Rate My Professor</a> reviews on schedule page
-* Schedule can be exported to .ics
-* Existing schedule is displayed on registration page
+* Students can export their class schedule to .ics
+* Current class schedule is visible on registration page
+
+This project was started in <a href="http://hackisu.com/">HackISU</a> Spring 2015.
 
 ## How to Load
 
