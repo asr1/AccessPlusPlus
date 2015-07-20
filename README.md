@@ -6,14 +6,14 @@ This project was started in <a href="http://hackisu.com/">HackISU</a> 2015. It a
 * Schedule can be exported to .ics
 * Existing schedule is displayed on registration page
 
-# How to Load
+## How to Load
 
 1. Clone this repository locally
 2. Go to chrome://extensions in Chrome
 3. Check "Developer mode" in the upper right corner
 4. Click "Load unpacked extension..." and set the path to where you cloned the repository
 
-# Changelog:
+## Changelog
 
 **Version 1.2.0.0:**
 * Cleaned up event creation. Now each class is one event. Before, each day of a class (M, W, F) would be created as a separate event. No more!
