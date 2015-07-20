@@ -506,7 +506,6 @@ var ics = function() {
 				}
               }
             }
-					alert(rruleString);
             var calendarEvent = [
                 'BEGIN:VEVENT',
                 'CLASS:PUBLIC',
