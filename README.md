@@ -15,7 +15,7 @@ The extension is available <a href="https://chrome.google.com/webstore/detail/ac
 
 **Version 1.2.0.0:**
 * Cleaned up event creation. Now each class is one event. Before, each day of a class (M, W, F) would be created as a separate event. No more!
-(I told you wasn't binary.)
+(I told you wasn't binary).
 
 **Version 1.1.0.1:**
 * Fixed a bug where arranged classes would erroneously appear on the calendar. 
