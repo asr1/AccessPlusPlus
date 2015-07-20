@@ -1,7 +1,7 @@
 {
 	"manifest_version":2,
 	"name":"Access++",
-	"description":"A hackathon project originally intended to parse accessplus and create a schedule that can be exported to Google Calendar",
+	"description":"Gives Access Plus the following functionalities: see an acurrate +/- count of meals for this semester, integration with RMP on the class schedule, one-click schedule export to a calendar app from the class schedule page, see your schedule update in real-time as you register for classes.",
 	"version":"1.0",
 	"permissions":["activeTab", "tabs", "notifications", "https://accessplus.iastate.edu/*", "webNavigation"],
 	
@@ -16,7 +16,7 @@
 	"content_scripts":
 	[
 	{
-		"matches":["http://*/*", "https://*/*"],
+		"matches":["https://accessplus.iastate.edu/*"],
 		"js":["jquery.min.js", "ClassScheduleFunctions/class_sched_func.js"]
 
 	},
