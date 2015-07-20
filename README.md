@@ -14,6 +14,10 @@ This project adds four features to Access Plus for Iowa State:
 
 #Changelog:
 
+**Version 1.2.0.0:**
+Cleaned up event creation. Now each class is one event. Before, each day of a class (M, W, F) would be created as a separate event. No more!
+I told you wasn't binary.
+
 **Version 1.1.0.1:**
 Added support for arranged classes. It used to be that the class appearing after an arranged class in a schedule would take on the name of the arranged class. Now the arranged class does not appear in the calendar at all.
 Also, the version numbers are not intended to be binary.
