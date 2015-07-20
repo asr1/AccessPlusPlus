@@ -506,8 +506,7 @@ var ics = function() {
 				}
               }
             }
-			alert(rruleString);
-
+					alert(rruleString);
             var calendarEvent = [
                 'BEGIN:VEVENT',
                 'CLASS:PUBLIC',
@@ -2509,6 +2508,34 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	//Forcible typecasty garbage to bypass
 	//JS's loosely typed shenanigans -- don't judge, Alex -_-
 	var start = new Date(start);
+	
+	
+		//There's an issue with the library where, irrespective of the RRULE, an event is created on the first day that is sent in. This is meant to circumvent that.
+	//Whatever the first day that a class starts on is, move the event to start on that day.'
+	//This will grab the FIRST date present in the string.
+	if(toRRule(WeekDays).indexOf('MO') !== -1)
+	{
+		//Do nothing.
+	}	
+	else if(toRRule(WeekDays).indexOf('TU') !== -1)
+	{
+		start.setDate(start.getDate() + 1);
+	}
+	else if(toRRule(WeekDays).indexOf('WE') !== -1)
+	{
+		start.setDate(start.getDate() + 2);
+	}
+	else if(toRRule(WeekDays).indexOf('TH') !== -1)
+	{
+		start.setDate(start.getDate() + 3);
+	}
+	else if(toRRule(WeekDays).indexOf('FR') !== -1)
+	{
+		start.setDate(start.getDate() + 4);
+	}
+
+	
+	
 	var end = new Date(end);
 	var eventTime = new Date(eventTime);
 	var eventTimeEnd = new Date(eventTimeEnd);
@@ -2517,7 +2544,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	var eventEnd = new Date(start.setHours(eventTimeEnd.getHours(),eventTimeEnd.getMinutes()));
 	var newDate = start.setDate(start.getDate() + 1);
 	start = new Date(newDate);
-		
+	
 	 //Hopefully the longest, grossest line of parsey Javascript I will ever produce. --Did you see all the crap I had to write?
 	//It converts the event to a properly formatted string
 	 var eventStartString = (eventStart.getMonth()+1).toString().concat("/").concat(eventStart.getDate().toString()).concat("/").concat(eventStart.getFullYear().toString()).concat(" ").concat(eventStart.getHours().toString()).concat(":").concat(eventStart.getMinutes().toString());//.concat(" PM"));
@@ -2529,6 +2556,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		freq: "WEEKLY",
 		until: new Date(end.setHours(1,0)),
 	};
+	
 		cal.addEvent(name, "Class",location, new Date(eventStartString) ,new Date(eventEndString), rule, toRRule(WeekDays));
 }
 	
