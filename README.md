@@ -6,6 +6,8 @@ This project was started in <a href="http://hackisu.com/">HackISU</a> 2015. It a
 * Schedule can be exported to .ics
 * Existing schedule is displayed on registration page
 
+The extension is available <a href="https://chrome.google.com/webstore/detail/access%2B%2B/cdchknkpbdccmalfabhdjjkckajhbdif">here</a>.
+
 # Changelog:
 
 **Version 1.2.0.0:**
