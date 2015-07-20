@@ -18,7 +18,7 @@ The extension is available <a href="https://chrome.google.com/webstore/detail/ac
 (I told you wasn't binary.)
 
 **Version 1.1.0.1:**
-* Fixed a bug where arranged classes would appear on the calendar. 
+* Fixed a bug where arranged classes would not appear on the calendar. 
 (Also, the version numbers are not intended to be binary.)
 
 **Version 1.1.0.0:**
