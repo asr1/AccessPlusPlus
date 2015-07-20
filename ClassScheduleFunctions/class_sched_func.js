@@ -412,7 +412,7 @@ var ics = function() {
          * @param  {string} begin       Beginning date of event
          * @param  {string} stop        Ending date of event
          */
-        'addEvent': function(subject, description, location, begin, stop, rrule) {
+        'addEvent': function(subject, description, location, begin, stop, rrule, days) {
             // I'm not in the mood to make these optional... So they are all required
             if (typeof subject === 'undefined' ||
                 typeof description === 'undefined' ||
@@ -499,8 +499,14 @@ var ics = function() {
                 if (rrule.count) {
                   rruleString += ';COUNT=' + rrule.count;
                 }
+				
+				if(days)
+				{
+					rruleString+=';BYDAY=' + days;
+				}
               }
             }
+			alert(rruleString);
 
             var calendarEvent = [
                 'BEGIN:VEVENT',
@@ -2493,82 +2499,44 @@ function showNotify() {
     }
 }    
 
-	//Probably the best textbook example for when you should make a function.
-	//Takes in the start and end date and repeat frequency, does some ugly formatting
-	//And churns out a schedule
-	//Start is the day the class starts, end is the day it ends. EventStart is the time of day it starts
-	//EventEnd is the time of day the event ends, Weekdays is the days of week the event should occur on
-	//(An array of integers is expected)
-	function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, location) //Got rid  of the subject parameter since this isnt something i can get from A++ page, not sure if its necessary
-	{
+//Takes in the start and end date and repeat frequency, does some ugly formatting
+//And churns out a schedule
+//Start is the day the class starts, end is the day it ends. EventStart is the time of day it starts
+//EventEnd is the time of day the event ends, Weekdays is the days of week the event should occur on
+//(An array of integers is expected)
+function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, location)
+{
+	//Forcible typecasty garbage to bypass
+	//JS's loosely typed shenanigans -- don't judge, Alex -_-
+	var start = new Date(start);
+	var end = new Date(end);
+	var eventTime = new Date(eventTime);
+	var eventTimeEnd = new Date(eventTimeEnd);
 
-	
-		//Forcible typecasty garbage to bypass
-		//JS's loosely typed shenanigans -- don't judge, Alex -_-
-		var start = new Date(start);
-		var end = new Date(end);
-		var eventTime = new Date(eventTime);
-		var eventTimeEnd = new Date(eventTimeEnd);
-
-		var count = 7; //The code shouldn't run more than 7 times-- we were having an issue where it was creating a new, reccurring event every week! This would lead to ~114 events in the last week of the semester, which is undesireable behavior (I've been informed).
-	
-	    while(start <= end && count)
-		{
-		//Now update our counter to tomorrow
-	
-		  var eventStart = new Date(start.setHours(eventTime.getHours(), eventTime.getMinutes()));
-		  var eventEnd = new Date(start.setHours(eventTimeEnd.getHours(),eventTimeEnd.getMinutes()));
-		  var newDate = start.setDate(start.getDate() + 1);
-	      start = new Date(newDate);
+	var eventStart = new Date(start.setHours(eventTime.getHours(), eventTime.getMinutes()));
+	var eventEnd = new Date(start.setHours(eventTimeEnd.getHours(),eventTimeEnd.getMinutes()));
+	var newDate = start.setDate(start.getDate() + 1);
+	start = new Date(newDate);
 		
-		
-		   //Hopefully the longest, grossest line of parsey Javascript I will ever produce. --Did you see all the crap I had to write?
-		   //It converts the event to a properly formatted string
-		 var eventStartString = (eventStart.getMonth()+1).toString().concat("/").concat(eventStart.getDate().toString()).concat("/").concat(eventStart.getFullYear().toString()).concat(" ").concat(eventStart.getHours().toString()).concat(":").concat(eventStart.getMinutes().toString());//.concat(" PM"));
-		 
-		 //There is a discrepancy between indexing in months, hence the + 1
-		 var eventEndString = (eventEnd.getMonth()+1).toString().concat("/").concat(eventEnd.getDate().toString()).concat("/").concat(eventEnd.getFullYear().toString()).concat(" ").concat(eventEnd.getHours().toString()).concat(":").concat(eventEnd.getMinutes().toString());//.concat(" PM"));
-	
+	 //Hopefully the longest, grossest line of parsey Javascript I will ever produce. --Did you see all the crap I had to write?
+	//It converts the event to a properly formatted string
+	 var eventStartString = (eventStart.getMonth()+1).toString().concat("/").concat(eventStart.getDate().toString()).concat("/").concat(eventStart.getFullYear().toString()).concat(" ").concat(eventStart.getHours().toString()).concat(":").concat(eventStart.getMinutes().toString());//.concat(" PM"));
+	 
+	 //There is a discrepancy between indexing in months, hence the + 1
+	 var eventEndString = (eventEnd.getMonth()+1).toString().concat("/").concat(eventEnd.getDate().toString()).concat("/").concat(eventEnd.getFullYear().toString()).concat(" ").concat(eventEnd.getHours().toString()).concat(":").concat(eventEnd.getMinutes().toString());
 
-	
-	//If we can't get this to work, we can delete the entire RRule.js dependency.
-				// var rule = new RRule({
-				// freq: RRule.WEEKLY,
-				// interval: 1,
-				// byweekday: toRRule(WeekDays),
-				// rule: true,
-				// until: new Date(end.setHours(1,0))
-			// });
-	
-				var rule = {
-			  freq: "WEEKLY",
-			  until: new Date(end.setHours(1,0)),
-			  byweekday: toRRule(WeekDays)
-			};
-			
-			
-			//If we can get a library to recognize our weekday reccurring rule, we would only need this line.
-			//Could get rid of all the looping, both for and while.
-			
-			
-			//cal.addEvent(name, "Class",location, new Date(eventStartString) ,new Date(eventEndString), rule);
-			
-			//Check to see if it's on the right day of the week.
-			 for(x = 0; x < WeekDays.length; x++)
-			 {
-				if(eventStart.getDay().toString() == WeekDays[x])
-				{   
-					cal.addEvent(name, "Class",location, new Date(eventStartString) ,new Date(eventEndString), rule);
-				}
-			  }
-			count--;
-		}
-	}
+	var rule = {
+		freq: "WEEKLY",
+		until: new Date(end.setHours(1,0)),
+	};
+		cal.addEvent(name, "Class",location, new Date(eventStartString) ,new Date(eventEndString), rule, toRRule(WeekDays));
+}
 	
 	//Converts weekdays to RRULE stating byrules
 	function toRRule(WeekDays)
 	{
 		var ret = "";
+		var retArr = [];
 		//Someone has i as a loop in some global scope such that it
 		//Can never be used again without breaking things. WHY?
 		//(perhaps in create schedule, which would make it my fault?)
@@ -2580,27 +2548,35 @@ function showNotify() {
 					continue;
 				case 1:
 					ret += "MO,";
+					retArr.push(RRule.MO);
 					break;
 				case 2:
 					ret += "TU,"
+					retArr.push(RRule.TU);
 					break;
 				case 3:
 					ret += "WE,"
+					retArr.push(RRule.WE);
 					break;
 				case 4:
 					ret += "TH,"
+					retArr.push(RRule.TH);
 					break;
 				case 5:
 					ret += "FR,"
+					retArr.push(RRule.FR);
 					break;
 				case 6://No need to support weekends, but what the hell.
 					ret += "SA,"
+					retArr.push(RRule.SA);
 					break;
 				case 7:
 					ret += "SU,"
+					retArr.push(RRule.SU);
 					break;
 			}
 		  }
+			//return retArr;
 			return ret.substring(0,ret.length-1); //Remove the trailing comma.  		  
 	}
 	
