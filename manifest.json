@@ -2,7 +2,7 @@
 	"manifest_version":2,
 	"name":"Access++",
 	"description":"This extension adds four pieces of functionality to Iowa State's Access Plus: Meal counter on the dining page, Links to Rate My Professor reviews on schedule page, Export schedule to .ics, Existing schedule is displayed on registration page.",
-	"version":"1.2.0.1",
+	"version":"1.2.1.0",
 	"permissions":["activeTab", "tabs", "notifications", "https://accessplus.iastate.edu/*", "webNavigation"],
 	
 	"icons": { 
