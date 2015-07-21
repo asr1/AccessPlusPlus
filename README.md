@@ -20,6 +20,10 @@ The current released version is available <a href="https://chrome.google.com/web
 
 ## Changelog
 
+**Version 1.2.1.1:**
+* Cleaned up comments.
+* Removed unused functions.
+
 **Version 1.2.1.0:**
 * Decreased permissions needed.
 * Moved dependencies out of class_sched_func.js.
