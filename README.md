@@ -22,10 +22,10 @@ The current released version is available <a href="https://chrome.google.com/web
 
 **Version 1.2.1.0:**
 * Decreased permissions needed.
-* Moved dependencies out of class_sched_func.js
-* Consolidated JQuery references
-* Removed old files
-* Cleaned up heirarchy
+* Moved dependencies out of class_sched_func.js.
+* Consolidated JQuery references.
+* Removed old files.
+* Cleaned up heirarchy.
 
 
 **Version 1.2.0.1:**
@@ -37,7 +37,7 @@ The current released version is available <a href="https://chrome.google.com/web
 
 **Version 1.1.0.1:**
 * Fixed a bug where arranged classes would erroneously appear on the calendar. 
-(Also, the version numbers are not intended to be binary.)
+(Also, the version numbers are not intended to be binary).
 
 **Version 1.1.0.0:**
 * Fixed a bug where some schedules had classes duplicated 114 times in their schedule, progressing over each week.
