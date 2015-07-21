@@ -10,7 +10,7 @@ var OVERRIDE_RULE = true; //Used to force an RRUle into modified ics.js library
 var url =  window.location.href;  
 var accessPlus = "https://accessplus.iastate.edu/servlet/adp.A_Plus"; //possible url for access plus after first access
 var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //possible url for access plus 
-var bootstrap =  ' <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>';
+
 
 var img = document.createElement("img"); 
 img.src = "http://i.imgur.com/dSvcdl.gif"; //I regret nothing
