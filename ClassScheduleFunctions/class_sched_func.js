@@ -612,6 +612,9 @@ return true;
 		var StartDate = new Date(DateArrs[0].year,DateArrs[0].month,DateArrs[0].day);
 		var EndDate = new Date(DateArrs[1].year,DateArrs[1].month,DateArrs[1].day);
 		
+		EndDate.setDate(EndDate.getDate() -6);//There are no classes during finals week.
+		
+		
 		//Change days from M T R to 1 2 4
 		var meetDays = convertDays(classInfoArr[i].mDays);
 		
