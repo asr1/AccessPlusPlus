@@ -19,7 +19,7 @@ The current released version is available <a href="https://chrome.google.com/web
 
 
 ## Changelog
-**Version 1.2.1.1:**
+**Version 1.2.1.2:**
 * Removed unneeded references
 
 **Version 1.2.1.1:**
