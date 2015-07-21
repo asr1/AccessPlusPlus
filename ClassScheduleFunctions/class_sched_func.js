@@ -6,7 +6,7 @@
 //be created. ClassInfo1: name: Math, meetingDays: M, W; Meeting Times: 10:00 A, Meeting End Time: 11:00A, startendDate: : 01/15/2014-05/25/2014
 //be created. ClassInfo2: name: Math, meetingDays: T, R; Meeting Times: 8:00 A, Meeting End Time: 9:00A, startendDate: : 01/15/2014-05/25/2014
 
-var OVERRIDE_RULE = true;
+var OVERRIDE_RULE = true; //Used to force an RRUle into modified ics.js library
 var url =  window.location.href;  
 var accessPlus = "https://accessplus.iastate.edu/servlet/adp.A_Plus"; //possible url for access plus after first access
 var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //possible url for access plus 
@@ -44,7 +44,7 @@ var classInfoArr = []; //will store objects which contain (hopefully) all of the
 //whether a calendar was created successfully or not
 var convSuccess = false;
 
-//This comment is mostly wrong.
+//This comment is mostly wrong. //Can we make it right?
 //ClassInfo object, each object will contain all needed information for the calendar exportation
 //nome - class name
 //mDays - meeting days, all days of the week where the class meets
@@ -66,9 +66,9 @@ function classInfo(nome, mDays, mTimesS, mTimesE, mDates, loc){
 //No. Whoever developed this ancient tome decided to write this masterpeace as if we were still stuck in the 80s, 
 //where friggin ids were mythical beings who should never be disturbed for fear of divine retribution. 
 //So how on earth are we supposed to find the ridiculous amount of data that we need in order to get this plugin to work??
-//Well, after cussing at A++ with every insult known/unkown to men, and developing a dislike which burned like acidic poison 
-//for this rare gem of a website, i decided to wholeheartedly embrace hacky code. 
-//AKA: lets inject an id for each table and use them to search for the required info. IN YOUR FACE ACCESS PLUS
+//Well, after cussing at A++ with every insult known (and a few unkown) to man, and developing a dislike which burned like
+//acidic poison for this rare gem of a website, I decided to wholeheartedly embrace hacky code. 
+//In other words: lets inject an id for each table and use them to search for the required info. IN YOUR FACE ACCESS PLUS
 //-----------------------------------------------------------------------------
 
 //Keeps track of the current row id
@@ -396,8 +396,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	//JS's loosely typed shenanigans -- don't judge, Alex -_-
 	var start = new Date(start);
 	
-	
-		//There's an issue with the library where, irrespective of the RRULE, an event is created on the first day that is sent in. This is meant to circumvent that.
+	//There's an issue with the library where, irrespective of the RRULE, an event is created on the first day that is sent in. This is meant to circumvent that.
 	//Whatever the first day that a class starts on is, move the event to start on that day.'
 	//This will grab the FIRST date present in the string.
 	if(toRRule(WeekDays).indexOf('MO') !== -1)
@@ -420,8 +419,6 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	{
 		start.setDate(start.getDate() + 4);
 	}
-
-	
 	
 	var end = new Date(end);
 	var eventTime = new Date(eventTime);
@@ -552,11 +549,9 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		{
 			return 5;
 		}
-		return 8; //Invalid, see API for more info.
-		
+		return 8; //Invalid, see below for more info.
 	}
 	
-
 //Tests if string contains only spaces
 function isEmptyString(obj)
 {
@@ -571,35 +566,10 @@ return true;
 
 }
 
-// Speed up calls to hasOwnProperty
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-//Some utility code that isn't included in the language.
-function isEmpty(obj) {
-
-    // null and undefined are "empty"
-    if (obj == null) return true;
-
-    // Assume if it has a length property with a non-zero value
-    // that that property is correct.
-    if (obj.length > 0)    return false;
-    if (obj.length === 0)  return true;
-
-
-    // Otherwise, does it have any properties of its own?
-    // Note that this doesn't handle
-    // toString and valueOf enumeration bugs in IE < 9
-    for (var key in obj) {
-        if (hasOwnProperty.call(obj, key)) return false;
-    }
-
-    return true;
-}
-	
 	function convertDays(days)
 	{
 		var ret = new Array();
-		ret.push(8);//Actually this should make things easier-- instead of checking "hey, is this a length of one? And if so, adding an 8, we can just start with an 8, and things *should* work. I think. It's been a few months since I wrote/looked at the API. Also, I'm sorry for all of this.
+		ret.push(8);//Actually this should make things easier-- instead of checking "hey, is this a length of one? And if so, adding an 8, we can just start with an 8.
 		var tempDays = days.split(' ');
 		for(var i =0; i< tempDays.length; i++)
 		{
@@ -670,12 +640,8 @@ function isEmpty(obj) {
         setTimeout(function(){document.getElementById("wait").style.display = "none";}, 850);
 		cal.download(cal); //ICS format 
 
-		//cal.download(cal,".csv"); //If we want different extensions
-		              
-
+		//cal.download(cal,".csv"); //If we want different extensions              
 	}   
-
-//-------------------------------</Calendar>--------------------------------------
 
 //meetingDate object, will contain the different parts of the meeting date string, such as month, date year
 //month - given month, has to be reduced by 1
@@ -729,18 +695,6 @@ function splitDates(date){
 	return objArr;
 }
 
-/*
-//Was attempting to send a request to a website to be able to parse 
-//the received page. Apparently cross-domain access is illegal with ajax - bummer
-function getPage() { //illegal
-	$.ajax({url: 'https://www.ratemyprofessors.com/search.jsp?query=LATHROP+Iowa+State+University'}).
-		done(function(pageHtml) {
-			alert(pageHtml.html());
-	});
-}
-*/
-
-
 //Calculates the "ideal" div size according to the number of found teachers
 //@param number - number of teachers
 function getBoxSize(number){
@@ -764,6 +718,10 @@ function cssEntry(backGColor, prof, nome){
                 </td></tr></table></div>';		
 	
 }
+
+//-------------------------------</Calendar>--------------------------------------
+
+//-------------------------------<Display>--------------------------------------
 
 //Where the magic happens //Uhh I didn't write this. Flavia, was this you?
 $(document).ready(function() {
