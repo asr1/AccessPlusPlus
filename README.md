@@ -19,6 +19,9 @@ The current released version is available <a href="https://chrome.google.com/web
 
 
 ## Changelog
+**Version 1.2.2.0:**
+* Classes no longer occur during finals' week.
+
 **Version 1.2.1.2:**
 * Removed unneeded references.
 

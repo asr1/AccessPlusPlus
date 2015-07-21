@@ -436,6 +436,10 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	 //There is a discrepancy between indexing in months, hence the + 1
 	 var eventEndString = (eventEnd.getMonth()+1).toString().concat("/").concat(eventEnd.getDate().toString()).concat("/").concat(eventEnd.getFullYear().toString()).concat(" ").concat(eventEnd.getHours().toString()).concat(":").concat(eventEnd.getMinutes().toString());
 
+	 //TODO: Skip the addition of any date that returns true in this function
+	 //TODO, nb: This function only returns true for Thanksgiving Day, not the whole week.
+	// check_holiday (dt_date)
+	 
 	var rule = {
 		freq: "WEEKLY",
 		until: new Date(end.setHours(1,0)),
