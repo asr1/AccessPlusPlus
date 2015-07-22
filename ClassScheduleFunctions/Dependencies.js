@@ -1,4 +1,4 @@
-//ICS.JS
+//Blob.js
 ! function(a) {
     "use strict";
     if (a.URL = a.URL || a.webkitURL, a.Blob && a.URL) try {
@@ -230,6 +230,7 @@ var ics = function() {
     }
 };
 
+//ICS.js
 var ics = function() {
     'use strict';
 

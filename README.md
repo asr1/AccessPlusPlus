@@ -64,4 +64,4 @@ The current released version is available <a href="https://chrome.google.com/web
 * Initial release.
 
 ## Dependencies
-This project uses a modified version of <a href="https://github.com/nwcell/ics.js/">ics.js</a>.
+This project uses a modified version of <a href="https://github.com/connorbode/ics.js">Connorbode's fork of </a> <a href="https://github.com/nwcell/ics.js/">ics.js</a>, which in turn uses <a href="https://github.com/eligrey/Blob.js">Blob.js.</a>
