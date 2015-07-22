@@ -6,11 +6,11 @@
 //be created. ClassInfo1: name: Math, meetingDays: M, W; Meeting Times: 10:00 A, Meeting End Time: 11:00A, startendDate: : 01/15/2014-05/25/2014
 //be created. ClassInfo2: name: Math, meetingDays: T, R; Meeting Times: 8:00 A, Meeting End Time: 9:00A, startendDate: : 01/15/2014-05/25/2014
 
-var OVERRIDE_RULE = true;
+var OVERRIDE_RULE = true; //Used to force an RRUle into modified ics.js library
 var url =  window.location.href;  
 var accessPlus = "https://accessplus.iastate.edu/servlet/adp.A_Plus"; //possible url for access plus after first access
 var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //possible url for access plus 
-var bootstrap =  ' <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>';
+
 
 var img = document.createElement("img"); 
 img.src = "http://i.imgur.com/dSvcdl.gif"; //I regret nothing
@@ -43,10 +43,9 @@ var classInfoArr = []; //will store objects which contain (hopefully) all of the
 
 //whether a calendar was created successfully or not
 var convSuccess = false;
-
 var toPrint = "";
 
-//This comment is mostly wrong.
+//This comment is mostly wrong. //Can we make it right?
 //ClassInfo object, each object will contain all needed information for the calendar exportation
 //nome - class name
 //mDays - meeting days, all days of the week where the class meets
@@ -68,9 +67,9 @@ function classInfo(nome, mDays, mTimesS, mTimesE, mDates, loc){
 //No. Whoever developed this ancient tome decided to write this masterpeace as if we were still stuck in the 80s, 
 //where friggin ids were mythical beings who should never be disturbed for fear of divine retribution. 
 //So how on earth are we supposed to find the ridiculous amount of data that we need in order to get this plugin to work??
-//Well, after cussing at A++ with every insult known/unkown to men, and developing a dislike which burned like acidic poison 
-//for this rare gem of a website, i decided to wholeheartedly embrace hacky code. 
-//AKA: lets inject an id for each table and use them to search for the required info. IN YOUR FACE ACCESS PLUS
+//Well, after cussing at A++ with every insult known (and a few unkown) to man, and developing a dislike which burned like
+//acidic poison for this rare gem of a website, I decided to wholeheartedly embrace hacky code. 
+//In other words: lets inject an id for each table and use them to search for the required info. IN YOUR FACE ACCESS PLUS
 //-----------------------------------------------------------------------------
 
 //Keeps track of the current row id
@@ -320,7 +319,7 @@ function checkValues (arr, isClassInfo){ //just for testing purposes
             toPrint += " ";
 		}
 	}
-    alert(toPrint);
+    //alert(toPrint);
 
 }
 
@@ -376,201 +375,6 @@ function splitDates(date){
 	return objArr;
 }
 
-
-
-
-//Dependencies. I'm so sorry for what I've done to what used to resemble organization in this place.
-//ICS.JS
-!function(a){"use strict";if(a.URL=a.URL||a.webkitURL,a.Blob&&a.URL)try{return void new Blob}catch(b){}var c=a.BlobBuilder||a.WebKitBlobBuilder||a.MozBlobBuilder||function(a){var b=function(a){return Object.prototype.toString.call(a).match(/^\[object\s(.*)\]$/)[1]},c=function(){this.data=[]},d=function(a,b,c){this.data=a,this.size=a.length,this.type=b,this.encoding=c},e=c.prototype,f=d.prototype,g=a.FileReaderSync,h=function(a){this.code=this[this.name=a]},i="NOT_FOUND_ERR SECURITY_ERR ABORT_ERR NOT_READABLE_ERR ENCODING_ERR NO_MODIFICATION_ALLOWED_ERR INVALID_STATE_ERR SYNTAX_ERR".split(" "),j=i.length,k=a.URL||a.webkitURL||a,l=k.createObjectURL,m=k.revokeObjectURL,n=k,o=a.btoa,p=a.atob,q=a.ArrayBuffer,r=a.Uint8Array,s=/^[\w-]+:\/*\[?[\w\.:-]+\]?(?::[0-9]+)?/;for(d.fake=f.fake=!0;j--;)h.prototype[i[j]]=j+1;return k.createObjectURL||(n=a.URL=function(a){var b,c=document.createElementNS("http://www.w3.org/1999/xhtml","a");return c.href=a,"origin"in c||("data:"===c.protocol.toLowerCase()?c.origin=null:(b=a.match(s),c.origin=b&&b[1])),c}),n.createObjectURL=function(a){var b,c=a.type;return null===c&&(c="application/octet-stream"),a instanceof d?(b="data:"+c,"base64"===a.encoding?b+";base64,"+a.data:"URI"===a.encoding?b+","+decodeURIComponent(a.data):o?b+";base64,"+o(a.data):b+","+encodeURIComponent(a.data)):l?l.call(k,a):void 0},n.revokeObjectURL=function(a){"data:"!==a.substring(0,5)&&m&&m.call(k,a)},e.append=function(a){var c=this.data;if(r&&(a instanceof q||a instanceof r)){for(var e="",f=new r(a),i=0,j=f.length;j>i;i++)e+=String.fromCharCode(f[i]);c.push(e)}else if("Blob"===b(a)||"File"===b(a)){if(!g)throw new h("NOT_READABLE_ERR");var k=new g;c.push(k.readAsBinaryString(a))}else a instanceof d?"base64"===a.encoding&&p?c.push(p(a.data)):"URI"===a.encoding?c.push(decodeURIComponent(a.data)):"raw"===a.encoding&&c.push(a.data):("string"!=typeof a&&(a+=""),c.push(unescape(encodeURIComponent(a))))},e.getBlob=function(a){return arguments.length||(a=null),new d(this.data.join(""),a,"raw")},e.toString=function(){return"[object BlobBuilder]"},f.slice=function(a,b,c){var e=arguments.length;return 3>e&&(c=null),new d(this.data.slice(a,e>1?b:this.data.length),c,this.encoding)},f.toString=function(){return"[object Blob]"},f.close=function(){this.size=0,delete this.data},c}(a);a.Blob=function(a,b){var d=b?b.type||"":"",e=new c;if(a)for(var f=0,g=a.length;g>f;f++)e.append(a[f]);return e.getBlob(d)}}("undefined"!=typeof self&&self||"undefined"!=typeof window&&window||this.content||this);var saveAs=saveAs||"undefined"!=typeof navigator&&navigator.msSaveOrOpenBlob&&navigator.msSaveOrOpenBlob.bind(navigator)||function(a){"use strict";if("undefined"==typeof navigator||!/MSIE [1-9]\./.test(navigator.userAgent)){var b=a.document,c=function(){return a.URL||a.webkitURL||a},d=b.createElementNS("http://www.w3.org/1999/xhtml","a"),e=!a.externalHost&&"download"in d,f=function(c){var d=b.createEvent("MouseEvents");d.initMouseEvent("click",!0,!1,a,0,0,0,0,0,!1,!1,!1,!1,0,null),c.dispatchEvent(d)},g=a.webkitRequestFileSystem,h=a.requestFileSystem||g||a.mozRequestFileSystem,i=function(b){(a.setImmediate||a.setTimeout)(function(){throw b},0)},j="application/octet-stream",k=0,l=10,m=function(b){var d=function(){"string"==typeof b?c().revokeObjectURL(b):b.remove()};a.chrome?d():setTimeout(d,l)},n=function(a,b,c){b=[].concat(b);for(var d=b.length;d--;){var e=a["on"+b[d]];if("function"==typeof e)try{e.call(a,c||a)}catch(f){i(f)}}},o=function(b,i){var l,o,p,q=this,r=b.type,s=!1,t=function(){n(q,"writestart progress write writeend".split(" "))},u=function(){if((s||!l)&&(l=c().createObjectURL(b)),o)o.location.href=l;else{var d=a.open(l,"_blank");void 0==d&&"undefined"!=typeof safari&&(a.location.href=l)}q.readyState=q.DONE,t(),m(l)},v=function(a){return function(){return q.readyState!==q.DONE?a.apply(this,arguments):void 0}},w={create:!0,exclusive:!1};return q.readyState=q.INIT,i||(i="download"),e?(l=c().createObjectURL(b),d.href=l,d.download=i,f(d),q.readyState=q.DONE,t(),void m(l)):(a.chrome&&r&&r!==j&&(p=b.slice||b.webkitSlice,b=p.call(b,0,b.size,j),s=!0),g&&"download"!==i&&(i+=".download"),(r===j||g)&&(o=a),h?(k+=b.size,void h(a.TEMPORARY,k,v(function(a){a.root.getDirectory("saved",w,v(function(a){var c=function(){a.getFile(i,w,v(function(a){a.createWriter(v(function(c){c.onwriteend=function(b){o.location.href=a.toURL(),q.readyState=q.DONE,n(q,"writeend",b),m(a)},c.onerror=function(){var a=c.error;a.code!==a.ABORT_ERR&&u()},"writestart progress write abort".split(" ").forEach(function(a){c["on"+a]=q["on"+a]}),c.write(b),q.abort=function(){c.abort(),q.readyState=q.DONE},q.readyState=q.WRITING}),u)}),u)};a.getFile(i,{create:!1},v(function(a){a.remove(),c()}),v(function(a){a.code===a.NOT_FOUND_ERR?c():u()}))}),u)}),u)):void u())},p=o.prototype,q=function(a,b){return new o(a,b)};return p.abort=function(){var a=this;a.readyState=a.DONE,n(a,"abort")},p.readyState=p.INIT=0,p.WRITING=1,p.DONE=2,p.error=p.onwritestart=p.onprogress=p.onwrite=p.onabort=p.onerror=p.onwriteend=null,q}}("undefined"!=typeof self&&self||"undefined"!=typeof window&&window||this.content);"undefined"!=typeof module&&null!==module?module.exports=saveAs:"undefined"!=typeof define&&null!==define&&null!=define.amd&&define([],function(){return saveAs});var ics=function(){"use strict";if(navigator.userAgent.indexOf("MSIE")>-1&&-1==navigator.userAgent.indexOf("MSIE 10"))return void console.log("Unsupported Browser");var a=-1!==navigator.appVersion.indexOf("Win")?"\r\n":"\n",b=[],c=["BEGIN:VCALENDAR","VERSION:2.0"].join(a),d=a+"END:VCALENDAR";return{events:function(){return b},calendar:function(){return c+a+b.join(a)+d},addEvent:function(c,d,e,f,g,h){if("undefined"==typeof c||"undefined"==typeof d||"undefined"==typeof e||"undefined"==typeof f||"undefined"==typeof g)return!1;if(h&&!h.rule){if("YEARLY"!==h.freq&&"MONTHLY"!==h.freq&&"WEEKLY"!==h.freq&&"DAILY"!==h.freq)throw"Recurrence rule frequency must be provided and be one of the following: 'YEARLY', 'MONTHLY', 'WEEKLY', or 'DAILY'";if(h.until&&isNaN(Date.parse(h.until)))throw"Recurrence rule 'until' must be a valid date string";if(h.interval&&isNaN(parseInt(h.interval)))throw"Recurrence rule 'interval' must be an integer";if(h.count&&isNaN(parseInt(h.count)))throw"Recurrence rule 'count' must be an integer"}var i=new Date(f),j=new Date(g),k=("0000"+i.getFullYear().toString()).slice(-4),l=("00"+(i.getMonth()+1).toString()).slice(-2),m=("00"+i.getDate().toString()).slice(-2),n=("00"+i.getHours().toString()).slice(-2),o=("00"+i.getMinutes().toString()).slice(-2),p=("00"+i.getMinutes().toString()).slice(-2),q=("0000"+j.getFullYear().toString()).slice(-4),r=("00"+(j.getMonth()+1).toString()).slice(-2),s=("00"+j.getDate().toString()).slice(-2),t=("00"+j.getHours().toString()).slice(-2),u=("00"+j.getMinutes().toString()).slice(-2),v=("00"+j.getMinutes().toString()).slice(-2),w="",x="";o+p+u+v!==0&&(w="T"+n+o+p,x="T"+t+u+v);var y,z=k+l+m+w,A=q+r+s+x;if(h)if(h.rule)y=h.rule;else{if(y="RRULE:FREQ="+h.freq,h.until){var B=new Date(Date.parse(h.until)).toISOString();y+=";UNTIL="+B.substring(0,B.length-13).replace(/[-]/g,"")+"000000Z"}h.interval&&(y+=";INTERVAL="+h.interval),h.count&&(y+=";COUNT="+h.count)}var C=["BEGIN:VEVENT","CLASS:PUBLIC","DESCRIPTION:"+d,"DTSTART;VALUE=DATE:"+z,"DTEND;VALUE=DATE:"+A,"LOCATION:"+e,"SUMMARY;LANGUAGE=en-us:"+c,"TRANSP:TRANSPARENT","END:VEVENT"];return y&&C.splice(4,0,y),C=C.join(a),b.push(C),C},download:function(e,f){if(b.length<1)return!1;f="undefined"!=typeof f?f:".ics",e="undefined"!=typeof e?e:"calendar";var g,h=c+a+b.join(a)+d;if(-1===navigator.userAgent.indexOf("MSIE 10"))g=new Blob([h]);else{var i=new BlobBuilder;i.append(h),g=i.getBlob("text/x-vCalendar;charset="+document.characterSet)}return saveAs(g,e+f),h}}};
-var ics = function() {
-    'use strict';
-
-    if (navigator.userAgent.indexOf('MSIE') > -1 && navigator.userAgent.indexOf('MSIE 10') == -1) {
-        console.log('Unsupported Browser');
-        return;
-    }
-
-    var SEPARATOR = (navigator.appVersion.indexOf('Win') !== -1) ? '\r\n' : '\n';
-    var calendarEvents = [];
-    var calendarStart = [
-        'BEGIN:VCALENDAR',
-        'VERSION:2.0'
-    ].join(SEPARATOR);
-    var calendarEnd = SEPARATOR + 'END:VCALENDAR';
-
-    return {
-        /**
-         * Returns events array
-         * @return {array} Events
-         */
-        'events': function() {
-            return calendarEvents;
-        },
-
-        /**
-         * Returns calendar
-         * @return {string} Calendar in iCalendar format
-         */
-        'calendar': function() {
-            return calendarStart + SEPARATOR + calendarEvents.join(SEPARATOR) + calendarEnd;
-        },
-
-        /**
-         * Add event to the calendar
-         * @param  {string} subject     Subject/Title of event
-         * @param  {string} description Description of event
-         * @param  {string} location    Location of event
-         * @param  {string} begin       Beginning date of event
-         * @param  {string} stop        Ending date of event
-         */
-        'addEvent': function(subject, description, location, begin, stop, rrule, days) {
-            // I'm not in the mood to make these optional... So they are all required
-            if (typeof subject === 'undefined' ||
-                typeof description === 'undefined' ||
-                typeof location === 'undefined' ||
-                typeof begin === 'undefined' ||
-                typeof stop === 'undefined'
-            ) {
-                return false;
-            }
-
-            // validate rrule
-            if (rrule) {
-              if (!rrule.rule) {
-                if (rrule.freq !== 'YEARLY' && rrule.freq !== 'MONTHLY' && rrule.freq !== 'WEEKLY' && rrule.freq !== 'DAILY') {
-                  throw "Recurrence rule frequency must be provided and be one of the following: 'YEARLY', 'MONTHLY', 'WEEKLY', or 'DAILY'";
-                }
-
-                if (rrule.until) {
-                  if (isNaN(Date.parse(rrule.until))) {
-                    throw "Recurrence rule 'until' must be a valid date string";
-                  }
-                }
-
-                if (rrule.interval) {
-                  if (isNaN(parseInt(rrule.interval))) {
-                    throw "Recurrence rule 'interval' must be an integer";
-                  }
-                }
-
-                if (rrule.count) {
-                  if (isNaN(parseInt(rrule.count))) {
-                    throw "Recurrence rule 'count' must be an integer";
-                  }
-                }
-              }
-            }
-
-            //TODO add time and time zone? use moment to format?
-            var start_date = new Date(begin);
-            var end_date = new Date(stop);
-
-            var start_year = ("0000" + (start_date.getFullYear().toString())).slice(-4);
-            var start_month = ("00" + ((start_date.getMonth() + 1).toString())).slice(-2);
-            var start_day = ("00" + ((start_date.getDate()).toString())).slice(-2);
-            var start_hours = ("00" + (start_date.getHours().toString())).slice(-2);
-            var start_minutes = ("00" + (start_date.getMinutes().toString())).slice(-2);
-            var start_seconds = ("00" + (start_date.getMinutes().toString())).slice(-2);
-
-            var end_year = ("0000" + (end_date.getFullYear().toString())).slice(-4);
-            var end_month = ("00" + ((end_date.getMonth() + 1).toString())).slice(-2);
-            var end_day = ("00" + ((end_date.getDate()).toString())).slice(-2);
-            var end_hours = ("00" + (end_date.getHours().toString())).slice(-2);
-            var end_minutes = ("00" + (end_date.getMinutes().toString())).slice(-2);
-            var end_seconds = ("00" + (end_date.getMinutes().toString())).slice(-2);
-
-            // Since some calendars don't add 0 second events, we need to remove time if there is none...
-            var start_time = '';
-            var end_time = '';
-            if (start_minutes + start_seconds + end_minutes + end_seconds !== 0) {
-                start_time = 'T' + start_hours + start_minutes + start_seconds;
-                end_time = 'T' + end_hours + end_minutes + end_seconds;
-            }
-
-            var start = start_year + start_month + start_day + start_time;
-            var end = end_year + end_month + end_day + end_time;
-
-            // recurrence rule vars
-            var rruleString;
-            if (rrule) {
-              if (rrule.rule) {
-                rruleString = rrule.rule;
-              } else {
-                rruleString = 'RRULE:FREQ=' + rrule.freq;
-
-                if (rrule.until) {
-                  var uDate = new Date(Date.parse(rrule.until)).toISOString();
-                  rruleString += ';UNTIL=' + uDate.substring(0, uDate.length - 13).replace(/[-]/g, '') + '000000Z';
-                }
-
-                if (rrule.interval) {
-                  rruleString += ';INTERVAL=' + rrule.interval;
-                }
-
-                if (rrule.count) {
-                  rruleString += ';COUNT=' + rrule.count;
-                }
-				
-				if(days)
-				{
-					rruleString+=';BYDAY=' + days;
-				}
-              }
-            }
-            var calendarEvent = [
-                'BEGIN:VEVENT',
-                'CLASS:PUBLIC',
-                'DESCRIPTION:' + description,
-                'DTSTART;VALUE=DATE-TIME:' + start,
-                'DTEND;VALUE=DATE-TIME:' + end,
-                'LOCATION:' + location,
-                'SUMMARY;LANGUAGE=en-us:' + subject,
-                'TRANSP:TRANSPARENT',
-                'END:VEVENT'
-            ];
-
-            if (rruleString) {
-              calendarEvent.splice(4, 0, rruleString);
-            }
-
-            calendarEvent = calendarEvent.join(SEPARATOR);
-
-            calendarEvents.push(calendarEvent);
-            return calendarEvent;
-        },
-
-        /**
-         * Download calendar using the saveAs function from filesave.js
-         * @param  {string} filename Filename
-         * @param  {string} ext      Extention
-         */
-        'download': function(filename, ext) {
-            if (calendarEvents.length < 1) {
-                return false;
-            }
-
-            ext = (typeof ext !== 'undefined') ? ext : '.ics';
-            filename = (typeof filename !== 'undefined') ? filename : 'calendar';
-            var calendar = calendarStart + SEPARATOR + calendarEvents.join(SEPARATOR) + calendarEnd;
-
-            var blob;
-            if (navigator.userAgent.indexOf('MSIE 10') === -1) { // chrome or firefox
-                blob = new Blob([calendar]);
-            } else { // ie
-                var bb = new BlobBuilder();
-                bb.append(calendar);
-                blob = bb.getBlob('text/x-vCalendar;charset=' + document.characterSet);
-            }
-            saveAs(blob, "ISU Class Schedule" + ext);
-            return calendar;
-        }
-    };
-};
-//End Dependencies
-
-
-
-
 var notifier, dialog;
 var cal = ics();//Make our new Calendar (globally)
 var firstTime = true; //We'll use this to solve an "empty date" problem.
@@ -602,8 +406,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	//JS's loosely typed shenanigans -- don't judge, Alex -_-
 	var start = new Date(start);
 	
-	
-		//There's an issue with the library where, irrespective of the RRULE, an event is created on the first day that is sent in. This is meant to circumvent that.
+	//There's an issue with the library where, irrespective of the RRULE, an event is created on the first day that is sent in. This is meant to circumvent that.
 	//Whatever the first day that a class starts on is, move the event to start on that day.'
 	//This will grab the FIRST date present in the string.
 	if(toRRule(WeekDays).indexOf('MO') !== -1)
@@ -627,8 +430,6 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		start.setDate(start.getDate() + 4);
 	}
 
-	
-	
 	var end = new Date(end);
 	var eventTime = new Date(eventTime);
 	var eventTimeEnd = new Date(eventTimeEnd);
@@ -645,6 +446,10 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	 //There is a discrepancy between indexing in months, hence the + 1
 	 var eventEndString = (eventEnd.getMonth()+1).toString().concat("/").concat(eventEnd.getDate().toString()).concat("/").concat(eventEnd.getFullYear().toString()).concat(" ").concat(eventEnd.getHours().toString()).concat(":").concat(eventEnd.getMinutes().toString());
 
+	 //TODO: Skip the addition of any date that returns true in this function
+	 //TODO, nb: This function only returns true for Thanksgiving Day, not the whole week.
+	// check_holiday (dt_date)
+	 
 	var rule = {
 		freq: "WEEKLY",
 		until: new Date(end.setHours(1,0)),
@@ -758,11 +563,9 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		{
 			return 5;
 		}
-		return 8; //Invalid, see API for more info.
-		
+		return 8; //Invalid, see below for more info.
 	}
 	
-
 //Tests if string contains only spaces
 function isEmptyString(obj)
 {
@@ -777,35 +580,10 @@ return true;
 
 }
 
-// Speed up calls to hasOwnProperty
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-//Some utility code that isn't included in the language.
-function isEmpty(obj) {
-
-    // null and undefined are "empty"
-    if (obj == null) return true;
-
-    // Assume if it has a length property with a non-zero value
-    // that that property is correct.
-    if (obj.length > 0)    return false;
-    if (obj.length === 0)  return true;
-
-
-    // Otherwise, does it have any properties of its own?
-    // Note that this doesn't handle
-    // toString and valueOf enumeration bugs in IE < 9
-    for (var key in obj) {
-        if (hasOwnProperty.call(obj, key)) return false;
-    }
-
-    return true;
-}
-	
 	function convertDays(days)
 	{
 		var ret = new Array();
-		ret.push(8);//Actually this should make things easier-- instead of checking "hey, is this a length of one? And if so, adding an 8, we can just start with an 8, and things *should* work. I think. It's been a few months since I wrote/looked at the API. Also, I'm sorry for all of this.
+		ret.push(8);//Actually this should make things easier-- instead of checking "hey, is this a length of one? And if so, adding an 8, we can just start with an 8.
 		var tempDays = days.split(' ');
 		for(var i =0; i< tempDays.length; i++)
 		{
@@ -848,6 +626,9 @@ function isEmpty(obj) {
 		var StartDate = new Date(DateArrs[0].year,DateArrs[0].month,DateArrs[0].day);
 		var EndDate = new Date(DateArrs[1].year,DateArrs[1].month,DateArrs[1].day);
 		
+		EndDate.setDate(EndDate.getDate() -6);//There are no classes during finals week.
+		
+		
 		//Change days from M T R to 1 2 4
 		var meetDays = convertDays(classInfoArr[i].mDays);
 		
@@ -876,12 +657,8 @@ function isEmpty(obj) {
         setTimeout(function(){document.getElementById("wait").style.display = "none";}, 850);
 		cal.download(cal); //ICS format 
 
-		//cal.download(cal,".csv"); //If we want different extensions
-		              
-
+		//cal.download(cal,".csv"); //If we want different extensions              
 	}   
-
-//-------------------------------</Calendar>--------------------------------------
 
 //meetingDate object, will contain the different parts of the meeting date string, such as month, date year
 //month - given month, has to be reduced by 1
@@ -935,18 +712,6 @@ function splitDates(date){
 	return objArr;
 }
 
-/*
-//Was attempting to send a request to a website to be able to parse 
-//the received page. Apparently cross-domain access is illegal with ajax - bummer
-function getPage() { //illegal
-	$.ajax({url: 'https://www.ratemyprofessors.com/search.jsp?query=LATHROP+Iowa+State+University'}).
-		done(function(pageHtml) {
-			alert(pageHtml.html());
-	});
-}
-*/
-
-
 //Calculates the "ideal" div size according to the number of found teachers
 //@param number - number of teachers
 function getBoxSize(number){
@@ -971,6 +736,10 @@ function cssEntry(backGColor, prof, nome){
 	
 }
 
+//-------------------------------</Calendar>--------------------------------------
+
+//-------------------------------<Display>--------------------------------------
+
 //Where the magic happens //Uhh I didn't write this. Flavia, was this you?
 $(document).ready(function() {
  var updProfs = []; //updated array with the professor information, will not contain any repeated names
@@ -984,7 +753,7 @@ $(document).ready(function() {
   updProfs = remRepeats(profs);
   
   var superDiv = $('<div><div>');
-  var buttonDiv = $('<div style = ""></div>');
+  var buttonDiv = $('<div style = "height: 15px;"></div>');
   var div = $('<div id = "rmpBox" style = padding-top: 20px;></div>');
   var imgDiv = $('<div style = "margin-left: 170px; ; z-index: 1;  position: absolute;"> <img src="http://www.userlogos.org/files/logos/Karmody/Rate_My_Prof_01.png" alt="RMP" style="width:130px;height:120px"> </div>');
 
@@ -996,7 +765,7 @@ $(document).ready(function() {
   superDiv.append("<br><br><br>");
   
   $(superDiv).append(imgDiv);
-  superDiv.append("<br> <br>");
+  superDiv.append("<br><br><br>");
   $(div).append(hatDiv);
   $(box).append(title);  
   $(div).append(box);  
@@ -1053,6 +822,7 @@ $(document).ready(function() {
   getLocations(locations);
   createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
   checkValues(classInfoArr, true);
+
  }
 
 });
