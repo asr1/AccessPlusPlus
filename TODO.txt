@@ -1,6 +1,0 @@
-•Calendar export: fix parsing (look through table then make function calls)
-•Calendar export: Move button from popup to the schedule page
-•Registration: Make more permanent
-•Meal Counter: Fix math
-•Meal counter: dynamically search for start dates of each semester
-•Try to send a request to Rate My Prof page to get prof rating (viability depends on security)
