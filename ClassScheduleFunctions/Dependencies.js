@@ -1,4 +1,4 @@
-//ICS.JS
+//Blob.js
 ! function(a) {
     "use strict";
     if (a.URL = a.URL || a.webkitURL, a.Blob && a.URL) try {
@@ -230,6 +230,7 @@ var ics = function() {
     }
 };
 
+//ICS.js
 var ics = function() {
     'use strict';
 
@@ -271,7 +272,7 @@ var ics = function() {
          * @param  {string} begin       Beginning date of event
          * @param  {string} stop        Ending date of event
          */
-        'addEvent': function(subject, description, location, begin, stop, rrule, days) {
+        'addEvent': function(subject, description, location, begin, stop, rrule, days, exdates) {
             // I'm not in the mood to make these optional... So they are all required
             if (typeof subject === 'undefined' ||
                 typeof description === 'undefined' ||
@@ -368,12 +369,14 @@ var ics = function() {
             var calendarEvent = [
                 'BEGIN:VEVENT',
                 'CLASS:PUBLIC',
+				'TZID:America/Chicago',
                 'DESCRIPTION:' + description,
                 'DTSTART;VALUE=DATE-TIME:' + start,
                 'DTEND;VALUE=DATE-TIME:' + end,
                 'LOCATION:' + location,
                 'SUMMARY;LANGUAGE=en-us:' + subject,
-                'TRANSP:TRANSPARENT',
+				'EXDATE;TZID=US-Central:' + exdates,  
+				'TRANSP:TRANSPARENT',
                 'END:VEVENT'
             ];
 
@@ -416,7 +419,36 @@ var ics = function() {
 };
 
 //Holidays
-function check_holiday (dt_date) {
+function is_Thanksgiving(dtdate){
+	// check simple dates (month/date - no leading zeroes)
+var dt_date = new Date(dtdate);//We have to "typecast"
+	
+	var n_date = dt_date.getDate(),
+
+	n_month = dt_date.getMonth() + 1;
+
+	var s_date1 = n_month + '/' + n_date;
+
+
+	// weekday from beginning of the month (month/num/day)
+
+	var n_wday = dt_date.getDay(),
+
+		n_wnum = Math.floor((n_date - 1) / 7) + 1;
+
+	var s_date2 = n_month + '/' + n_wnum + '/' + n_wday;
+
+	
+	if ( s_date2 == '11/4/4' )// Thanksgiving Day, fourth Thursday in November
+	{
+		return true;
+	}
+	return false;
+}
+
+function iSholiday (dtdate) {
+
+	var dt_date = new Date(dtdate);//We have to "typecast"
 
 	// check simple dates (month/date - no leading zeroes)
 
@@ -431,8 +463,6 @@ function check_holiday (dt_date) {
 	if (  s_date1 == '7/4'   // Independence Day
 	) return true;
 
-	
-
 	// weekday from beginning of the month (month/num/day)
 
 	var n_wday = dt_date.getDay(),
@@ -441,19 +471,19 @@ function check_holiday (dt_date) {
 
 	var s_date2 = n_month + '/' + n_wnum + '/' + n_wday;
 
-	
-
 	if (   s_date2 == '1/3/1'  // Birthday of Martin Luther King, third Monday in January
 
 		|| s_date2 == '9/1/1'  // Labor Day, first Monday in September
 
-		|| s_date2 == '11/4/4' // Thanksgiving Day, fourth Thursday in November
-//TODO put logic to return true for the whole week of Thanksgiving.
+		//Check if it's Thanksgiving week
+		|| is_Thanksgiving(dt_date) 
+		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 1)) //Wednesday
+		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 2)) //Tuesday
+		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 3)) //Monday
+		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() - 1)) //Black Friday
 	) return true;
-
-
+	
 	// weekday number from end of the month (month/num/day)
-
 	var dt_temp = new Date (dt_date);
 
 	dt_temp.setDate(1);
@@ -465,8 +495,6 @@ function check_holiday (dt_date) {
 	n_wnum = Math.floor((dt_temp.getDate() - n_date - 1) / 7) + 1;
 
 	var s_date3 = n_month + '/' + n_wnum + '/' + n_wday;
-
-	
 
 	if (   s_date3 == '5/1/1'  // Memorial Day, last Monday in May
 

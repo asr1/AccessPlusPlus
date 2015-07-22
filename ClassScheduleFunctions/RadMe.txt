@@ -1,1 +1,0 @@
-Adds Rate My Professor integration to the Scheule Classes page.
