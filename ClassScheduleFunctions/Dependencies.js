@@ -416,7 +416,36 @@ var ics = function() {
     };
 };
 
+
 //Holidays
+function is_Thanksgiving(dt_date){
+	// check simple dates (month/date - no leading zeroes)
+
+	var n_date = dt_date.getDate(),
+
+	n_month = dt_date.getMonth() + 1;
+
+	var s_date1 = n_month + '/' + n_date;
+
+
+	// weekday from beginning of the month (month/num/day)
+
+	var n_wday = dt_date.getDay(),
+
+		n_wnum = Math.floor((n_date - 1) / 7) + 1;
+
+	var s_date2 = n_month + '/' + n_wnum + '/' + n_wday;
+
+	
+	if ( s_date2 == '11/4/4' )// Thanksgiving Day, fourth Thursday in November
+	{
+			return true;
+	}
+
+
+}
+
+
 function check_holiday (dt_date) {
 
 	// check simple dates (month/date - no leading zeroes)
@@ -432,8 +461,6 @@ function check_holiday (dt_date) {
 	if (  s_date1 == '7/4'   // Independence Day
 	) return true;
 
-	
-
 	// weekday from beginning of the month (month/num/day)
 
 	var n_wday = dt_date.getDay(),
@@ -448,8 +475,12 @@ function check_holiday (dt_date) {
 
 		|| s_date2 == '9/1/1'  // Labor Day, first Monday in September
 
-		|| s_date2 == '11/4/4' // Thanksgiving Day, fourth Thursday in November
-//TODO put logic to return true for the whole week of Thanksgiving.
+		//Check if it's Thanksgiving week
+		|| is_Thanksgiving(dt_date) 
+		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 1) //Wednesday
+		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 2) //Tuesday
+		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 3) //Monday
+		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() - 1) //Black Friday
 	) return true;
 
 
