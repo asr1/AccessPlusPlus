@@ -402,6 +402,7 @@ $(document).ready(function() {
         
             bubble.append(interrogation);
             element.append(bubble);
+
             updText("day", avgMealsD.avgMealsDstr);
                                       document.getElementById("dailyBut").addEventListener("click", function(){dailyFunc()});
             document.getElementById("dailyBut" ).onmouseover = function(){

@@ -1,24 +1,21 @@
 {
 	"manifest_version":2,
 	"name":"Access++",
-	"description":"Gives Access Plus the following functionalities: see an acurrate +/- count of meals for this semester, integration with RMP on the class schedule, one-click schedule export to a calendar app from the class schedule page, see your schedule update in real-time as you register for classes.",
-	"version":"1.0",
+	"description":"Adds four tools to Iowa State’s Access Plus: Meal counter, see schedule while registering, Rate My Professor, export schedule.",
+	"version":"1.2.2.0",
 	"permissions":["activeTab", "tabs", "notifications", "https://accessplus.iastate.edu/*", "webNavigation"],
 	
-	"browser_action":
-	{
-    "icons": { "16": "icon16.png",
-               "48": "icon48.png",
-               "128": "icon128.png" },
-    "default_icon": "icon16.png"
+	"icons": { 
+			"16":"icon16.png", 
+			"48":"icon48.png", 
+			"128":"icon128.png" 
 	},
 	
 	"content_scripts":
 	[
 	{
 		"matches":["https://accessplus.iastate.edu/*"],
-		"js":["jquery.min.js", "ClassScheduleFunctions/class_sched_func.js"]
-
+		"js":["jquery.min.js",  "ClassScheduleFunctions/Dependencies.js", "ClassScheduleFunctions/class_sched_func.js"]
 	},
 	{
 		"matches":["https://accessplus.iastate.edu/servlet/adp.A_Plus"],
