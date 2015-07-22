@@ -373,6 +373,8 @@ var ics = function() {
             var calendarEvent = [
                 'BEGIN:VEVENT',
                 'CLASS:PUBLIC',
+				'EXDATE;TZID=US-Central:' + exdates,
+				'TZID:America/Chicago',
                 'DESCRIPTION:' + description,
                 'DTSTART;VALUE=DATE-TIME:' + start,
                 'DTEND;VALUE=DATE-TIME:' + end,
