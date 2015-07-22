@@ -366,7 +366,7 @@ var ics = function() {
 				}
 				if(exdates)
 				{
-					rruleString+=';EXDATE:' + exdates;
+					rruleString+=';EXDATE=' + exdates;
 				}
               }
             }
