@@ -17,7 +17,7 @@ img.src = "http://i.imgur.com/dSvcdl.gif"; //I regret nothing
 
 var clicked = false;
 
-var element = $('#Grid').next(); //where we're going to append our RMP div to 
+var element = $('#long'); //where we're going to append our RMP div to 
 var Name; //keeps track of the name of the current prof being read
 var idStart = 2; //2 should be a pretty good place to start searching
 var tdId; //keeps track of the current tdId being read
@@ -43,6 +43,7 @@ var classInfoArr = []; //will store objects which contain (hopefully) all of the
 
 //whether a calendar was created successfully or not
 var convSuccess = false;
+var toPrint = "";
 
 //This comment is mostly wrong. //Can we make it right?
 //ClassInfo object, each object will contain all needed information for the calendar exportation
@@ -297,19 +298,28 @@ function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrDates, arrLoc){
 function checkValues (arr, isClassInfo){ //just for testing purposes
 	if (isClassInfo){
 		for (i = 0; i < arr.length; i++){
-			alert(arr[i].nome);	
-			alert(arr[i].mDays);
-			alert(arr[i].mTimesS);
-			alert(arr[i].mTimesE);
-			alert(arr[i].mDates);
-			alert(arr[i].loc);
+			toPrint += arr[i].nome;	
+            toPrint += " ";
+			toPrint += arr[i].mDays;
+            toPrint += " ";
+			toPrint += arr[i].mTimesS;
+            toPrint += " ";
+			toPrint += arr[i].mTimesE;
+            toPrint += " ";
+			toPrint +=arr[i].mDates;
+            toPrint += " ";
+			toPrint +=arr[i].loc;
+            toPrint += " ";
 		}
 	}
 	else{
 		for (i = 0; i < arr.length; i++){
-			alert(arr[i]);	
+            toPrint += " ";
+			toPrint +=arr[i];
+            toPrint += " ";
 		}
 	}
+    alert(toPrint);
 
 }
 
@@ -419,7 +429,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	{
 		start.setDate(start.getDate() + 4);
 	}
-	
+
 	var end = new Date(end);
 	var eventTime = new Date(eventTime);
 	var eventTimeEnd = new Date(eventTimeEnd);
@@ -742,6 +752,8 @@ $(document).ready(function() {
   updateIDs(); 
   updProfs = remRepeats(profs);
   
+  var superDiv = $('<div><div>');
+  var buttonDiv = $('<div style = ""></div>');
   var div = $('<div id = "rmpBox" style = padding-top: 20px;></div>');
   var imgDiv = $('<div style = "margin-left: 170px; ; z-index: 1;  position: absolute;"> <img src="http://www.userlogos.org/files/logos/Karmody/Rate_My_Prof_01.png" alt="RMP" style="width:130px;height:120px"> </div>');
 
@@ -749,26 +761,11 @@ $(document).ready(function() {
 
   var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>');
   var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
-  
-  var expBut = $('<br><div title="Generate an .ics Calendar" style = "float:left; position: absolute; padding: 15px; margin-left: 133px"><button id="exportBut" style = "border-radius: 5px; box-shadow: 1px 1px 1px #888888; padding: 5px;color: #FFF;background-color: #900;font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:17px;height:17px; margin-right: 3px;"> Export My Calendar</button></div>');
-  element.append(expBut); 
-  document.getElementById("exportBut").addEventListener("click", function(){expSched()});
-  document.getElementById("exportBut" ).onmouseover = function(){
-    this.style.backgroundColor = "#CC0000";
-    this.style.cursor = "pointer";
-  }
-  
-  document.getElementById("exportBut" ).onmouseout = function(){
-    this.style.backgroundColor = "#900";
-  }
 
-  var waitDiv = $('<div id = "wait" style= "display: none; float:left; margin-left: 320px;"><img src="https://order.mediacomcable.com/Content/images/spinner.gif" alt="Wheres My Checkmark?" style="width:25px;height:25px"> </div>');
-  element.append(waitDiv);
-
-  element.append("<br><br><br>");
+  superDiv.append("<br><br><br>");
   
-  $(element).append(imgDiv);
-  element.append("<br> <br>");
+  $(superDiv).append(imgDiv);
+  superDiv.append("<br> <br>");
   $(div).append(hatDiv);
   $(box).append(title);  
   $(div).append(box);  
@@ -785,29 +782,46 @@ $(document).ready(function() {
    }
   } 
 
-  element.append(div);
-  element.append('<br><br><div style = "padding-left: 70px;font-size: 0.6em; width:320px;"><b>Note:</b> There is no guarantee that a given professor will have a Rate My Professor page.</div><br><br>');
-  
+  superDiv.append(div);
+  superDiv.append('<br><br><div style = "padding-left: 70px;font-size: 1em; width:320px;"><b>Note:</b> There is no guarantee that a given professor will have a Rate My Professor page.</div><br><br>');
+  element.prepend(superDiv);
           
   var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.6);  border: none !important;"> </button> </div>'); 
-        element.append(btn);
+        superDiv.append(btn);
      document.getElementById("button").addEventListener("click", function(){func()});
 
   function func(){ //^ω^
    if (clicked == false) {
      clicked = true;
-     element.append(img);
+     superDiv.append(img);
    }
    else{
     clicked = false;
     $(img).remove();
    }
   }
+     
+ var expBut = $('<br><div title="Generate an .ics Calendar" style = "float:left; position: relative; padding: 15px; margin-left: 133px"><button id="exportBut" style = "border-radius: 5px; box-shadow: 1px 1px 1px #888888; padding: 5px;color: #FFF;background-color: #900;font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:17px;height:17px; margin-right: 3px;"> Export My Calendar</button></div>');
+  buttonDiv.append(expBut);
+  element.prepend(buttonDiv);
+  document.getElementById("exportBut").addEventListener("click", function(){expSched()});
+  document.getElementById("exportBut" ).onmouseover = function(){
+    this.style.backgroundColor = "#CC0000";
+    this.style.cursor = "pointer";
+  }
+  
+  document.getElementById("exportBut" ).onmouseout = function(){
+    this.style.backgroundColor = "#900";
+  }
+  
+  var waitDiv = $('<div id = "wait" style= "display: none;"><img src="https://order.mediacomcable.com/Content/images/spinner.gif" alt="Wheres My Checkmark?" style="width:25px;height:25px"> </div>');
+  buttonDiv.append(waitDiv);
 
   getStartEndTime(meetingsT, meetingeT);
   getMeetingDates(startEndDate);
   getLocations(locations);
   createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
+  checkValues(classInfoArr, true);
 
  }
 
