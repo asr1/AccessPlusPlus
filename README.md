@@ -21,6 +21,7 @@ The current released version is available <a href="https://chrome.google.com/web
 ## Changelog
 **Version 1.2.2.0:**
 * Classes no longer occur during finals' week.
+* Schedule no longer fills with whitespace, rather remains neat and orderly.
 
 **Version 1.2.1.2:**
 * Removed unneeded references.
