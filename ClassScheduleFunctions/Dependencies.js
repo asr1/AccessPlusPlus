@@ -364,23 +364,19 @@ var ics = function() {
 				{
 					rruleString+=';BYDAY=' + days;
 				}
-				if(exdates)
-				{
-					rruleString+=';EXDATE=' + exdates;
-				}
               }
             }
             var calendarEvent = [
                 'BEGIN:VEVENT',
                 'CLASS:PUBLIC',
-				'EXDATE;TZID=US-Central:' + exdates,
 				'TZID:America/Chicago',
                 'DESCRIPTION:' + description,
                 'DTSTART;VALUE=DATE-TIME:' + start,
                 'DTEND;VALUE=DATE-TIME:' + end,
                 'LOCATION:' + location,
                 'SUMMARY;LANGUAGE=en-us:' + subject,
-                'TRANSP:TRANSPARENT',
+				'EXDATE;TZID=US-Central:' + exdates,  
+				'TRANSP:TRANSPARENT',
                 'END:VEVENT'
             ];
 
@@ -486,7 +482,7 @@ function iSholiday (dtdate) {
 		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 3)) //Monday
 		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() - 1)) //Black Friday
 	) return true;
-
+	
 	// weekday number from end of the month (month/num/day)
 	var dt_temp = new Date (dt_date);
 

@@ -458,7 +458,8 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		{
 			exDateStr += start.toISOString() +',';
 		}
-		start = new Date(start.setDate(start.getDate() + 1))
+		start = new Date(start.setDate(start.getDate() + 1));
+		
 	}
 	exDateStr = exDateStr.substr(0, exDateStr.length -1);//Remove the trailing comma.
 	exDateStr = exDateStr.replace(/:/g,'');
