@@ -405,6 +405,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	//Forcible typecasty garbage to bypass
 	//JS's loosely typed shenanigans -- don't judge, Alex -_-
 	var start = new Date(start);
+	var exDateStr = "";
 	
 	//There's an issue with the library where, irrespective of the RRULE, an event is created on the first day that is sent in. This is meant to circumvent that.
 	//Whatever the first day that a class starts on is, move the event to start on that day.'
@@ -449,13 +450,28 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	 //TODO: Skip the addition of any date that returns true in this function
 	 //TODO, nb: This function only returns true for Thanksgiving Day, not the whole week.
 	// check_holiday (dt_date)
+	
+	//Create the EXDATE property string used to exclude holidays.
+	while(start < end)
+	{
+		if(iSholiday(new Date(start)))
+		{
+			exDateStr += start.toISOString() +',';
+		}
+		start = new Date(start.setDate(start.getDate() + 1))
+	}
+	exDateStr = exDateStr.substr(0, exDateStr.length -1);//Remove the trailing comma.
+	exDateStr = exDateStr.replace(/:/g,'');
+	exDateStr = exDateStr.replace(/-/g,'');
+	exDateStr = exDateStr.replace(/\./g,'');
+	console.log(exDateStr);
 	 
 	var rule = {
 		freq: "WEEKLY",
 		until: new Date(end.setHours(1,0)),
 	};
 	
-		cal.addEvent(name, "Class",location, new Date(eventStartString) ,new Date(eventEndString), rule, toRRule(WeekDays));
+		cal.addEvent(name, "Class",location, new Date(eventStartString) ,new Date(eventEndString), rule, toRRule(WeekDays),exDateStr);
 }
 	
 	//Converts weekdays to RRULE stating byrules
