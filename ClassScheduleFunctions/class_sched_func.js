@@ -319,7 +319,7 @@ function checkValues (arr, isClassInfo){ //just for testing purposes
             toPrint += " ";
 		}
 	}
-    //alert(toPrint);
+    alert(toPrint);
 
 }
 
@@ -765,12 +765,11 @@ $(document).ready(function() {
  
  if (url == accessPlus || url == accessPlus1){
 
- 
-  updateIDs(); 
+   updateIDs(); 
   updProfs = remRepeats(profs);
   
   var superDiv = $('<div><div>');
-  var buttonDiv = $('<div style = ""></div>');
+  var buttonDiv = $('<div style = "height: 15px;"></div>');
   var div = $('<div id = "rmpBox" style = padding-top: 20px;></div>');
   var imgDiv = $('<div style = "margin-left: 170px; ; z-index: 1;  position: absolute;"> <img src="http://www.userlogos.org/files/logos/Karmody/Rate_My_Prof_01.png" alt="RMP" style="width:130px;height:120px"> </div>');
 
@@ -779,10 +778,10 @@ $(document).ready(function() {
   var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>');
   var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
 
-  superDiv.append("<br><br><br>");
+  superDiv.append("<br><br><br><br><br>");
   
   $(superDiv).append(imgDiv);
-  superDiv.append("<br> <br>");
+  superDiv.append("<br><br><br>");
   $(div).append(hatDiv);
   $(box).append(title);  
   $(div).append(box);  
@@ -838,8 +837,8 @@ $(document).ready(function() {
   getMeetingDates(startEndDate);
   getLocations(locations);
   createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
-  checkValues(classInfoArr, true);
-
+  //checkValues(classInfoArr, true);
+  checkValues(profs, false);
  }
 
 });
