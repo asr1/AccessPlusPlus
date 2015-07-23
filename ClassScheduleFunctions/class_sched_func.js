@@ -319,7 +319,7 @@ function checkValues (arr, isClassInfo){ //just for testing purposes
             toPrint += " ";
 		}
 	}
-    alert(toPrint);
+    //alert(toPrint);
 
 }
 
