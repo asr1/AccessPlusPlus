@@ -838,7 +838,7 @@ $(document).ready(function() {
   getLocations(locations);
   createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
   //checkValues(classInfoArr, true);
-  checkValues(profs, false);
+  //checkValues(profs, false);
  }
 
 });
