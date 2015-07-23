@@ -370,7 +370,7 @@ function monthlyFunc(){
 
 
 function help(){
-    alert("MEAL TRACKER Is supposed to help you plan your meal usage throughout the semester.\n\nClick on one of the buttons (Daily/Weekly/Monthly) to view your number of available meals for your chosen time frame, as well as how many you still have available in order to keep up with your meal plan.\n\nWhat does it mean to have x(+y) meals?\nThis means that you have an average of 'x' meal(s) per day, with an extra 'y' meal(s) for the week.\nEx: 1(+1) -> 1 meal per day with an extra meal for the week.");
+    alert("MEAL TRACKER Is supposed to help you plan your meal usage throughout the semester.\n\nClick on one of the buttons (Daily/Weekly/Monthly) to view how many meals you have for that chosen time frame, as well as how many you still have available in order to keep up with your meal plan.\n\nWhat does it mean to have x(+y) meals?\nThis means that you have an average of 'x' meal(s) per day, with an extra 'y' meal(s) for the week.\nEx: 1(+1) -> 1 meal per day with an extra meal for the week.\n\nAlso we are taking in consideration the extra 5 meals given per semester.");
 }
 
 $(document).ready(function() {
