@@ -476,11 +476,11 @@ function iSholiday (dtdate) {
 		|| s_date2 == '9/1/1'  // Labor Day, first Monday in September
 
 		//Check if it's Thanksgiving week
-		|| is_Thanksgiving(dt_date) 
-		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 1)) //Wednesday
-		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 2)) //Tuesday
-		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 3)) //Monday
-		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() - 1)) //Black Friday
+		|| is_Thanksgiving(dt_date) //Set modifies the dates, so this addition looks weird.
+		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() -1 )) //Black Friday
+		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 2)) //Wednesday
+		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 1)) //Tuesday
+		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 1)) //Monday
 	) return true;
 	
 	// weekday number from end of the month (month/num/day)

@@ -22,6 +22,8 @@ The current released version is available <a href="https://chrome.google.com/web
 **Version 1.2.2.0:**
 * Classes no longer occur during finals' week.
 * Schedule no longer fills with whitespace, rather remains neat and orderly.
+* Classes no longer occur during Thanksgiving, Labor Day, Reverend Doctor Martin Luther King, Jr. Day, Memorial day, etc.
+* Minor UI upgrades
 
 **Version 1.2.1.2:**
 * Removed unneeded references.
