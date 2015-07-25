@@ -6,7 +6,6 @@
 //be created. ClassInfo1: name: Math, meetingDays: M, W; Meeting Times: 10:00 A, Meeting End Time: 11:00A, startendDate: : 01/15/2014-05/25/2014
 //be created. ClassInfo2: name: Math, meetingDays: T, R; Meeting Times: 8:00 A, Meeting End Time: 9:00A, startendDate: : 01/15/2014-05/25/2014
 
-var OVERRIDE_RULE = true; //Used to force an RRUle into modified ics.js library
 var url =  window.location.href;  
 var accessPlus = "https://accessplus.iastate.edu/servlet/adp.A_Plus"; //possible url for access plus after first access
 var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //possible url for access plus 
@@ -105,18 +104,26 @@ function updateIDs() {
 
 //As the same teacher can be found multiple times, we have to make sure not to 
 //repeat the name while linking to the teacher's RMP page
+//This method also gets rid of blank spots - when a professor is not yet defined for a class
 //@param - arr- given array with teacher names
 function remRepeats(arr){ 
-	var el;
+ 	var el;
 	var result = [];
 	
 	$.each(arr, function(i, e) {
-    if ($.inArray(e, result) == -1) result.push(e);
-  });
-  
-	result.splice(1, 1);  //remove the weird empty element
-  
-  return result;
+       if ($.inArray(e, result) == -1) result.push(e);
+   });
+    
+   //Search for spots that do not have letters or that are blank
+   for (i = 1; i < result.length; i++){
+       if (!/[a-zA-Z]/.test(result[i]) || /%20/g.test(result[i])) {
+           result.splice(i,i); //if found, get rid of them
+       }
+   }
+    if (!/[a-zA-Z]/.test(result[0]) || /%20/g.test(result[0])) { //splice(0,0) does not work. we need an extra check for the first element
+           result.shift(); //removes the first element if it is blank
+    }    
+    return result;
 }
 
 //Parses the given name to separate the first name from the last name
@@ -446,10 +453,6 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	 
 	 //There is a discrepancy between indexing in months, hence the + 1
 	 var eventEndString = (eventEnd.getMonth()+1).toString().concat("/").concat(eventEnd.getDate().toString()).concat("/").concat(eventEnd.getFullYear().toString()).concat(" ").concat(eventEnd.getHours().toString()).concat(":").concat(eventEnd.getMinutes().toString());
-
-	 //TODO: Skip the addition of any date that returns true in this function
-	 //TODO, nb: This function only returns true for Thanksgiving Day, not the whole week.
-	// check_holiday (dt_date)
 	
 	//Create the EXDATE property string used to exclude holidays.
 	while(start < end)
@@ -459,13 +462,11 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 			exDateStr += start.toISOString() +',';
 		}
 		start = new Date(start.setDate(start.getDate() + 1));
-		
 	}
 	exDateStr = exDateStr.substr(0, exDateStr.length -1);//Remove the trailing comma.
 	exDateStr = exDateStr.replace(/:/g,'');
 	exDateStr = exDateStr.replace(/-/g,'');
 	exDateStr = exDateStr.replace(/\./g,'');
-	console.log(exDateStr);
 	 
 	var rule = {
 		freq: "WEEKLY",
@@ -669,7 +670,7 @@ return true;
 		CreateSchedule(StartDate, EndDate, StartTime, EndTime , WeekDays, 'Com Sci 311', 'Atanassoff 310');
 	*/
 
-		//Display a checkmark if we downloaded successfully.
+		//Display a loading gif if we downloaded successfully.
         document.getElementById("wait").style.display = "block";
         setTimeout(function(){document.getElementById("wait").style.display = "none";}, 850);
 		cal.download(cal); //ICS format 
@@ -738,7 +739,7 @@ function getBoxSize(number){
 	return mult + 'px';
 }
 
-//The css for each rmp entry. There was no need for repeating this code if there was only small changes
+//The css for each rmp entry. 
 //backGColor - background color for the div
 //prof - prof's name
 //nome - parsed name
@@ -757,36 +758,42 @@ function cssEntry(backGColor, prof, nome){
 
 //-------------------------------<Display>--------------------------------------
 
-//Where the magic happens //Uhh I didn't write this. Flavia, was this you?
+//The UI part of the application 
 $(document).ready(function() {
  var updProfs = []; //updated array with the professor information, will not contain any repeated names
  var nome = []; 
- //$(document).append(bootstrap);
  
  if (url == accessPlus || url == accessPlus1){
 
-   updateIDs(); 
+  updateIDs(); //Add ids to each table row
+  updProfs = remRepeats(profs); //save a list of professors without any repeats
+
+  updateIDs(); 
   updProfs = remRepeats(profs);
   
-  var superDiv = $('<div><div>');
-  var buttonDiv = $('<div style = "height: 15px;"></div>');
-  var div = $('<div id = "rmpBox" style = padding-top: 20px;></div>');
-  var imgDiv = $('<div style = "margin-left: 170px; ; z-index: 1;  position: absolute;"> <img src="http://www.userlogos.org/files/logos/Karmody/Rate_My_Prof_01.png" alt="RMP" style="width:130px;height:120px"> </div>');
+  var superDiv = $('<div><div>'); //Div that will contain all of the elements of the RMP div. We need a master div to make ordering the elements easier 
+  var buttonDiv = $('<div style = "height: 15px;"></div>'); //Div that will contain all elements related to the button
+  var div = $('<div id = "rmpBox" style = padding-top: 20px;></div>'); //RMP div
+  var imgDiv = $('<div style = "margin-left: 170px; ; z-index: 1;  position: absolute;"> <img src="http://www.userlogos.org/files/logos/Karmody/Rate_My_Prof_01.png" alt="RMP" style="width:130px;height:120px"> </div>'); //The RMP image title
 
-  var hatDiv = $('<div style = "margin-left: 340px; ; z-index: 1; padding-top: 9px; position: absolute;"> <img src="http://findicons.com/files/icons/2677/educons/128/graduation_hat.png" style = "-webkit-transform: rotate(15deg); width: 57px; height: 50px;"> </div>');
+  var hatDiv = $('<div style = "margin-left: 340px; ; z-index: 1; padding-top: 9px; position: absolute;"> <img src="http://findicons.com/files/icons/2677/educons/128/graduation_hat.png" style = "-webkit-transform: rotate(15deg); width: 57px; height: 50px;"> </div>'); //The graduation hat div
 
-  var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>');
-  var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
+  var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>'); //The div containing the professor list
+  var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>'); //The red gradient div for the RMP
 
   superDiv.append("<br><br><br><br><br>");
   
+  //Lets structure our RMP UI
+
   $(superDiv).append(imgDiv);
   superDiv.append("<br><br><br>");
+     
   $(div).append(hatDiv);
   $(box).append(title);  
   $(div).append(box);  
 
-   
+  //Appends the professor name and link to the box div
+  //Will alternate background color depending on the entry's index     
   for (i = 0; i < updProfs.length; i++){ 
    nome = parseName(updProfs[i]);
    if (!(i%2 == 0)) {
@@ -798,14 +805,21 @@ $(document).ready(function() {
    }
   } 
 
+  //Finishing touches to our superDiv
+  //We have to use prepend instead of append to force the web page to place our div before the class list
   superDiv.append(div);
   superDiv.append('<br><br><div style = "padding-left: 70px;font-size: 1em; width:320px;"><b>Note:</b> There is no guarantee that a given professor will have a Rate My Professor page.</div><br><br>');
   element.prepend(superDiv);
-          
+     
+  //Dissapointed no one found my easter egg yet 
   var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.6);  border: none !important;"> </button> </div>'); 
+  superDiv.append(btn);
+  document.getElementById("button").addEventListener("click", function(){func()});
+          
+  var btn = $('<div> <button id="button" style = "width:2px; height:5px; background-color:rgba(236, 236, 236, 0.6);  border: none !important;"> </button> </div>'); 
         superDiv.append(btn);
      document.getElementById("button").addEventListener("click", function(){func()});
-
+      
   function func(){ //^ω^
    if (clicked == false) {
      clicked = true;
@@ -817,28 +831,33 @@ $(document).ready(function() {
    }
   }
      
+ //Creation of our exportButton div
+ //Using divs instead of a straight up button element since I wanted to customize its appearance
  var expBut = $('<br><div title="Generate an .ics Calendar" style = "float:left; position: relative; padding: 15px; margin-left: 133px"><button id="exportBut" style = "border-radius: 5px; box-shadow: 1px 1px 1px #888888; padding: 5px;color: #FFF;background-color: #900;font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:17px;height:17px; margin-right: 3px;"> Export My Calendar</button></div>');
   buttonDiv.append(expBut);
   element.prepend(buttonDiv);
   document.getElementById("exportBut").addEventListener("click", function(){expSched()});
-  document.getElementById("exportBut" ).onmouseover = function(){
+  document.getElementById("exportBut" ).onmouseover = function(){ //On hover functionality -- hovering over the button will update its background and the mouse cursor
     this.style.backgroundColor = "#CC0000";
     this.style.cursor = "pointer";
   }
   
+  //On hover functionality -- moving the mouse away, revert button to original color
   document.getElementById("exportBut" ).onmouseout = function(){
     this.style.backgroundColor = "#900";
   }
   
-  var waitDiv = $('<div id = "wait" style= "display: none;"><img src="https://order.mediacomcable.com/Content/images/spinner.gif" alt="Wheres My Checkmark?" style="width:25px;height:25px"> </div>');
+  //When button is clicked, display a loading gif -- demonstrates that the button's code was actually being performed
+  var waitDiv = $('<div id = "wait" style= "display: none;"><img src="https://order.mediacomcable.com/Content/images/spinner.gif" alt="Wheres My Loading Gif?" style="width:25px;height:25px"> </div>');
   buttonDiv.append(waitDiv);
 
+  //Updates the rest of our list -- this part is related to the Calendar Export function
   getStartEndTime(meetingsT, meetingeT);
   getMeetingDates(startEndDate);
   getLocations(locations);
   createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
   //checkValues(classInfoArr, true);
-  checkValues(profs, false);
+  //checkValues(profs, false);
  }
 
 });
