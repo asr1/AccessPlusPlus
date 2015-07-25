@@ -17,6 +17,8 @@ This project was started in <a href="http://hackisu.com/">HackISU</a> Spring 201
 
 The current released version is available <a href="https://chrome.google.com/webstore/detail/access%2B%2B/cdchknkpbdccmalfabhdjjkckajhbdif">here</a>.
 
+## Dependencies
+This project uses a modified version of <a href="https://github.com/connorbode/ics.js">Connorbode's fork</a> of <a href="https://github.com/nwcell/ics.js/">ics.js</a>, which in turn uses <a href="https://github.com/eligrey/Blob.js">Blob.js.</a>
 
 ## Changelog
 **Version 1.2.2.0:**
@@ -38,7 +40,6 @@ The current released version is available <a href="https://chrome.google.com/web
 * Consolidated jQuery references.
 * Removed old files.
 * Cleaned up heirarchy.
-
 
 **Version 1.2.0.1:**
 * Removed unnecessary dependencies, drastically shrinking the size of the extension.
@@ -64,6 +65,3 @@ The current released version is available <a href="https://chrome.google.com/web
 
 **Version 1.0**
 * Initial release.
-
-## Dependencies
-This project uses a modified version of <a href="https://github.com/connorbode/ics.js">Connorbode's fork</a> of <a href="https://github.com/nwcell/ics.js/">ics.js</a>, which in turn uses <a href="https://github.com/eligrey/Blob.js">Blob.js.</a>
