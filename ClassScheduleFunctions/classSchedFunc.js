@@ -6,6 +6,7 @@
 //be created. ClassInfo1: name: Math, meetingDays: M, W; Meeting Times: 10:00 A, Meeting End Time: 11:00A, startendDate: : 01/15/2014-05/25/2014
 //be created. ClassInfo2: name: Math, meetingDays: T, R; Meeting Times: 8:00 A, Meeting End Time: 9:00A, startendDate: : 01/15/2014-05/25/2014
 
+var OVERRIDE_RULE = true; //Used to force an RRUle into modified ics.js library
 var url =  window.location.href;  
 var accessPlus = "https://accessplus.iastate.edu/servlet/adp.A_Plus"; //possible url for access plus after first access
 var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //possible url for access plus 
@@ -445,6 +446,10 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	 
 	 //There is a discrepancy between indexing in months, hence the + 1
 	 var eventEndString = (eventEnd.getMonth()+1).toString().concat("/").concat(eventEnd.getDate().toString()).concat("/").concat(eventEnd.getFullYear().toString()).concat(" ").concat(eventEnd.getHours().toString()).concat(":").concat(eventEnd.getMinutes().toString());
+
+	 //TODO: Skip the addition of any date that returns true in this function
+	 //TODO, nb: This function only returns true for Thanksgiving Day, not the whole week.
+	// check_holiday (dt_date)
 	
 	//Create the EXDATE property string used to exclude holidays.
 	while(start < end)
@@ -454,11 +459,13 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 			exDateStr += start.toISOString() +',';
 		}
 		start = new Date(start.setDate(start.getDate() + 1));
+		
 	}
 	exDateStr = exDateStr.substr(0, exDateStr.length -1);//Remove the trailing comma.
 	exDateStr = exDateStr.replace(/:/g,'');
 	exDateStr = exDateStr.replace(/-/g,'');
 	exDateStr = exDateStr.replace(/\./g,'');
+	console.log(exDateStr);
 	 
 	var rule = {
 		freq: "WEEKLY",
@@ -750,14 +757,15 @@ function cssEntry(backGColor, prof, nome){
 
 //-------------------------------<Display>--------------------------------------
 
-//Where the magic happens 
+//Where the magic happens //Uhh I didn't write this. Flavia, was this you?
 $(document).ready(function() {
  var updProfs = []; //updated array with the professor information, will not contain any repeated names
  var nome = []; 
+ //$(document).append(bootstrap);
  
  if (url == accessPlus || url == accessPlus1){
 
-  updateIDs(); 
+   updateIDs(); 
   updProfs = remRepeats(profs);
   
   var superDiv = $('<div><div>');
@@ -771,6 +779,7 @@ $(document).ready(function() {
   var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>');
 
   superDiv.append("<br><br><br><br><br>");
+  
   $(superDiv).append(imgDiv);
   superDiv.append("<br><br><br>");
   $(div).append(hatDiv);
@@ -793,7 +802,7 @@ $(document).ready(function() {
   superDiv.append('<br><br><div style = "padding-left: 70px;font-size: 1em; width:320px;"><b>Note:</b> There is no guarantee that a given professor will have a Rate My Professor page.</div><br><br>');
   element.prepend(superDiv);
           
-  var btn = $('<div> <button id="button" style = "width:2px; height:5px; background-color:rgba(236, 236, 236, 0.6);  border: none !important;"> </button> </div>'); 
+  var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.6);  border: none !important;"> </button> </div>'); 
         superDiv.append(btn);
      document.getElementById("button").addEventListener("click", function(){func()});
 
@@ -816,7 +825,10 @@ $(document).ready(function() {
     this.style.backgroundColor = "#CC0000";
     this.style.cursor = "pointer";
   }
-
+  
+  document.getElementById("exportBut" ).onmouseout = function(){
+    this.style.backgroundColor = "#900";
+  }
   
   var waitDiv = $('<div id = "wait" style= "display: none;"><img src="https://order.mediacomcable.com/Content/images/spinner.gif" alt="Wheres My Checkmark?" style="width:25px;height:25px"> </div>');
   buttonDiv.append(waitDiv);
