@@ -21,6 +21,12 @@ The current released version is available <a href="https://chrome.google.com/web
 This project uses a modified version of <a href="https://github.com/connorbode/ics.js">Connorbode's fork</a> of <a href="https://github.com/nwcell/ics.js/">ics.js</a>, which in turn uses <a href="https://github.com/eligrey/Blob.js">Blob.js.</a>
 
 ## Changelog
+**Version 1.2.3.0:**
+* Make file names consistent. 
+* Fixed a parsing issue that affected a small number of users.
+* Comments have been updated.
+* Updated documentation.
+
 **Version 1.2.2.0:**
 * Classes no longer occur during finals' week.
 * Schedule no longer fills with whitespace, rather remains neat and orderly.
