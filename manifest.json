@@ -1,8 +1,8 @@
 {
 	"manifest_version":2,
 	"name":"Access++",
-	"description":"A hackathon project originally intended to parse accessplus and create a schedule that can be exported to Google Calendar",
-	"version":"1.2.0.0",
+	"description":"Adds four tools to Iowa State’s Access Plus: Meal counter, see schedule while registering, Rate My Professor, export schedule.",
+	"version":"1.2.2.0",
 	"permissions":["activeTab", "tabs", "notifications", "https://accessplus.iastate.edu/*", "webNavigation"],
 	
 	"icons": { 
@@ -10,13 +10,11 @@
 			"48":"icon48.png", 
 			"128":"icon128.png" 
 	},
-	
 	"content_scripts":
 	[
 	{
-		"matches":["http://*/*", "https://*/*"],
-		"js":["jquery.min.js", "ClassScheduleFunctions/class_sched_func.js"]
-
+		"matches":["https://accessplus.iastate.edu/*"],
+		"js":["jquery.min.js", "ClassScheduleFunctions/dependencies.js", "ClassScheduleFunctions/classSchedFunc.js"]
 	},
 	{
 		"matches":["https://accessplus.iastate.edu/servlet/adp.A_Plus"],
