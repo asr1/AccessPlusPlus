@@ -29,7 +29,7 @@ This project uses a modified version of <a href="https://github.com/connorbode/i
 
 ## Changelog
 **Version 1.2.3.0:**
-* Make file names consistent. 
+* Made file names consistent. 
 * Fixed a parsing issue that affected a small number of users.
 * Comments have been updated.
 * Updated documentation.
