@@ -31,8 +31,7 @@ This project uses a modified version of <a href="https://github.com/connorbode/i
 **Version 1.2.3.0:**
 * Made file names consistent. 
 * Fixed a parsing issue that affected a small number of users.
-* Comments have been updated.
-* Updated documentation.
+* Updated comments.
 
 **Version 1.2.2.0:**
 * Classes no longer occur during finals' week.
