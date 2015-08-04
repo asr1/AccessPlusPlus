@@ -231,6 +231,7 @@ var ics = function() {
 };
 
 //ICS.js //Used for calendar Creation
+//This is a heacily modified version of ICS.js, with comments indicating most modifications.
 var ics = function() {
     'use strict';
 
@@ -271,9 +272,12 @@ var ics = function() {
          * @param  {string} location    Location of event
          * @param  {string} begin       Beginning date of event
          * @param  {string} stop        Ending date of event
+         * @param  {string} rrule       Reccurrance rule for events
+         * @param  {string} days        Days of the week to repeat on
+         * @Param  string} exdates      Dates to ignore (holidays)
          */
         'addEvent': function(subject, description, location, begin, stop, rrule, days, exdates) {
-            // I'm not in the mood to make these optional... So they are all required
+            // I'm not in the mood to make these optional... So they are all required 
             if (typeof subject === 'undefined' ||
                 typeof description === 'undefined' ||
                 typeof location === 'undefined' ||
@@ -284,7 +288,7 @@ var ics = function() {
             }
 
             // validate rrule
-            if (rrule) {
+            if (rrule) {//This lets us use repeating evets. Presently we create a rule of weekly until end date in CreateSchedule()
               if (!rrule.rule) {
                 if (rrule.freq !== 'YEARLY' && rrule.freq !== 'MONTHLY' && rrule.freq !== 'WEEKLY' && rrule.freq !== 'DAILY') {
                   throw "Recurrence rule frequency must be provided and be one of the following: 'YEARLY', 'MONTHLY', 'WEEKLY', or 'DAILY'";
@@ -360,23 +364,23 @@ var ics = function() {
                   rruleString += ';COUNT=' + rrule.count;
                 }
 				
-				if(days)
-				{
-					rruleString+=';BYDAY=' + days;
-				}
+		if(days)
+		{
+			rruleString+=';BYDAY=' + days;
+		}
               }
             }
             var calendarEvent = [
                 'BEGIN:VEVENT',
                 'CLASS:PUBLIC',
-				'TZID:US/Central',
+		'TZID:US/Central', //Force Central
                 'DESCRIPTION:' + description,
                 'DTSTART;VALUE=DATE-TIME:' + start,
                 'DTEND;VALUE=DATE-TIME:' + end,
                 'LOCATION:' + location,
                 'SUMMARY;LANGUAGE=en-us:' + subject,
-				'EXDATE;TZID=US-Central:' + exdates,  
-				'TRANSP:TRANSPARENT',
+		'EXDATE;TZID=US-Central:' + exdates,  //Force Central, EXdate is a formatted string containing dates to skip (Holidays), as per the RRUle standard.
+		'TRANSP:TRANSPARENT',
                 'END:VEVENT'
             ];
 
@@ -412,7 +416,7 @@ var ics = function() {
                 bb.append(calendar);
                 blob = bb.getBlob('text/x-vCalendar;charset=' + document.characterSet);
             }
-            saveAs(blob, "ISU Class Schedule" + ext);
+            saveAs(blob, "ISU Class Schedule" + ext);//Name the calendar appropriately.
             return calendar;
         }
     };
@@ -424,14 +428,11 @@ function is_Thanksgiving(dtdate){
 var dt_date = new Date(dtdate);//We have to "typecast"
 	
 	var n_date = dt_date.getDate(),
-
 	n_month = dt_date.getMonth() + 1;
-
 	var s_date1 = n_month + '/' + n_date;
 
 
 	// weekday from beginning of the month (month/num/day)
-
 	var n_wday = dt_date.getDay(),
 
 		n_wnum = Math.floor((n_date - 1) / 7) + 1;
@@ -446,16 +447,15 @@ var dt_date = new Date(dtdate);//We have to "typecast"
 	return false;
 }
 
+//Returns true on a University holiday (4th of July, Reverend Doctor Martin Luther King, Jr. Day, Thanksgiving Week, Memorial Day, Labour day.)
+//And Returns false on every other day.
 function iSholiday (dtdate) {
 
 	var dt_date = new Date(dtdate);//We have to "typecast"
 
 	// check simple dates (month/date - no leading zeroes)
-
 	var n_date = dt_date.getDate(),
-
-		n_month = dt_date.getMonth() + 1;
-
+	n_month = dt_date.getMonth() + 1;
 	var s_date1 = n_month + '/' + n_date;
 
 		
