@@ -442,17 +442,17 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	var eventTime = new Date(eventTime);
 	var eventTimeEnd = new Date(eventTimeEnd);
 
-	var eventStart = moment(new Date(start.setHours(eventTime.getHours(), eventTime.getMinutes()))).tz("America/Chicago");
-	var eventEnd = moment(new Date(start.setHours(eventTimeEnd.getHours(),eventTimeEnd.getMinutes()))).tz("America/Chicago");
+	var eventStart = new Date(start.setHours(eventTime.getHours(), eventTime.getMinutes()));
+	var eventEnd = new Date(start.setHours(eventTimeEnd.getHours(),eventTimeEnd.getMinutes()));
 	var newDate = start.setDate(start.getDate() + 1);
 	start = new Date(newDate);
 	
 	 //Hopefully the longest, grossest line of parsey Javascript I will ever produce. --Did you see all the crap I had to write?
 	//It converts the event to a properly formatted string
-	 var eventStartString = (eventStart.get('month')+1).toString().concat("/").concat(eventStart.get('date').toString()).concat("/").concat(eventStart.get('year').toString()).concat(" ").concat(eventStart.get('hours').toString()).concat(":").concat(eventStart.get('minute').toString());//.concat(" PM"));
+	 var eventStartString = (eventStart.getMonth()+1).toString().concat("/").concat(eventStart.getDate().toString()).concat("/").concat(eventStart.getFullYear().toString()).concat(" ").concat(eventStart.getHours().toString()).concat(":").concat(eventStart.getMinutes().toString());//.concat(" PM"));
 	 
 	 //There is a discrepancy between indexing in months, hence the + 1
-	 var eventEndString = (eventEnd.get('month')+1).toString().concat("/").concat(eventEnd.get('date').toString()).concat("/").concat(eventEnd.get('year').toString()).concat(" ").concat(eventEnd.get('hour').toString()).concat(":").concat(eventEnd.get('minute').toString());
+	 var eventEndString = (eventEnd.getMonth()+1).toString().concat("/").concat(eventEnd.getDate().toString()).concat("/").concat(eventEnd.getFullYear().toString()).concat(" ").concat(eventEnd.getHours().toString()).concat(":").concat(eventEnd.getMinutes().toString());
 	
 	//Create the EXDATE property string used to exclude holidays.
 	while(start < end)
