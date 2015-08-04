@@ -442,6 +442,12 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	var eventTime = new Date(eventTime);
 	var eventTimeEnd = new Date(eventTimeEnd);
 
+	//Debug
+alert(moment(eventTime));
+	
+	//End Debug
+	
+	
 	var eventStart = new Date(start.setHours(eventTime.getHours(), eventTime.getMinutes()));
 	var eventEnd = new Date(start.setHours(eventTimeEnd.getHours(),eventTimeEnd.getMinutes()));
 	var newDate = start.setDate(start.getDate() + 1);
