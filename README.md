@@ -36,6 +36,7 @@ This project uses a modified version of <a href="https://github.com/connorbode/i
 **Version 1.2.2.0:**
 * Classes no longer occur during finals' week.
 * Schedule no longer fills with whitespace, rather remains neat and orderly.
+* Despite what the commit log may suggest, our fork of ics.js now supports EXDATE functionality.
 * Classes no longer occur during Thanksgiving, Labor Day, Reverend Doctor Martin Luther King, Jr. Day, Memorial day, etc.
 * Minor UI upgrades
 
