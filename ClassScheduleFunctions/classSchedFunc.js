@@ -459,7 +459,8 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	{
 		if(iSholiday(new Date(start)))
 		{
-			exDateStr += start.toISOString() +',';
+			start.setHours(eventTime.getHours(), eventTime.getMinutes());
+			exDateStr += start.toISOString() +',';//We have to set time because Google Calendar only recognizes the Exdate parameter if it's in the same format as the regular date.
 		}
 		start = new Date(start.setDate(start.getDate() + 1));
 	}
