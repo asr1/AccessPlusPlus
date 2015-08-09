@@ -28,6 +28,9 @@ There are a couple ways to contribute to this project:
 This project uses a modified version of <a href="https://github.com/connorbode/ics.js">Connorbode's fork</a> of <a href="https://github.com/nwcell/ics.js/">ics.js</a>, which in turn uses <a href="https://github.com/eligrey/Blob.js">Blob.js.</a> This has been included in the AccessPlusPlus repository already. 
 
 ## Changelog
+**Version 1.2.4.0:**
+* Holidays now work in Google Calendar. Most programs ignore dates passed in with the exdate parameter. Google requires that they have the exact start time as the event. That is, there is no way to prevent any event from being created on a given day; only events that you know the start time of.
+
 **Version 1.2.3.0:**
 * Made file names consistent. 
 * Fixed a parsing issue that affected a small number of users.
