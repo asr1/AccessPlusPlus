@@ -459,13 +459,15 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	{
 		if(iSholiday(new Date(start)))
 		{
-		//We have to set time because Google Calendar only recognizes the Exdate parameter if it's at the same time as the regular event.
+		alert(name + eventTime.getHours() + ':' + eventTime.getMinutes());
+			//We have to set time because Google Calendar only recognizes the Exdate parameter if it's at the same time as the regular event.
 			start.setHours(eventTime.getHours(), eventTime.getMinutes());
 			exDateStr += start.toISOString() +',';
 		}
 		start = new Date(start.setDate(start.getDate() + 1));
 	}
-	exDateStr = exDateStr.substr(0, exDateStr.length -1);//Remove the trailing comma.
+	//Remove the trailing comma and format correctly.
+	exDateStr = exDateStr.substr(0, exDateStr.length -1);
 	exDateStr = exDateStr.replace(/:/g,'');
 	exDateStr = exDateStr.replace(/-/g,'');
 	exDateStr = exDateStr.replace(/\./g,'');
