@@ -379,7 +379,7 @@ var ics = function() {
                 'DTEND;VALUE=DATE-TIME:' + end,
                 'LOCATION:' + location,
                 'SUMMARY;LANGUAGE=en-us:' + subject,
-		'EXDATE;TZID=US-Central:' + exdates,  //Force Central, EXdate is a formatted string containing dates to skip (Holidays), as per the RRUle standard.
+				'EXDATE;TZID=US-Central:' + exdates,  //Force Central, Exdate is a formatted string containing dates to skip (Holidays), as per the RRUle standard.
 		'TRANSP:TRANSPARENT',
                 'END:VEVENT'
             ];

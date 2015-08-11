@@ -454,23 +454,57 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	 //There is a discrepancy between indexing in months, hence the + 1
 	 var eventEndString = (eventEnd.getMonth()+1).toString().concat("/").concat(eventEnd.getDate().toString()).concat("/").concat(eventEnd.getFullYear().toString()).concat(" ").concat(eventEnd.getHours().toString()).concat(":").concat(eventEnd.getMinutes().toString());
 	
+	
+
 	//Create the EXDATE property string used to exclude holidays.
 	while(start < end)
 	{
 		if(iSholiday(new Date(start)))
 		{
-		alert(name + eventTime.getHours() + ':' + eventTime.getMinutes());
 			//We have to set time because Google Calendar only recognizes the Exdate parameter if it's at the same time as the regular event.
 			start.setHours(eventTime.getHours(), eventTime.getMinutes());
-			exDateStr += start.toISOString() +',';
+			exDateStr += formatDate(start, eventTime.getHours(), 0) + ',';//start.toISOString() +',';
+			
 		}
 		start = new Date(start.setDate(start.getDate() + 1));
 	}
-	//Remove the trailing comma and format correctly.
+	//Remove the trailing comma and strip punctuation.
 	exDateStr = exDateStr.substr(0, exDateStr.length -1);
 	exDateStr = exDateStr.replace(/:/g,'');
 	exDateStr = exDateStr.replace(/-/g,'');
 	exDateStr = exDateStr.replace(/\./g,'');
+	exDateStr = exDateStr.replace(/Z/g,'');//Remove trailing Z to convert to local time
+	console.log(exDateStr);
+	 
+	 //BEGIN PHYSICS 221 LAB 
+
+	 //If we're taking the physics 221 lab, make it two events that occur fortnightly.
+	if(name.indexOf("PHYS") > -1 && name.indexOf("221") > -1  && toRRule(WeekDays).length == 2) //Make sure that it only occurs on one day. For some reason indexOf(PHYS 221) returns -1.
+	{
+		//Make a new fortnightly RRule
+		var biRule = {
+		freq: "WEEKLY",
+		INTERVAL: 2, //Every other week
+		until: new Date(end.setHours(1,0)),
+	};
+		
+		//Add it for week one
+		cal.addEvent(name, "Class",location, new Date(eventStartString), new Date(eventEndString), biRule, toRRule(WeekDays),exDateStr);
+		
+		
+		//TODO REMOVE, cleanup
+		 var eventStartString2 = (eventStart.getMonth()+1).toString().concat("/").concat((eventStart.getDate() + 7).toString()).concat("/").concat(eventStart.getFullYear().toString()).concat(" ").concat(eventStart.getHours().toString()).concat(":").concat(eventStart.getMinutes().toString());
+		
+		//Add it for week 2.
+		cal.addEvent(name, "Class",location, new Date(eventStartString2), new Date(eventEndString), biRule, toRRule(WeekDays),exDateStr);
+		
+		//Let the user know that there are two separate events.
+		alert("Physics 221 lab meets every other week. Delete the entire series of labs that are not on the week you meet.");
+		
+		//Skip the weekly event.
+		return;
+	}
+	
 	 
 	var rule = {
 		freq: "WEEKLY",
@@ -478,6 +512,18 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	};
 	
 		cal.addEvent(name, "Class",location, new Date(eventStartString) ,new Date(eventEndString), rule, toRRule(WeekDays),exDateStr);
+}
+	
+	//custom format for time. Google calendar hates 24 hour time 
+	//This emulates the ISO standard, but for central time.
+	function formatDate(date, hours, minutes) {
+	var d = new Date(date);
+	d.setHours(hours, -d.getTimezoneOffset(), 0, 0); //removing the timezone offset.
+		d.setMinutes(minutes);
+	return d.toISOString(); //2013-04-18T00:00:00.000Z
+	
+		//var d = new Date(date.setHours(hours, minutes)); 
+		//return new Date(d.toISOString().replace("Z", "+05:00")).toISOString().replace(".000", "");
 }
 	
 	//Converts weekdays to RRULE stating byrules
