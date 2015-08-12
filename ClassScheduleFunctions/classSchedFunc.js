@@ -818,8 +818,6 @@ $(document).ready(function() {
   updateIDs(); //Add ids to each table row
   updProfs = remRepeats(profs); //save a list of professors without any repeats
 
-  updateIDs(); 
-  updProfs = remRepeats(profs);
   
   var superDiv = $('<div><div>'); //Div that will contain all of the elements of the RMP div. We need a master div to make ordering the elements easier 
   var buttonDiv = $('<div style = "height: 15px;"></div>'); //Div that will contain all elements related to the button
@@ -865,10 +863,6 @@ $(document).ready(function() {
   var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.6);  border: none !important;"> </button> </div>'); 
   superDiv.append(btn);
   document.getElementById("button").addEventListener("click", function(){func()});
-          
-  var btn = $('<div> <button id="button" style = "width:2px; height:5px; background-color:rgba(236, 236, 236, 0.6);  border: none !important;"> </button> </div>'); 
-        superDiv.append(btn);
-     document.getElementById("button").addEventListener("click", function(){func()});
       
   function func(){ //^ω^
    if (clicked == false) {
