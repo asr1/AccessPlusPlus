@@ -446,15 +446,6 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	var eventEnd = new Date(start.setHours(eventTimeEnd.getHours(),eventTimeEnd.getMinutes()));
 	var newDate = start.setDate(start.getDate() + 1);
 	start = new Date(newDate);
-	
-	 //Hopefully the longest, grossest line of parsey Javascript I will ever produce. --Did you see all the crap I had to write?
-	//It converts the event to a properly formatted string
-	 var eventStartString = (eventStart.getMonth()+1).toString().concat("/").concat(eventStart.getDate().toString()).concat("/").concat(eventStart.getFullYear().toString()).concat(" ").concat(eventStart.getHours().toString()).concat(":").concat(eventStart.getMinutes().toString());//.concat(" PM"));
-	 
-	 //There is a discrepancy between indexing in months, hence the + 1
-	 var eventEndString = (eventEnd.getMonth()+1).toString().concat("/").concat(eventEnd.getDate().toString()).concat("/").concat(eventEnd.getFullYear().toString()).concat(" ").concat(eventEnd.getHours().toString()).concat(":").concat(eventEnd.getMinutes().toString());
-	
-	
 
 	//Create the EXDATE property string used to exclude holidays.
 	while(start < end)
@@ -477,6 +468,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	console.log(exDateStr);
 	 
 	 //BEGIN PHYSICS 221 LAB 
+	 //TODO
 
 	 //If we're taking the physics 221 lab, make it two events that occur fortnightly.
 	if(name.indexOf("PHYS") > -1 && name.indexOf("221") > -1  && toRRule(WeekDays).length == 2) //Make sure that it only occurs on one day. For some reason indexOf(PHYS 221) returns -1.
@@ -489,14 +481,10 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	};
 		
 		//Add it for week one
-		cal.addEvent(name, "Class",location, new Date(eventStartString), new Date(eventEndString), biRule, toRRule(WeekDays),exDateStr);
-		
-		
-		//TODO REMOVE, cleanup
-		 var eventStartString2 = (eventStart.getMonth()+1).toString().concat("/").concat((eventStart.getDate() + 7).toString()).concat("/").concat(eventStart.getFullYear().toString()).concat(" ").concat(eventStart.getHours().toString()).concat(":").concat(eventStart.getMinutes().toString());
+		cal.addEvent(name, "Class",location, eventStart, eventEndString, biRule, toRRule(WeekDays),exDateStr);
 		
 		//Add it for week 2.
-		cal.addEvent(name, "Class",location, new Date(eventStartString2), new Date(eventEndString), biRule, toRRule(WeekDays),exDateStr);
+		cal.addEvent(name, "Class",location, new Date(eventStart), eventEnd, biRule, toRRule(WeekDays),exDateStr);
 		
 		//Let the user know that there are two separate events.
 		alert("Physics 221 lab meets every other week. Delete the entire series of labs that are not on the week you meet.");
@@ -511,7 +499,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		until: new Date(end.setHours(1,0)),
 	};
 	
-		cal.addEvent(name, "Class",location, new Date(eventStartString) ,new Date(eventEndString), rule, toRRule(WeekDays),exDateStr);
+		cal.addEvent(name, "Class",location, new Date(eventStart) ,new Date(eventEnd), rule, toRRule(WeekDays),exDateStr);
 }
 	
 	//custom format for time. Google calendar hates 24 hour time 
