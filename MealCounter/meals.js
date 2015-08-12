@@ -81,10 +81,10 @@ function getPlanSem(str){
 //Returns the term associated with the given date
 function getTerm (month, day, year){
     year += 1900; //yeah...
-    
     //Plan starts on a monday on the third week of May and ends on a friday of the 1st week of August
     if (month >= 4 && month <= 7){
-        if (!((month == 4 && (day <= 14) ||(month == 7 && (day >= 7))))){     
+
+        if (((month == 4 && (day <= 14) ||(month == 7 && (day >= 7))))){  
             var sumStartStr = "May 14, " + year; //we know the term starts some time in May (3rd week)
             var sumStr = new Date(sumStartStr);
             var sumEndStr = "August 1," + year;
@@ -165,7 +165,7 @@ function initMeals (str){
             avgMealsW = 0;
             avgMealsM = 0;          
         }
-    
+
 		else if(str.indexOf("Bronze") > -1){
 			startMeals = 125;
             avgMealsD = new mealsD(1, 1, "1(+1)");
@@ -200,6 +200,13 @@ function initMeals (str){
             avgMealsW = 19;
             avgMealsM = 76;
 		}
+    
+        else { //Whelp this is me not being able to think of other conditions
+            startMeals = 0;
+            avgMealsD = new mealsD(0, 0, "0");
+            avgMealsW = 0;
+            avgMealsM = 0;   
+        }
     
 }
 
@@ -381,7 +388,6 @@ $(document).ready(function() {
             initMeals(str);
             calcExtra();
         
-
             var img = $('<div style = "float:left; padding: 10px; padding-top: 70px;"> <img src = "http://www.webweaver.nu/clipart/img/misc/food/fast-food/hot-dog.png" style = "width:50px; height: 50px;" <br></div>');
             var interrogation = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 50px; height: 50px; padding-left: 10px; margin-left: -40px; margin-top: -280px; z-index:2; position:absolute;"><img src = "http://img3.wikia.nocookie.net/__cb20140921131252/criminal-case-grimsborough/images/a/a7/Question_Mark-Icon.png" style = "width:50px; height: 50px;"></div>');
             var bubble = $('<div style = "margin-top:20px;  margin-bottom: 20px; width:300px; height:325px; background:rgb(248, 248, 248); border: 10px solid; border-image: linear-gradient(rgba(50, 104, 153, 0.7), rgba(74, 188, 232, 0.5)) 1 100%; border-radius:15px;">\
@@ -440,5 +446,6 @@ $(document).ready(function() {
                 toPrint+=("\n\nStarting month for: " + meals.semester + " is " + meals.sMonth + "\n\n" + "Starting date is: " + meals.sDate + "\n\nEnding month is: " + meals.eMonth + "\n\nEnding date is: " + meals.eDate + "\n\nIs Holiday? " + isHoliday);
                 console.log(toPrint);
             }
+            
         }
     });
