@@ -23,6 +23,8 @@ var tdId; //keeps track of the current tdId being read
 
 var profs = []; //will store the prof's names here
 
+var numRMPEntries = 0; //counter for the number of RMP entries -- mostly used for CSS
+
  //Classes can have multiple meeting times at different places, if this happens then the 
 								 //arrays containing the class information will have varying length. As such we should keep track 
 								 //of the amount of times we get multiple consecutive meeting dates. When several meeting dates are found,
@@ -46,15 +48,15 @@ var toPrint = "";
 
 //This comment is mostly wrong. //Can we make it right?
 //ClassInfo object, each object will contain all needed information for the calendar exportation
-//nome - class name
+//name - class name
 //mDays - meeting days, all days of the week where the class meets
 //mTimesS - meeting times (start)
 //mTimesE - meeting times (end)
 //loc - class location
 //After each object is created, they will be saved in an array
-//access their parameters by, for example calling, classInfo.nome to retrieve the name
-function classInfo(nome, mDays, mTimesS, mTimesE, mDates, loc){
-		this.nome = nome;
+//access their parameters by, for example calling, classInfo.name to retrieve the name
+function classInfo(name, mDays, mTimesS, mTimesE, mDates, loc){
+		this.name = name;
 		this.mDays = mDays;
 		this.mTimesS = mTimesS;
 		this.mTimesE = mTimesE;
@@ -115,22 +117,22 @@ function remRepeats(arr){
    });
     
    //Search for spots that do not have letters or that are blank
-   for (i = 1; i < result.length; i++){
+   for (i = 0; i < result.length; i++){
        if (!/[a-zA-Z]/.test(result[i]) || /%20/g.test(result[i])) {
-           result.splice(i,i); //if found, get rid of them
+           result.splice(i,1); //remove a single item at pos i
        }
    }
-    if (!/[a-zA-Z]/.test(result[0]) || /%20/g.test(result[0])) { //splice(0,0) does not work. we need an extra check for the first element
-           result.shift(); //removes the first element if it is blank
-    }    
+//    if (!/[a-zA-Z]/.test(result[0]) || /%20/g.test(result[0])) {
+//           result.shift(); //removes the first element if it is blank
+//    }    
     return result;
 }
 
 //Parses the given name to separate the first name from the last name
 //includes a ',' to the last name 
-//@param nome - teachers name
-function parseName(nome){
-	var splited = nome.split(',');
+//@param name - teachers name
+function parseName(name){
+	var splited = name.split(',');
 	splited[0] + ',';
 	return splited;
 }
@@ -305,7 +307,7 @@ function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrDates, arrLoc){
 function checkValues (arr, isClassInfo){ //just for testing purposes
 	if (isClassInfo){
 		for (i = 0; i < arr.length; i++){
-			toPrint += arr[i].nome;	
+			toPrint += arr[i].name;	
             toPrint += " ";
 			toPrint += arr[i].mDays;
             toPrint += " ";
@@ -694,7 +696,7 @@ return true;
 		}
 		
 		//Create everything
-		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].nome,classInfoArr[i].loc);	
+		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].name,classInfoArr[i].loc);	
 		
 	}
 	/*
@@ -710,7 +712,7 @@ return true;
 
 		//Display a loading gif if we downloaded successfully.
         document.getElementById("wait").style.display = "block";
-        setTimeout(function(){document.getElementById("wait").style.display = "none";}, 850);
+        setTimeout(function(){document.getElementById("wait").style.display = "none";}, 1200);
 		cal.download(cal); //ICS format 
 
 		//cal.download(cal,".csv"); //If we want different extensions              
@@ -777,17 +779,35 @@ function getBoxSize(number){
 	return mult + 'px';
 }
 
+//Adds css style to each "check my rating" button
+function addStyleRmp(){
+    var id = "rmpEntry0";
+    for (i = 0; i <= numRMPEntries; i++){
+        document.getElementById(id).onmouseover = function(){ 
+            this.style.backgroundColor = "#b8dc29";
+        }
+        document.getElementById(id).onmouseout = function(){ 
+            this.style.backgroundColor = "#aac628";
+        }
+        
+        id = id.substr(0, id.length - 1);
+        id += i;
+    }
+}
+
 //The css for each rmp entry. 
 //backGColor - background color for the div
 //prof - prof's name
-//nome - parsed name
-function cssEntry(backGColor, prof, nome){
-	
+//name - parsed name
+function cssEntry(backGColor, prof, name){
+	    var id = "rmpEntry" + numRMPEntries;
+        numRMPEntries++;
+    
 		var txtShadow = 'font-size: 1em; text-shadow: 1px 1px 0px rgba(150, 150, 150, 1); font-family:Verdana, Geneva, sans-serif;';
 		return '<div style="background-color:' + backGColor + ';    border-radius: 5px;padding-bottom:10px;display:table; width:320px; height: 20px;">\
-                <table style=""><tr><td style="padding-left: 30px; padding-top: 10px;width:150px;'+txtShadow+'">'+prof+'</td>\
+                <table style=""><tr><td style="padding-left: 30px; padding-top: 10px;width:150px;">'+prof+'</td>\
                 <td style="width:150px"><br>\
-                <a style = " border: 1px solid black; padding-left: 100px;text-shadow: none; text-decoration: none; color: white; padding: 5px; background-color: #aac628; border-radius: 7px;" href= "http://www.ratemyprofessors.com/search.jsp?query=' + nome + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a>\
+                <a id = '+ id +' style = " border: 1px solid black; padding-left: 100px;text-shadow: none; text-decoration: none; color: white; padding: 5px; background-color: #aac628; border-radius: 7px;" href= "http://www.ratemyprofessors.com/search.jsp?query=' + name + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a>\
                 </td></tr></table></div>';		
 	
 }
@@ -799,7 +819,7 @@ function cssEntry(backGColor, prof, nome){
 //The UI part of the application 
 $(document).ready(function() {
  var updProfs = []; //updated array with the professor information, will not contain any repeated names
- var nome = []; 
+ var name = []; 
  
  if (url == accessPlus || url == accessPlus1){
 
@@ -817,7 +837,7 @@ $(document).ready(function() {
   var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>'); //The div containing the professor list
   var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>'); //The red gradient div for the RMP
 
-  superDiv.append("<br><br><br><br><br>");
+  superDiv.append("<br><br><br><br><br><br>");
   
   //Lets structure our RMP UI
 
@@ -831,15 +851,17 @@ $(document).ready(function() {
   //Appends the professor name and link to the box div
   //Will alternate background color depending on the entry's index     
   for (i = 0; i < updProfs.length; i++){ 
-   nome = parseName(updProfs[i]);
+   name = parseName(updProfs[i]);
    if (!(i%2 == 0)) {
-    $(box).append(cssEntry('#E8E8E8', updProfs[i], nome[0]));
+    $(box).append(cssEntry('#E8E8E8', updProfs[i], name[0]));
    }
    
    else {
-    $(box).append(cssEntry('white', updProfs[i], nome[0]));
+    $(box).append(cssEntry('white', updProfs[i], name[0]));
    }
   } 
+
+
 
   //Finishing touches to our superDiv
   //We have to use prepend instead of append to force the web page to place our div before the class list
@@ -865,22 +887,24 @@ $(document).ready(function() {
      
  //Creation of our exportButton div
  //Using divs instead of a straight up button element since I wanted to customize its appearance
- var expBut = $('<br><div title="Generate an .ics Calendar" style = "float:left; position: relative; padding: 15px; margin-left: 133px"><button id="exportBut" style = "border-radius: 5px; box-shadow: 1px 1px 1px #888888; padding: 5px;color: #FFF;background-color: #900;font-weight: bold;"><img src="http://rightsfreeradio.com/wp-content/uploads/2013/05/Shopping-Cart-Icon-256-e1368787850653.png" style="width:17px;height:17px; margin-right: 3px;"> Export My Calendar</button></div>');
+ var expBut = $('<br><div style = "float: left;" ><div title="Generate an .ics Calendar" style = "position: relative; padding: 15px; margin-left: 170px"><button id="exportBut" style = "border-radius: 5px; box-shadow: 1px 1px 1px #888888; padding: 5px;color: #FFF;background-color: #900;"><img src="http://www.chaoskitty.com/wp-content/uploads/2015/03/3D-Calendar-red.png" style="float:left; width:45px;height:45px; margin-right: 5px; "> <img src = "http://fightingforourheroesfoundation.org/wordpress/wp-content/uploads/2013/03/arrow-left.png" style="width:35px;height:35px;"></button></div> <div id = "expCalTitle" style = "display: none; margin-left: 178px;"><span><b>Export My Calendar</b></span></div></div>');
   buttonDiv.append(expBut);
   element.prepend(buttonDiv);
   document.getElementById("exportBut").addEventListener("click", function(){expSched()});
   document.getElementById("exportBut" ).onmouseover = function(){ //On hover functionality -- hovering over the button will update its background and the mouse cursor
     this.style.backgroundColor = "#CC0000";
     this.style.cursor = "pointer";
+    document.getElementById("expCalTitle").style.display = 'block';
   }
   
   //On hover functionality -- moving the mouse away, revert button to original color
   document.getElementById("exportBut" ).onmouseout = function(){
     this.style.backgroundColor = "#900";
+    document.getElementById("expCalTitle").style.display = 'none';
   }
   
   //When button is clicked, display a loading gif -- demonstrates that the button's code was actually being performed
-  var waitDiv = $('<div id = "wait" style= "display: none;"><img src="https://order.mediacomcable.com/Content/images/spinner.gif" alt="Wheres My Loading Gif?" style="width:25px;height:25px"> </div>');
+  var waitDiv = $('<div id = "wait" style= "display: none;"><img src="http://www.personalitymatch.net/Content/Images/Misc/ajax-loader.gif" alt="Wheres My Loading Gif?" style="width:25px;height:25px"> </div>');
   buttonDiv.append(waitDiv);
 
   //Updates the rest of our list -- this part is related to the Calendar Export function
@@ -890,6 +914,8 @@ $(document).ready(function() {
   createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
   //checkValues(classInfoArr, true);
   //checkValues(profs, false);
+  
+  addStyleRmp(); //add some styling to the rmp buttons
  }
 
 });
