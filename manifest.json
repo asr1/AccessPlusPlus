@@ -14,8 +14,7 @@
 	[
 	{
 		"matches":["https://accessplus.iastate.edu/*"],
-		"js":["jquery.min.js", "ClassScheduleFunctions/dependencies.js", "ClassScheduleFunctions/classSchedFunc.js"],
-        "run_at":"document_end"
+		"js":["jquery.min.js", "ClassScheduleFunctions/dependencies.js", "ClassScheduleFunctions/classSchedFunc.js"]
 	},
 	{
 		"matches":["https://accessplus.iastate.edu/servlet/adp.A_Plus"],
