@@ -805,9 +805,9 @@ function cssEntry(backGColor, prof, name){
     
 		var txtShadow = 'font-size: 1em; text-shadow: 1px 1px 0px rgba(150, 150, 150, 1); font-family:Verdana, Geneva, sans-serif;';
 		return '<div style="background-color:' + backGColor + ';    border-radius: 5px;padding-bottom:10px;display:table; width:320px; height: 20px;">\
-                <table style=""><tr><td style="padding-left: 30px; padding-top: 10px;width:150px;">'+prof+'</td>\
+                <table style=""><tr><td style="padding-left: 30px; padding-top: 10px;width:150px;"><b>'+prof+'</td>\
                 <td style="width:150px"><br>\
-                <a id = '+ id +' style = " border: 1px solid black; padding-left: 100px;text-shadow: none; text-decoration: none; color: white; padding: 5px; background-color: #aac628; border-radius: 7px;" href= "http://www.ratemyprofessors.com/search.jsp?query=' + name + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a>\
+                <a id = '+ id +' style = "box-shadow: 1px 1px 1px #888888; border: 1px solid black; padding-left: 100px;text-shadow: none; text-decoration: none; color: white; padding: 5px; background-color: #aac628; border-radius: 5px;" href= "http://www.ratemyprofessors.com/search.jsp?query=' + name + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a>\
                 </td></tr></table></div>';		
 	
 }
