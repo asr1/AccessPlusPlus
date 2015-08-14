@@ -18,7 +18,7 @@ var regex = new RegExp("[0-9]{1,3}") ;
 var meals_left= meals_left_str.match(regex)[0];		
 var timef = "day"; //let's initially start @daily
 var isHoliday = false;
-var debug = false; //testing purposes
+var debug = false; //testing purposes -- set to true when you want variables to be printed out on the console
 var toPrint = ""; //string where we're printing all of our debug info
 
 //String containing the student's dining information 
@@ -49,26 +49,33 @@ function mealsD(avgMeals, extraW, avgMealsDstr){
 //Meal plan isn't used during hollidays. 
 //Pretty sure it aint served during thanksgiving
 //No meals are served May 25 (Memorial Day)
-//Dinner is not served on July 4 (Independance Day) - WHY only dinner?? WHy do YoU MaKE My LIfE HarDEeEeeEEr?
+//Dinner is not served on July 4 (Independance Day) 
+//No meals are served during spring break
 function getHoliday(year){
     year+=1900;
-    //Thanksgiving-- fourth thursday of november
-    var thanksgivingD = new Date("November 21, " + year);
+    var thanksgivingD = new Date("November 21, " + year); //Thanksgiving-- fourth thursday of november
     var memDay = new Date ("May 21, " + year); //last monday of may
+    var springBreak = new Date ("March 7, " + year); //Begins on the second saturday of March
     
     while(thanksgivingD.getDay() != 4){
         thanksgivingD.setDate(thanksgivingD.getDate() + 1);
     }
     
-    if ((date.getDate() >= thanksgivingD.getDate().getDate()) && (date.getDate() <= (thanksgivingD.getDate()+7))){//gotta check - thanksgiving is a week yes?
+    if ((date.getDate() >= thanksgivingD.getDate().getDate()) && (date.getDate() <= (thanksgivingD.getDate()+7))){
         isHoliday = true;
     }
     
     while (memDay.getDay() != 1){
         memDay.setDate(memDay.getDate() + 1);
     }
-
+    
     if (date.getDate() == thanksgivingD.getDate()) isHoliday = true;
+    
+    while (springBreak.getDate() != 6){
+        springBreak.setDate(springBreak.getDate() + 1);
+    }
+    
+    if (date.getDate() == springBreak.getDate()) isHoliday = true;
 }
 
 //Returns the current plan's semester
@@ -82,10 +89,9 @@ function getPlanSem(str){
 function getTerm (month, day, year){
     year += 1900; //yeah...
     //Plan starts on a monday on the third week of May and ends on a friday of the 1st week of August
-    if (month >= 4 && month <= 7){
+    if ((month >= 4 && month <= 7) && (!((month == 4 && (day <= 14) ||(month == 7 && (day >= 7)))))){//ignore if we're before the third week of May or after the first week of Aug 
 
-        if (((month == 4 && (day <= 14) ||(month == 7 && (day >= 7))))){  
-            var sumStartStr = "May 14, " + year; //we know the term starts some time in May (3rd week)
+            var sumStartStr = "May 14, " + year; 
             var sumStr = new Date(sumStartStr);
             var sumEndStr = "August 1," + year;
             var sumEnd = new Date(sumEndStr);
@@ -97,48 +103,47 @@ function getTerm (month, day, year){
             while ((sumEnd.getDay() != 5)){
                 sumEnd.setDate(sumEnd.getDate() + 1);
             }  //Friday of the 1st week
-        }
+        
     
         
         meals = new mealsInfo("summer", getPlanSem(meals_left_str), sumStr.getDate(), sumStr.getMonth(), sumEnd.getDate(), sumEnd.getMonth());
     }
     
-    //Plan starts on a tuesday on the third week of august and ends on a saturday of the 3rd week of August
-    else if (month >= 7 && month <= 11){
-        if (!((month == 7 && (day <= 14) ||(month == 11 && (day >= 21))))){ //ignore if we're before the third wk of Aug or after the 3rd wk of Dec
+    //Plan starts on a tuesday on the third week of august and ends on a friday of the 3rd week of December
+    else if (month >= 7 && month <= 11 && (!(month == 7 && day <= 1) ||(month == 11 && (day >= 21)))){ //ignore if we're before the third wk of Aug or after the 3rd wk of Dec
+        
             var fallStartStr = "August 14, " + year; //we know the term starts some time in August (3rd week)
             var fallStr = new Date(fallStartStr);
-            var fallEndStr = "December 1, " + year; 
+            var fallEndStr = "December 14, " + year; 
             var fallEnd = new Date(fallEndStr);
             
             while ((fallStr.getDay() != 2)){ //tuesday
                 fallStr.setDate(fallStr.getDate() + 1);
             }
 
-            while ((fallEnd.getDay() != 6)){ //saturday
+            while ((fallEnd.getDay() != 5)){ //friday
                 fallEnd.setDate(fallEnd.getDate() + 1);
             }  //Saturday of the 3rd week
-        }
+        
         
         meals = new mealsInfo("fall", getPlanSem(meals_left_str), fallStr.getDate(), fallStr.getMonth(), fallEnd.getDate(), fallEnd.getMonth());
     }
     
-    //Plan starts on a saturday on the second week of Jan and ends on a Sunday of the 2nd week of May
-    else if (month >= 0 && month <= 4){
-        if (!((month == 0 && (day <= 7) ||(month == 4 && (day >= 14))))){ //ignore if its before the 2nd wk of Jan or after the 2nd wk of May
-            var sprStartStr = "January 1, " + year; //we know the term starts some time in January
+    //Plan starts on a saturday on the second week of Jan and ends on a Sunday of the 1st week of May
+    else if (month >= 0 && month <= 4 && (!(month == 0 && day > 7 ||(month == 4 && (day <= 14))))){ //ignore if its before the 2nd wk of Jan or after the 2nd wk of May
+            var sprStartStr = "January 7, " + year; //we know the term starts some time in January
             var sprStr = new Date(fallStartStr);
-            var sprEndStr = "May 7, " + year; //we know the term ends sometime during the second week
+            var sprEndStr = "May 1, " + year; //we know the term ends sometime during the first week
             var sprEnd = new Date(fallEndStr);  
 
             while ((sprStr.getDay() != 6)){ //saturday
                 sprStr.setDate(sprStr.getDate() + 1);
             }
 
-            while ((sprEnd.getDay() != 0)){ //sunday
+            while ((sprEnd.getDay() != 5)){ //friday
                 sprEnd.setDate(sprEnd.getDate() + 1);
             }  //Sunday of the 2nd week
-        }
+        
 
         meals = new mealsInfo("spring", getPlanSem(meals_left_str), sprStr.getDate(), sprStr.getMonth(), sprEnd.getDate(), sprEnd.getMonth());
     }
@@ -320,7 +325,6 @@ function updBorder(id, circleId){
 
 }
 
-
 function updText(timef, avgMeals){
    if (debug) console.log(toPrint);
    var avgMealsComp = avgMeals;
@@ -351,6 +355,10 @@ function updText(timef, avgMeals){
     
     else if (extraMeals > avgMealsComp){
         document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>above</u> by: <b>'+extraMeals+'</b></div>';   
+    }
+    
+    else{ //in any other scenario, assume A+ terminated the last meal plan but has yet to activate the next term's meal plan
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
     }
 }
 
@@ -387,7 +395,7 @@ $(document).ready(function() {
             initStart();
             initMeals(str);
             calcExtra();
-        
+
             var img = $('<div style = "float:left; padding: 10px; padding-top: 70px;"> <img src = "http://www.webweaver.nu/clipart/img/misc/food/fast-food/hot-dog.png" style = "width:50px; height: 50px;" <br></div>');
             var interrogation = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 50px; height: 50px; padding-left: 10px; margin-left: -40px; margin-top: -280px; z-index:2; position:absolute;"><img src = "http://img3.wikia.nocookie.net/__cb20140921131252/criminal-case-grimsborough/images/a/a7/Question_Mark-Icon.png" style = "width:50px; height: 50px;"></div>');
             var bubble = $('<div style = "margin-top:20px;  margin-bottom: 20px; width:300px; height:325px; background:rgb(248, 248, 248); border: 10px solid; border-image: linear-gradient(rgba(50, 104, 153, 0.7), rgba(74, 188, 232, 0.5)) 1 100%; border-radius:15px;">\
@@ -446,6 +454,5 @@ $(document).ready(function() {
                 toPrint+=("\n\nStarting month for: " + meals.semester + " is " + meals.sMonth + "\n\n" + "Starting date is: " + meals.sDate + "\n\nEnding month is: " + meals.eMonth + "\n\nEnding date is: " + meals.eDate + "\n\nIs Holiday? " + isHoliday);
                 console.log(toPrint);
             }
-            
         }
     });
