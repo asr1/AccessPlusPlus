@@ -29,6 +29,9 @@ This project uses a modified version of <a href="https://github.com/connorbode/i
 
 ## Changelog
 **Version 1.2.4.0:**
+* Minor fixes to calendar and meal tracker.
+
+**Version 1.2.4.0:**
 * Holidays now work in Google Calendar. Most programs ignore dates passed in with the exdate parameter. Google requires that they have the exact start time as the event. That is, there is no way to prevent any event from being created on a given day; only events that you know the start time of.
 
 **Version 1.2.3.0:**
