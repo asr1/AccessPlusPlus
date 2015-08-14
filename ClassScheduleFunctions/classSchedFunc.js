@@ -803,11 +803,10 @@ function cssEntry(backGColor, prof, name){
 	    var id = "rmpEntry" + numRMPEntries;
         numRMPEntries++;
     
-		var txtShadow = 'font-size: 1em; text-shadow: 1px 1px 0px rgba(150, 150, 150, 1); font-family:Verdana, Geneva, sans-serif;';
 		return '<div style="background-color:' + backGColor + ';    border-radius: 5px;padding-bottom:10px;display:table; width:320px; height: 20px;">\
                 <table style=""><tr><td style="padding-left: 30px; padding-top: 10px;width:150px;"><b>'+prof+'</td>\
                 <td style="width:150px"><br>\
-                <a id = '+ id +' style = "box-shadow: 1px 1px 1px #888888; border: 1px solid black; padding-left: 100px;text-shadow: none; text-decoration: none; color: white; padding: 5px; background-color: #aac628; border-radius: 5px;" href= "http://www.ratemyprofessors.com/search.jsp?query=' + name + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a>\
+                <a id = '+ id +' style = "box-shadow: 2px 2px 2px #888888; border: 1px solid black; padding-left: 100px;text-shadow: none; text-decoration: none; color: white; padding: 5px; background-color: #aac628; border-radius: 5px;" href= "http://www.ratemyprofessors.com/search.jsp?query=' + name + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a>\
                 </td></tr></table></div>';		
 	
 }
@@ -825,7 +824,6 @@ $(document).ready(function() {
 
   updateIDs(); //Add ids to each table row
   updProfs = remRepeats(profs); //save a list of professors without any repeats
-
   
   var superDiv = $('<div><div>'); //Div that will contain all of the elements of the RMP div. We need a master div to make ordering the elements easier 
   var buttonDiv = $('<div style = "height: 15px;"></div>'); //Div that will contain all elements related to the button
@@ -835,7 +833,8 @@ $(document).ready(function() {
   var hatDiv = $('<div style = "margin-left: 340px; ; z-index: 1; padding-top: 9px; position: absolute;"> <img src="http://findicons.com/files/icons/2677/educons/128/graduation_hat.png" style = "-webkit-transform: rotate(15deg); width: 57px; height: 50px;"> </div>'); //The graduation hat div
 
   var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>'); //The div containing the professor list
-  var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>'); //The red gradient div for the RMP
+     
+  var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>'); //The red gradient div for the RMP
 
   superDiv.append("<br><br><br><br><br><br>");
   
@@ -861,8 +860,6 @@ $(document).ready(function() {
    }
   } 
 
-
-
   //Finishing touches to our superDiv
   //We have to use prepend instead of append to force the web page to place our div before the class list
   superDiv.append(div);
@@ -887,7 +884,7 @@ $(document).ready(function() {
      
  //Creation of our exportButton div
  //Using divs instead of a straight up button element since I wanted to customize its appearance
- var expBut = $('<br><div style = "float: left;" ><div title="Generate an .ics Calendar object" style = "position: relative; padding: 15px; margin-left: 167px"><button id="exportBut" style = "border-radius: 5px; box-shadow: 1px 1px 1px #888888; padding: 5px;color: #FFF;background-color: #900;"><img src="http://www.chaoskitty.com/wp-content/uploads/2015/03/3D-Calendar-red.png" style="float:left; width:45px;height:45px; margin-right: 5px; "> <img src = "http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/magic-marker-icons-arrows/114827-magic-marker-icon-arrows-arrow-thick-right.png" style="width:45px;height:45px; -webkit-filter: invert(100%); filter: invert(100%);"></button></div> <div id = "expCalTitle" style = "display: none; margin-left: 178px;"><span><b>Export My Schedule</b></span></div></div>');
+ var expBut = $('<br><div style = "float: left;" ><div title="Generate an .ics Calendar object" style = "position: relative; padding: 15px; padding-bottom: 10px;margin-left: 167px"><button id="exportBut" style = "border-radius: 5px; box-shadow: 1px 1px 1px #888888; padding: 5px;color: #FFF;background-color: #900;"><img src="http://www.chaoskitty.com/wp-content/uploads/2015/03/3D-Calendar-red.png" style="float:left; width:45px;height:45px; margin-right: 5px; "> <img src = "http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/magic-marker-icons-arrows/114827-magic-marker-icon-arrows-arrow-thick-right.png" style="width:45px;height:45px; -webkit-filter: invert(100%); filter: invert(100%);"></button></div> <div id = "expCalTitle" style = "display: none; margin-left: 178px;"><span><b>Export My Schedule</b></span></div></div>');
   buttonDiv.append(expBut);
   element.prepend(buttonDiv);
   document.getElementById("exportBut").addEventListener("click", function(){expSched()});
@@ -903,7 +900,7 @@ $(document).ready(function() {
     document.getElementById("expCalTitle").style.display = 'none';
   }
   
-  //When button is clicked, display a loading gif -- demonstrates that the button's code was actually being performed
+  //When button is clicked, display a loading gif -- demonstrates that the button's code is actually being performed
   var waitDiv = $('<div id = "wait" style= "display: none;"><img src="http://www.personalitymatch.net/Content/Images/Misc/ajax-loader.gif" alt="Wheres My Loading Gif?" style="width:25px;height:25px"> </div>');
   buttonDiv.append(waitDiv);
 
