@@ -44,14 +44,15 @@ var classInfoArr = []; //will store objects which contain (hopefully) all of the
 
 //whether a calendar was created successfully or not
 var convSuccess = false;
-var toPrint = "";
 
-//This comment is mostly wrong. //Can we make it right?
+var toPrint = ""; //Used for testing purposes -- concatenates information to be printed
+
 //ClassInfo object, each object will contain all needed information for the calendar exportation
 //name - class name
 //mDays - meeting days, all days of the week where the class meets
 //mTimesS - meeting times (start)
 //mTimesE - meeting times (end)
+//mDates - the dates of when the class ends and starts in a semester 
 //loc - class location
 //After each object is created, they will be saved in an array
 //access their parameters by, for example calling, classInfo.name to retrieve the name
@@ -68,8 +69,7 @@ function classInfo(name, mDays, mTimesS, mTimesE, mDates, loc){
 //No. Whoever developed this ancient tome decided to write this masterpeace as if we were still stuck in the 80s, 
 //where friggin ids were mythical beings who should never be disturbed for fear of divine retribution. 
 //So how on earth are we supposed to find the ridiculous amount of data that we need in order to get this plugin to work??
-//Well, after cussing at A++ with every insult known (and a few unkown) to man, and developing a dislike which burned like
-//acidic poison for this rare gem of a website, I decided to wholeheartedly embrace hacky code. 
+//I decided to wholeheartedly embrace hacky code 
 //In other words: lets inject an id for each table and use them to search for the required info. IN YOUR FACE ACCESS PLUS
 //-----------------------------------------------------------------------------
 
@@ -254,7 +254,7 @@ function checkDates(id){
 	}
 }
 
-//Checks whether the row associated with the given id has contains the class' name,
+//Checks whether the row associated with the given id contains the class' name,
 //if so, it'll save the class name
 //@param id - id of the given row
 function checkClassName(id){
@@ -304,7 +304,10 @@ function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrDates, arrLoc){
 		
 }
 
-function checkValues (arr, isClassInfo){ //just for testing purposes
+//Just used for testing purposes - prints out the values contained in the given array
+//@param arr - the given array
+//@param isClassInfo - whether the array contains ClassInfo object or not (boolean value)
+function checkValues (arr, isClassInfo){ 
 	if (isClassInfo){
 		for (i = 0; i < arr.length; i++){
 			toPrint += arr[i].name;	
@@ -329,7 +332,6 @@ function checkValues (arr, isClassInfo){ //just for testing purposes
 		}
 	}
     //alert(toPrint);
-
 }
 
 //meetingDate object, will contain the different parts of the meeting date string, such as month, date year
@@ -847,7 +849,7 @@ $(document).ready(function() {
   $(box).append(title);  
   $(div).append(box);  
 
-  //Appends the professor name and link to the box div
+  //Appends the professor name and links them to the box div
   //Will alternate background color depending on the entry's index     
   for (i = 0; i < updProfs.length; i++){ 
    name = parseName(updProfs[i]);
@@ -909,6 +911,7 @@ $(document).ready(function() {
   getMeetingDates(startEndDate);
   getLocations(locations);
   createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
+     
   //checkValues(classInfoArr, true);
   //checkValues(profs, false);
   
