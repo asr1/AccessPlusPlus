@@ -373,14 +373,14 @@ var ics = function() {
             var calendarEvent = [
                 'BEGIN:VEVENT',
                 'CLASS:PUBLIC',
-		'TZID:US/Central', //Force Central
+		        'TZID:US/Central', //Force Central
                 'DESCRIPTION:' + description,
                 'DTSTART;VALUE=DATE-TIME:' + start,
                 'DTEND;VALUE=DATE-TIME:' + end,
                 'LOCATION:' + location,
                 'SUMMARY;LANGUAGE=en-us:' + subject,
-				'EXDATE;TZID=US-Central:' + exdates,  //Force Central, Exdate is a formatted string containing dates to skip (Holidays), as per the RRUle standard.
-		'TRANSP:TRANSPARENT',
+				'EXDATE;TZID=US-Central:' + exdates,  //Force Central, exdates is a formatted string containing dates to skip (Holidays), as per the RRUle standard.
+		        'TRANSP:TRANSPARENT',
                 'END:VEVENT'
             ];
 
