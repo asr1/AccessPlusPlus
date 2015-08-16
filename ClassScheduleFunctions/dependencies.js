@@ -422,10 +422,10 @@ var ics = function() {
     };
 };
 
-//Holidays //Used for calculating University holidays
+//Check if the current date falls on thanksgiving
 function is_Thanksgiving(dtdate){
 	// check simple dates (month/date - no leading zeroes)
-var dt_date = new Date(dtdate);//We have to "typecast"
+    var dt_date = new Date(dtdate);//We have to "typecast"
 	
 	var n_date = dt_date.getDate(),
 	n_month = dt_date.getMonth() + 1;
@@ -445,6 +445,18 @@ var dt_date = new Date(dtdate);//We have to "typecast"
 		return true;
 	}
 	return false;
+}
+
+//Check if the current date falls on spring break 
+function is_SpringBreak(){
+        var date = new Date();
+        
+        var springBreak = new Date ("March 7, " + date.getFullYear()); //Begins on the second saturday of March
+        while (springBreak.getDate() != 6){
+            springBreak.setDate(springBreak.getDate() + 1);
+        }
+       
+        if (date.getDate() >= springBreak.getDate() && date.getDate() <= springBreak.setDate(springBreak.getDate() + 7)) return true;
 }
 
 //Returns true on a University holiday (4th of July, Reverend Doctor Martin Luther King, Jr. Day, Thanksgiving Week, Memorial Day, Labour day.)
@@ -474,10 +486,12 @@ function iSholiday (dtdate) {
 	if (   s_date2 == '1/3/1'  // Birthday of Martin Luther King, third Monday in January
 
 		|| s_date2 == '9/1/1'  // Labor Day, first Monday in September
+        
+        || is_SpringBreak()
 
 		//Check if it's Thanksgiving week
 		|| is_Thanksgiving(dt_date) //Set modifies the dates, so this addition looks weird.
-		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() -1 )) //Black Friday
+		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() - 1)) //Black Friday
 		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 2)) //Wednesday
 		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 1)) //Tuesday
 		|| is_Thanksgiving(dt_date.setDate(dt_date.getDate() + 1)) //Monday
