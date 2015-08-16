@@ -459,8 +459,7 @@ $(document).ready(function() {
             calcExtra();
 
             var img = $('<div style = "float:left; padding: 10px; padding-top: 70px;"> <img src = "http://www.webweaver.nu/clipart/img/misc/food/fast-food/hot-dog.png" style = "width:50px; height: 50px;" <br></div>'); 
-            var interrogationFall = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 40px; height: 40px; padding-left: 10px; margin-left: -35px; margin-top: -280px; z-index:2; position:absolute;"><img src = "https://cdn4.iconfinder.com/data/icons/bloggers-1-to-7-vol-PNG/512/bullet_question.png" style = "width:40px; height: 40px;"></div>');
-            var interrogationSpring = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 40px; height: 40px; padding-left: 10px; margin-left: -35px; margin-top: -280px; z-index:2; position:absolute;"><img src = "http://png-2.findicons.com/files/icons/1008/quiet/256/interrogation.png" style = "width:40px; height: 40px;"></div>');
+            var interrogation = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 40px; height: 40px; padding-left: 10px; margin-left: -35px; margin-top: -280px; z-index:2; position:absolute;"><img src = "http://png-2.findicons.com/files/icons/1008/quiet/256/interrogation.png" style = "width:40px; height: 40px;"></div>');
             var bubble = $('<div style = "margin-top:20px;  margin-bottom: 20px; width:300px; height:325px; background:rgb(248, 248, 248); border: 10px solid;' + bubbleGradSem(meals.planSem) + '">\
                                         <div style = "padding:30px; padding-left: 0px; height: 200px; width: 300px; margin:auto; ">' + bubbleSem(meals.planSem) + '<div id = "onDisplay" style = "width:260px; margin:auto;"></div>\
                                                 <div style = "padding-left: 25px;width: 250px;  margin-left: auto; margin-right:auto; position:aboslute;">\
@@ -474,9 +473,7 @@ $(document).ready(function() {
                                     </div>\
                                     </div>');
         
-            if (meals.planSem == "fall") bubble.append(interrogationFall);
-            else if (meals.planSem == "spring") bubble.append(interrogationSpring);
-            else if (meals.planSem == "summer") bubble.append(interrogationSpring);
+            bubble.append(interrogation);
             element.append(bubble);
 
             updText("day", avgMealsD.avgMealsDstr);
