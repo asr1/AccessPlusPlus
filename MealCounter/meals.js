@@ -222,8 +222,7 @@ function initMeals (str){
 
 //Checks whether we are still in the semester time frame
 function checkTerm (){
-     date.setDate(14);
-    date.setMonth(9);
+
    if (date.getMonth() >= meals.sMonth && date.getMonth() <= meals.eMonth){
         if (!((date.getMonth() == meals.sMonth && (date.getDate() < meals.sDate)) || (date.getMonth() == meals.eMonth && (date.getDate() > meals.eDate))) && !iSholiday(new Date(curDate))){
             if (debug) toPrint+= ("Check term: true -> " + meals.semester + "\n\n");
@@ -356,11 +355,12 @@ function updText(timef, avgMeals){
    }
     
    if (startMeals == 0){ //no meal plan for the active term
-            if (str.indexOf(meals.semester) == -1){
-                document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.planSem + '.</div>';
-            } //if you're looking at a future semester that does not have a meal plan
-       
-            else document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.semester + '.</div>';
+//            if (str.indexOf(meals.semester) == -1){
+//                document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.planSem + '.</div>';
+//            } //if you're looking at a future semester that does not have a meal plan
+//       
+//            else
+       document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 8px;padding-top:20px; padding-bottom:20px;font-size: 1em;text-align: center;"><br>Sorry but you do not currently have a meal plan for the '+ meals.semester + '.</div>';
     }
 
     else if (meals.planSem != meals.semester){ //possible meal plan for the future term, but we're not currently in that term
@@ -410,25 +410,63 @@ function help(){
     alert("MEAL TRACKER Is supposed to help you plan your meal usage throughout the semester.\n\nClick on one of the buttons (Daily/Weekly/Monthly) to view how many meals you have for that chosen time frame, as well as how many you still have available in order to keep up with your meal plan.\n\nWhat does it mean to have x(+y) meals?\nThis means that you have an average of 'x' meal(s) per day, with an extra 'y' meal(s) for the week.\nEx: 1(+1) -> 1 meal per day with an extra meal for the week.\n\nAlso we are taking in consideration the extra 5 meals given per semester.");
 }
 
-$(document).ready(function() {
+//returns specific colors for the title/image according to the semester term
+//@param term - the current meal plan term
+function bubbleSem(term){
+    if (term == "fall") return "<div style = 'width: 215px; margin-left: auto; margin-right:auto;'> <span style = 'color:#cf4c39; font-size: 2.3em; font-weight: bold;'>MEAL</span> <span style = 'color: #ec8134; font-size: 2.3em; font-weight: bold;'>TRACKER</span></div><div style = 'margin:auto; margin-top:10px; width:115px; height:115px;'><img src='http://vector-magz.com/wp-content/uploads/2013/12/autumn-leaves-clip-art.png' style = 'width:115px; height:115px; '></div>";
+    
+    else if (term == "spring") return "<div style = 'width: 215px; margin-left: auto; margin-right:auto;'> <span style = 'color:#dc6767; font-size: 2.3em; font-weight: bold;'>MEAL</span> <span style = 'color: #ee7f7e; font-size: 2.3em; font-weight: bold;'>TRACKER</span></div><div style = 'margin:auto; margin-top:10px; width:115px; height:115px;'><img src='http://www.season-basket.com/print/cut/pc_sakura18_l.png' style = 'width:115px; height:115px; '></div>";
+    
+    else if (term == "summer") return "<div style = 'width: 215px; margin-left: auto; margin-right:auto;'> <span style = 'color:#f4aa1a; font-size: 2.3em; font-weight: bold;'>MEAL</span> <span style = 'color: #f4bf08; font-size: 2.3em; font-weight: bold;'>TRACKER</span></div><div style = 'margin:auto; margin-top:10px; width:115px; height:115px;'><img src='http://www.myiconfinder.com/uploads/iconsets/e154aa56822591b968cc98ae9c72dd57.png' style = 'width:115px; height:115px; '></div>";
 
+}
+
+//returns a specific gradient according to the given term
+//@param term - the current meal plan term
+function bubbleGradSem(term){
+    if (term == "fall") return "border-image: linear-gradient(rgba(236, 129, 52, 0.7), rgba(236, 73, 56, 0.5)) 1 100%;";
+    
+    else if (term == "spring") return "border-image: linear-gradient(rgba(236, 129, 52, 0.7), rgba(238, 127, 126, 0.5)) 1 100%;";
+    
+    else if (term == "summer") return "border-image: linear-gradient(rgba(251, 131, 29, 0.7), rgba(255, 201, 7, 0.5)) 1 100%;";
+}
+
+//returns specific button colors according to the given term
+//@param term - the current meal plan term
+function butSem(term, type){
+    if (term == "fall"){
+        if (type == "mouseover") return "#e66342";
+        else if (type == "mouseout" || type == "standard") return "#cc4938";
+    }
+    
+    else if (term == "spring"){
+        if (type == "mouseover") return "#ee7f7e";
+        else if (type == "mouseout" || type == "standard") return "#dc6767";
+    }
+    
+    else if (term == "summer"){
+        if (type == "mouseover") return "#fbad19";
+        else if (type == "mouseout" || type == "standard") return "#fb8319";
+    }
+}
+
+$(document).ready(function() {
+    
     //check to see whether the html page actually is the dining page
     if($("title").text()== dining){
             initStart();
             initMeals(str);
             calcExtra();
 
-            var img = $('<div style = "float:left; padding: 10px; padding-top: 70px;"> <img src = "http://www.webweaver.nu/clipart/img/misc/food/fast-food/hot-dog.png" style = "width:50px; height: 50px;" <br></div>');
-            var interrogation = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 50px; height: 50px; padding-left: 10px; margin-left: -40px; margin-top: -280px; z-index:2; position:absolute;"><img src = "http://img3.wikia.nocookie.net/__cb20140921131252/criminal-case-grimsborough/images/a/a7/Question_Mark-Icon.png" style = "width:50px; height: 50px;"></div>');
-            var bubble = $('<div style = "margin-top:20px;  margin-bottom: 20px; width:300px; height:325px; background:rgb(248, 248, 248); border: 10px solid; border-image: linear-gradient(rgba(50, 104, 153, 0.7), rgba(74, 188, 232, 0.5)) 1 100%; border-radius:15px;">\
-                                        <div style = "padding:30px; padding-left: 0px; height: 200px; width: 300px; margin:auto; ">\
-                                            <div style = "width: 215px; margin-left: auto; margin-right:auto;"> <span style = "color:#326899; font-size: 2.3em; font-weight: bold;">MEAL</span> <span style = "color: #4abce8; font-size: 2.3em; font-weight: bold;">TRACKER</span></div>\
-                                            <div style = "margin:auto; margin-top:10px; width:115px; height:115px;"><img src="http://www.juniata.edu/life/i/redesign/dining/diningicon.png" style = "width:115px; height:115px; "></div>\
-                                            <div id = "onDisplay" style = "width:260px; margin:auto;"></div>\
+            var img = $('<div style = "float:left; padding: 10px; padding-top: 70px;"> <img src = "http://www.webweaver.nu/clipart/img/misc/food/fast-food/hot-dog.png" style = "width:50px; height: 50px;" <br></div>'); 
+            var interrogationFall = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 40px; height: 40px; padding-left: 10px; margin-left: -35px; margin-top: -280px; z-index:2; position:absolute;"><img src = "https://cdn4.iconfinder.com/data/icons/bloggers-1-to-7-vol-PNG/512/bullet_question.png" style = "width:40px; height: 40px;"></div>');
+            var interrogationSpring = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 40px; height: 40px; padding-left: 10px; margin-left: -35px; margin-top: -280px; z-index:2; position:absolute;"><img src = "http://png-2.findicons.com/files/icons/1008/quiet/256/interrogation.png" style = "width:40px; height: 40px;"></div>');
+            var bubble = $('<div style = "margin-top:20px;  margin-bottom: 20px; width:300px; height:325px; background:rgb(248, 248, 248); border: 10px solid;' + bubbleGradSem(meals.planSem) + '">\
+                                        <div style = "padding:30px; padding-left: 0px; height: 200px; width: 300px; margin:auto; ">' + bubbleSem(meals.planSem) + '<div id = "onDisplay" style = "width:260px; margin:auto;"></div>\
                                                 <div style = "padding-left: 25px;width: 250px;  margin-left: auto; margin-right:auto; position:aboslute;">\
-                                                    <button id="dailyBut" type="button" style = "width: 60px;box-shadow: none; margin-right:10px; height:25px; background: #006699; border-radius: 5px; font-weight: bold;"><div style = "float:left; color: white;">Daily</div> <div id = "dailyButCircle" style = "margin-left: 38px; margin-top: 4px;width: 7px; height: 7px; box-shadow: 1px 1px 1px #f0ff00; border-radius: 50%; background: #f5ff5a;"></div></button>\
-                                                    <button id="weeklyBut" type="button" style = "width: 70px; box-shadow: 2px 2px 1px #888888; margin-right:10px; height:25px; border-radius: 5px; background: #006699; font-weight: bold;"><div style = "float:left; color: white;">Weekly</div> <div id = "weeklyButCircle" style = "margin-left: 48px; margin-top: 4px;width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(rgb(255, 255, 34), orange);"></div></button>\
-                                              <button id="monthlyBut" type="button" style = "width: 75px; box-shadow: 2px 2px 1px #888888; margin-right:10px; height:25px; border-radius: 5px; background: #006699; font-weight: bold;"><div style = "float:left; color: white;">Monthly</div> <div id = "monthlyButCircle" style = "margin-left: 53px; margin-top: 4px;width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(rgb(255, 255, 34), orange);"></div></button>\
+                                                    <button id="dailyBut" type="button" style = "width: 60px;box-shadow: none; margin-right:10px; height:25px; background: '+ butSem(meals.planSem, "standard") +'; border-radius: 5px; font-weight: bold;"><div style = "float:left; color: white;">Daily</div> <div id = "dailyButCircle" style = "margin-left: 38px; margin-top: 4px;width: 7px; height: 7px; box-shadow: 1px 1px 1px #f0ff00; border-radius: 50%; background: #f5ff5a;"></div></button>\
+                                                    <button id="weeklyBut" type="button" style = "width: 70px; box-shadow: 2px 2px 1px #888888; margin-right:10px; height:25px; border-radius: 5px; background: '+ butSem(meals.planSem, "standard") +'; font-weight: bold;"><div style = "float:left; color: white;">Weekly</div> <div id = "weeklyButCircle" style = "margin-left: 48px; margin-top: 4px;width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(rgb(255, 255, 34), orange);"></div></button>\
+                                              <button id="monthlyBut" type="button" style = "width: 75px; box-shadow: 2px 2px 1px #888888; margin-right:10px; height:25px; border-radius: 5px; background:'+ butSem(meals.planSem, "standard") +'; font-weight: bold;"><div style = "float:left; color: white;">Monthly</div> <div id = "monthlyButCircle" style = "margin-left: 53px; margin-top: 4px;width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(rgb(255, 255, 34), orange);"></div></button>\
                                     </div>\
                                     </div>\
                                     </div>\
@@ -436,37 +474,39 @@ $(document).ready(function() {
                                     </div>\
                                     </div>');
         
-            bubble.append(interrogation);
+            if (meals.planSem == "fall") bubble.append(interrogationFall);
+            else if (meals.planSem == "spring") bubble.append(interrogationSpring);
+            else if (meals.planSem == "summer") bubble.append(interrogationSpring);
             element.append(bubble);
 
             updText("day", avgMealsD.avgMealsDstr);
                                       document.getElementById("dailyBut").addEventListener("click", function(){dailyFunc()});
             document.getElementById("dailyBut" ).onmouseover = function(){
-                this.style.backgroundColor = "#3366FF";
+                this.style.backgroundColor = butSem(meals.planSem, "mouseover");
                 this.style.cursor = "pointer";
             }
 
             document.getElementById("dailyBut" ).onmouseout = function(){
-            this.style.backgroundColor = "#006699";
+            this.style.backgroundColor = butSem(meals.planSem, "mouseout");
             }
                         document.getElementById("weeklyBut").addEventListener("click", function(){weeklyFunc()});
             document.getElementById("weeklyBut" ).onmouseover = function(){
-                this.style.backgroundColor = "#3366FF";
+                this.style.backgroundColor = butSem(meals.planSem, "mouseover");
                 this.style.cursor = "pointer";
             }
 
             document.getElementById("weeklyBut" ).onmouseout = function(){
-            this.style.backgroundColor = "#006699";
+            this.style.backgroundColor = butSem(meals.planSem, "mouseout");
             }
 
             document.getElementById("monthlyBut").addEventListener("click", function(){monthlyFunc()});
             document.getElementById("monthlyBut" ).onmouseover = function(){
-                this.style.backgroundColor = "#3366FF";
+                this.style.backgroundColor = butSem(meals.planSem, "mouseover");
                 this.style.cursor = "pointer";
             }
 
             document.getElementById("monthlyBut" ).onmouseout = function(){
-            this.style.backgroundColor = "#006699";
+            this.style.backgroundColor = butSem(meals.planSem, "mouseout");
             }
             document.getElementById("helpMe").addEventListener("click", function(){help()});
             document.getElementById("helpMe").onmouseover = function(){
