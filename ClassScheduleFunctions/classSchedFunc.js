@@ -458,7 +458,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		{
 			//We have to set time because Google Calendar only recognizes the Exdate parameter if it's at the same time as the regular event.
 			start.setHours(eventTime.getHours(), eventTime.getMinutes());
-			exDateStr += formatDate(start, eventTime.getHours(), 0) + ',';//start.toISOString() +',';
+			exDateStr += formatDate(start, eventTime.getHours(), eventTime.getMinutes()) + ',';
 			
 		}
 		start = new Date(start.setDate(start.getDate() + 1));
@@ -469,7 +469,6 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	exDateStr = exDateStr.replace(/-/g,'');
 	exDateStr = exDateStr.replace(/\./g,'');
 	exDateStr = exDateStr.replace(/Z/g,'');//Remove trailing Z to convert to local time
-	console.log(exDateStr);
 	 
 	 // //BEGIN PHYSICS 221 LAB 
 	 // //TODO

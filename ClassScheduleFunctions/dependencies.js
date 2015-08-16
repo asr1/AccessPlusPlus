@@ -317,13 +317,13 @@ var ics = function() {
             //TODO add time and time zone? use moment to format?
             var start_date = new Date(begin);
             var end_date = new Date(stop);
-
+			
             var start_year = ("0000" + (start_date.getFullYear().toString())).slice(-4);
             var start_month = ("00" + ((start_date.getMonth() + 1).toString())).slice(-2);
             var start_day = ("00" + ((start_date.getDate()).toString())).slice(-2);
             var start_hours = ("00" + (start_date.getHours().toString())).slice(-2);
             var start_minutes = ("00" + (start_date.getMinutes().toString())).slice(-2);
-            var start_seconds = ("00" + (start_date.getMinutes().toString())).slice(-2);
+            var start_seconds = ("00" + (start_date.getSeconds().toString())).slice(-2);
 
             var end_year = ("0000" + (end_date.getFullYear().toString())).slice(-4);
             var end_month = ("00" + ((end_date.getMonth() + 1).toString())).slice(-2);
@@ -342,7 +342,7 @@ var ics = function() {
 
             var start = start_year + start_month + start_day + start_time;
             var end = end_year + end_month + end_day + end_time;
-
+			
             // recurrence rule vars
             var rruleString;
             if (rrule) {
@@ -389,7 +389,7 @@ var ics = function() {
             }
 
             calendarEvent = calendarEvent.join(SEPARATOR);
-
+			
             calendarEvents.push(calendarEvent);
             return calendarEvent;
         },
