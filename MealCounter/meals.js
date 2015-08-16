@@ -364,23 +364,23 @@ function updText(timef, avgMeals){
     }
 
     else if (meals.planSem != meals.semester){ //possible meal plan for the future term, but we're not currently in that term
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
     }
     
     else if (extraMeals == 0 ||  extraMeals == avgMealsComp){ //user is on track
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> You can still have <u><b>'+extraMeals+'</b></u> meal(s) this '+timef+'</div>';      
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> You can still have <u><b>'+extraMeals+'</b></u> meal(s) this '+timef+'</div>';      
     }
         
     else if (extraMeals < 0){
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>below</u> by: <b>'+extraMeals+'</b></div>'; 
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>below</u> by: <b>'+extraMeals+'</b></div>'; 
     }
     
     else if (extraMeals > avgMealsComp){
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>above</u> by: <b>'+extraMeals+'</b></div>';   
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>above</u> by: <b>'+extraMeals+'</b></div>';   
     }
     
     else{ //in any other scenario, assume A+ terminated the last meal plan but has yet to activate the next term's meal plan
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px; text-align: justify;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals p/ '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px; text-align: justify;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
     }
 }
 
