@@ -20,7 +20,7 @@ var regex = new RegExp("[0-9]{1,3}") ;
 var meals_left= meals_left_str.match(regex)[0];		
 var timef = "day"; //let's initially start @daily
 var isHoliday = false;
-var debug = false; //testing purposes -- set to true when you want variables to be printed out on the console
+var debug = true; //testing purposes -- set to true when you want variables to be printed out on the console
 var toPrint = ""; //string where we're printing all of our debug info
 
 //String containing the student's dining information 
@@ -368,11 +368,11 @@ function updText(timef, avgMeals){
         document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
     }
     
-    else if (isHoliday){
+    else if (isHoliday){ //its a holiday
         document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> <b>It is currently a holiday and dining centers are closed.</b>';  
     }
     
-    else if (extraMeals == 0 ||  extraMeals == avgMealsComp){ //user is on track
+    else if (extraMeals >= 0 && extraMeals <= avgMealsComp){ //user is on track
         document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> You can still have <u><b>'+extraMeals+'</b></u> meal(s) this '+timef+'</div>';      
     }
         
