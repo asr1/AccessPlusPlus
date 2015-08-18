@@ -451,11 +451,11 @@ function is_Thanksgiving(dtdate){
 function is_SpringBreak(){
         var date = new Date();
         
-        var springBreak = new Date ("March 14, " + date.getFullYear()); //Begins on the second saturday of March
-        while (springBreak.getDay() != 1){
+        var springBreak = new Date ("March 7, " + date.getFullYear()); //Begins on the second saturday of March
+        while (springBreak.getDay() != 6){
             springBreak.setDate(springBreak.getDate() + 1);
         }
-    
+
         if (date.getMonth() == springBreak.getMonth() && (date.getDate() >= springBreak.getDate()  && date.getDate() <= springBreak.setDate(springBreak.getDate() + 7))) return true;
 }
 
