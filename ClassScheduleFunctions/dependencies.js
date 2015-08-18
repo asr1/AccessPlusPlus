@@ -330,7 +330,7 @@ var ics = function() {
             var end_day = ("00" + ((end_date.getDate()).toString())).slice(-2);
             var end_hours = ("00" + (end_date.getHours().toString())).slice(-2);
             var end_minutes = ("00" + (end_date.getMinutes().toString())).slice(-2);
-            var end_seconds = ("00" + (end_date.getMinutes().toString())).slice(-2);
+            var end_seconds = ("00" + (end_date.getSeconds().toString())).slice(-2);
 
             // Since some calendars don't add 0 second events, we need to remove time if there is none...
             var start_time = '';
