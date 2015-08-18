@@ -456,7 +456,7 @@ function is_SpringBreak(){
             springBreak.setDate(springBreak.getDate() + 1);
         }
        
-        if (date.getDate() >= springBreak.getDate() && date.getDate() <= springBreak.setDate(springBreak.getDate() + 7)) return true;
+        if (date.getMonth() == springBreak.getMonth() && (date.getDate() >= springBreak.getDate()  && date.getDate() <= springBreak.setDate(springBreak.getDate() + 7))) return true;
 }
 
 //Returns true on a University holiday (4th of July, Reverend Doctor Martin Luther King, Jr. Day, Thanksgiving Week, Memorial Day, Labour day.)

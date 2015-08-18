@@ -20,7 +20,7 @@ var regex = new RegExp("[0-9]{1,3}") ;
 var meals_left= meals_left_str.match(regex)[0];		
 var timef = "day"; //let's initially start @daily
 var isHoliday = false;
-var debug = true; //testing purposes -- set to true when you want variables to be printed out on the console
+var debug = false; //testing purposes -- set to true when you want variables to be printed out on the console
 var toPrint = ""; //string where we're printing all of our debug info
 
 //String containing the student's dining information 
@@ -224,6 +224,7 @@ function initMeals (str){
 function checkTerm (){
 
    if (date.getMonth() >= meals.sMonth && date.getMonth() <= meals.eMonth){
+       isHoliday = iSholiday(new Date(curDate));
         if (!((date.getMonth() == meals.sMonth && (date.getDate() < meals.sDate)) || (date.getMonth() == meals.eMonth && (date.getDate() > meals.eDate))) && !iSholiday(new Date(curDate))){
             if (debug) toPrint+= ("Check term: true -> " + meals.semester + "\n\n");
             if (!(meals.planSem != meals.semester) || debug == true){
@@ -365,6 +366,10 @@ function updText(timef, avgMeals){
 
     else if (meals.planSem != meals.semester){ //possible meal plan for the future term, but we're not currently in that term
         document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br><i>Your '+meals.planSem +' meal plan is not currently activated.</i></div>';
+    }
+    
+    else if (isHoliday){
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> <b>It is currently a holiday and dining centers are closed.</b>';  
     }
     
     else if (extraMeals == 0 ||  extraMeals == avgMealsComp){ //user is on track
@@ -513,5 +518,6 @@ $(document).ready(function() {
                 toPrint+=("\n\nStarting month for: " + meals.semester + " is " + meals.sMonth + "\n\n" + "Starting date is: " + meals.sDate + "\n\nEnding month is: " + meals.eMonth + "\n\nEnding date is: " + meals.eDate + "\n\nIs Holiday? " + isHoliday);
                 console.log(toPrint);
             }
+            
         }
     });
