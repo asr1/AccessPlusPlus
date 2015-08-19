@@ -29,7 +29,7 @@ This project uses a modified version of <a href="https://github.com/connorbode/i
 
 ## Changelog
 **Version 1.3.0.0:**
-* Add support for Physics 221 Lab meeting fortnightly.
+* Add Calendar support for Physics 221 Lab meeting fortnightly.
 * Fix math issue in Meal Tracker.
 
 **Version 1.2.5.4:**
