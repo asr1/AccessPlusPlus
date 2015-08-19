@@ -479,15 +479,17 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		// //Make a new fortnightly RRule
 		// var biRule = {
 		// freq: "WEEKLY",
-		// INTERVAL: 2, //Every other week
+		// interval: 2, //Every other week
 		// until: new Date(end.setHours(1,0)),
 	// };
 		
 		// //Add it for week one
-		// cal.addEvent(name, "Class",location, eventStart, eventEndString, biRule, toRRule(WeekDays),exDateStr);
+		// cal.addEvent(name, "Class",location, eventStart, eventEnd, biRule, toRRule(WeekDays),exDateStr);
+		
+		// eventStart.setDate(eventStart + 7);
 		
 		// //Add it for week 2.
-		// cal.addEvent(name, "Class",location, new Date(eventStart), eventEnd, biRule, toRRule(WeekDays),exDateStr);
+		// cal.addEvent(name, "Class",location, eventStart, eventEnd, biRule, toRRule(WeekDays),exDateStr);
 		
 		// //Let the user know that there are two separate events.
 		// alert("Physics 221 lab meets every other week. Delete the entire series of labs that are not on the week you meet.");
