@@ -455,7 +455,7 @@ function is_SpringBreak(){
         while (springBreak.getDay() != 6){
             springBreak.setDate(springBreak.getDate() + 1);
         }
-    
+
         if (date.getMonth() == springBreak.getMonth() && (date.getDate() >= springBreak.getDate()  && date.getDate() <= springBreak.setDate(springBreak.getDate() + 7))) return true;
 }
 
