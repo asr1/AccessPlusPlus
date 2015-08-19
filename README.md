@@ -28,11 +28,16 @@ There are a couple ways to contribute to this project:
 This project uses a modified version of <a href="https://github.com/connorbode/ics.js">Connorbode's fork</a> of <a href="https://github.com/nwcell/ics.js/">ics.js</a>, which in turn uses <a href="https://github.com/eligrey/Blob.js">Blob.js.</a> This has been included in the AccessPlusPlus repository already. 
 
 ## Changelog
+**Version 1.2.5.4:**
+* Change total meals to remaining meals.
+* Accidentally skipped 1.2.5.3, and cannot undo.
+
 **Version 1.2.5.2:**
 * Fix Spring Break logic.
 
 **Version 1.2.5.1:**
 * UI Improvements.
+* Spring Break support.
 
 **Version 1.2.5.0:**
 * Fix the calendar Holiday issue. It was a bug in our ics.js fork, where they were adding minutes instead of seconds, giving a start time of 12:10:10 for afternoon classes, rather than 12:10:00. Holidays now work.
