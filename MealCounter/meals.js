@@ -297,7 +297,7 @@ function calcExtra (){
     if (checkTerm()){ //check the extremes - make sure we're not before/after the start/end periods nor during a holiday 
             if(timef == "day") {
                 extraMeals = avgMealsD.avgMeals*getTimeFrame("day") + avgMealsD.extraW*getTimeFrame("week"); 
-                if (extraMeals == 0) extraMeals = avgMealsD.avgMeals; //the first day is the 0th day and it must still account for meals
+                if (extraMeals == 0) extraMeals = avgMealsD.avgMeals + avgMealsD.extraW; //the first day is the 0th day and it must still account for meals
                 if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
             
@@ -369,19 +369,19 @@ function updText(timef, avgMeals){
     }
     
     else if (isHoliday){ //its a holiday
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> <b>It is currently a holiday and dining centers are closed.</b>';  
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Remaining number of Meals for the '+meals.planSem+': <b>'+meals_left+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> <b>It is currently a holiday and dining centers are closed.</b>';  
     }
     
     else if (extraMeals >= 0 && extraMeals <= avgMealsComp){ //user is on track
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> You can still have <u><b>'+extraMeals+'</b></u> meal(s) this '+timef+'</div>';      
+            document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Remaining number of Meals for the '+meals.planSem+': <b>'+meals_left+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> You can still have <u><b>'+extraMeals+'</b></u> meal(s) this '+timef+'</div>';      
     }
         
     else if (extraMeals < 0){
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>below</u> by: <b>'+extraMeals+'</b></div>'; 
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Remaining number of Meals for the '+meals.planSem+': <b>'+meals_left+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>below</u> by: <b>'+extraMeals+'</b></div>'; 
     }
     
     else if (extraMeals > avgMealsComp){
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Total number of Meals for the '+meals.planSem+': <b>'+startMeals+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>above</u> by: <b>'+extraMeals+'</b></div>';   
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Remaining number of Meals for the '+meals.planSem+': <b>'+meals_left+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>above</u> by: <b>'+extraMeals+'</b></div>';   
     }
     
     else{ //in any other scenario, assume A+ terminated the last meal plan but has yet to activate the next term's meal plan
@@ -465,7 +465,7 @@ $(document).ready(function() {
 
             var img = $('<div style = "float:left; padding: 10px; padding-top: 70px;"> <img src = "http://www.webweaver.nu/clipart/img/misc/food/fast-food/hot-dog.png" style = "width:50px; height: 50px;" <br></div>'); 
             var interrogation = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 40px; height: 40px; padding-left: 10px; margin-left: -35px; margin-top: -280px; z-index:2; position:absolute;"><img src = "http://png-2.findicons.com/files/icons/1008/quiet/256/interrogation.png" style = "width:40px; height: 40px;"></div>');
-            var bubble = $('<div style = "margin-top:20px;  margin-bottom: 20px; width:300px; height:325px; background:rgb(248, 248, 248); border: 10px solid;' + bubbleGradSem(meals.planSem) + '">\
+            var bubble = $('<div style = "margin-top:20px;  margin-bottom: 20px; width:300px; height:335px; background:rgb(248, 248, 248); border: 10px solid;' + bubbleGradSem(meals.planSem) + '">\
                                         <div style = "padding:30px; padding-left: 0px; height: 200px; width: 300px; margin:auto; ">' + bubbleSem(meals.planSem) + '<div id = "onDisplay" style = "width:260px; margin:auto;"></div>\
                                                 <div style = "padding-left: 25px;width: 250px;  margin-left: auto; margin-right:auto; position:aboslute;">\
                                                     <button id="dailyBut" type="button" style = "width: 60px;box-shadow: none; margin-right:10px; height:25px; background: '+ butSem(meals.planSem, "standard") +'; border-radius: 5px; font-weight: bold;"><div style = "float:left; color: white;">Daily</div> <div id = "dailyButCircle" style = "margin-left: 38px; margin-top: 4px;width: 7px; height: 7px; box-shadow: 1px 1px 1px #f0ff00; border-radius: 50%; background: #f5ff5a;"></div></button>\
