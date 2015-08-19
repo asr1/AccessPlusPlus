@@ -20,7 +20,7 @@ var regex = new RegExp("[0-9]{1,3}") ;
 var meals_left= meals_left_str.match(regex)[0];		
 var timef = "day"; //let's initially start @daily
 var isHoliday = false;
-var debug = false; //testing purposes -- set to true when you want variables to be printed out on the console
+var debug = true; //testing purposes -- set to true when you want variables to be printed out on the console
 var toPrint = ""; //string where we're printing all of our debug info
 
 //String containing the student's dining information 
@@ -297,7 +297,7 @@ function calcExtra (){
     if (checkTerm()){ //check the extremes - make sure we're not before/after the start/end periods nor during a holiday 
             if(timef == "day") {
                 extraMeals = avgMealsD.avgMeals*getTimeFrame("day") + avgMealsD.extraW*getTimeFrame("week"); 
-                if (extraMeals == 0) extraMeals = avgMealsD.avgMeals + avgMealsD.extraW; //the first day is the 0th day and it must still account for meals
+                if (meals.sDate <= date.getDate() && date.getDate() <= meals.sDate + 7) extraMeals = (date.getDate() - meals.sDate + 1)*avgMealsD.avgMeals + avgMealsD.extraW; //the first week must still account for the extra meal(s)
                 if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
             
