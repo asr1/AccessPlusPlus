@@ -373,7 +373,6 @@ function updText(timef, avgMeals){
     }
     
     else if (extraMeals >= 0 && extraMeals <= avgMealsComp){ //user is on track
-        if (timef == "day"){
             document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Remaining number of Meals for the '+meals.planSem+': <b>'+meals_left+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> You can still have <u><b>'+extraMeals+'</b></u> meal(s) this '+timef+'</div>';      
     }
         
