@@ -28,6 +28,10 @@ There are a couple ways to contribute to this project:
 This project uses a modified version of <a href="https://github.com/connorbode/ics.js">Connorbode's fork</a> of <a href="https://github.com/nwcell/ics.js/">ics.js</a>, which in turn uses <a href="https://github.com/eligrey/Blob.js">Blob.js.</a> This has been included in the AccessPlusPlus repository already. 
 
 ## Changelog
+**Version 1.3.0.0:**
+* Add support for Physics 221 Lab meeting fortnightly.
+* Fix math issue in Meal Tracker.
+
 **Version 1.2.5.4:**
 * Change total meals to remaining meals.
 * Accidentally skipped 1.2.5.3, and cannot undo.

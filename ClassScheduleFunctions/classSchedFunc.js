@@ -470,35 +470,42 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	exDateStr = exDateStr.replace(/\./g,'');
 	exDateStr = exDateStr.replace(/Z/g,'');//Remove trailing Z to convert to local time
 	 
-	 // //BEGIN PHYSICS 221 LAB 
-	 // //TODO
+	 //BEGIN PHYSICS 221 LAB 
+	 //TODO
 
-	 // //If we're taking the physics 221 lab, make it two events that occur fortnightly.
-	// if(name.indexOf("PHYS") > -1 && name.indexOf("221") > -1  && toRRule(WeekDays).length == 2) //Make sure that it only occurs on one day. For some reason indexOf(PHYS 221) returns -1.
-	// {
-		// //Make a new fortnightly RRule
-		// var biRule = {
-		// freq: "WEEKLY",
-		// interval: 2, //Every other week
-		// until: new Date(end.setHours(1,0)),
-	// };
+	 //If we're taking the physics 221 lab, make it two events that occur fortnightly.
+	if(name.indexOf("PHYS") > -1 && name.indexOf("221") > -1  && toRRule(WeekDays).length == 2) //Make sure that it only occurs on one day. For some reason indexOf(PHYS 221) returns -1.
+	{
+		//Make a new fortnightly RRule
+		var biRule = {
+		freq: "WEEKLY",
+		interval: 2, //Every other week
+		until: new Date(end.setHours(1,0)),
+	};
 		
-		// //Add it for week one
-		// cal.addEvent(name, "Class",location, eventStart, eventEnd, biRule, toRRule(WeekDays),exDateStr);
+		//Add it for week one
+		cal.addEvent(name, "Class",location, eventStart, eventEnd, biRule, toRRule(WeekDays),exDateStr);
+			
+		console.log(eventStart);
 		
-		// eventStart.setDate(eventStart + 7);
+		eventStart.setDate(eventStart.getDate() + 7);//Skip the first week.
+		eventStart.setHours(eventTime.getHours(), eventTime.getMinutes());	
+		eventEnd.setDate(eventEnd.getDate() + 7);//Skip the first week.
+		eventEnd.setHours(eventEnd.getHours(), eventEnd.getMinutes());
 		
-		// //Add it for week 2.
-		// cal.addEvent(name, "Class",location, eventStart, eventEnd, biRule, toRRule(WeekDays),exDateStr);
+		console.log(eventStart);
 		
-		// //Let the user know that there are two separate events.
-		// alert("Physics 221 lab meets every other week. Delete the entire series of labs that are not on the week you meet.");
+		//Add it for week 2.
+		cal.addEvent(name, "Class",location, eventStart, eventEnd, biRule, toRRule(WeekDays),exDateStr);
 		
-		// //Skip the weekly event.
-		// return;
-	// }
+		//Let the user know that there are two separate events.
+		alert("Physics 221 lab meets every other week. Delete the entire series of labs that are not on the week you meet.");
+		
+		//Skip the weekly event.
+		return;
+	}
 	
-	// //END PHYSICS 221
+	//END PHYSICS 221
 	
 	 
 	var rule = {
