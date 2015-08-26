@@ -28,7 +28,7 @@ var numRMPEntries = 0; //counter for the number of RMP entries -- mostly used fo
  //Classes can have multiple meeting times at different places, if this happens then the 
 								 //arrays containing the class information will have varying length. As such we should keep track 
 								 //of the amount of times we get multiple consecutive meeting dates. When several meeting dates are found,
-								 //we should duplicate the class name and start end date, allowing for the creation of a new Calendar object.
+								 //we should duplicate the class name and start/end date, allowing for the creation of a new Calendar object.
 var lastClassName = "";
 var lastStartEnd = "";
 								 
@@ -161,6 +161,7 @@ function containsDW(id){
 	var tr = '#' + id;
 	if ($(tr).html().indexOf(";M ") !== -1  || $(tr).html().indexOf(";T ") !== -1 || $(tr).html().indexOf(";W ") !== -1 || $(tr).html().indexOf(";R ") !== -1 || $(tr).html().indexOf(";F ") !== -1 ||
 	$(tr).html().indexOf(" M ") !== -1 || $(tr).html().indexOf(" T ") !== -1 || $(tr).html().indexOf(" W ") !== -1 || $(tr).html().indexOf(" R ") !== -1 || $(tr).html().indexOf(" F ") !== -1){
+	
 		return true;	
 	}
 }
@@ -239,18 +240,23 @@ function getMeetingDates(dates){
 //@param id - id of the given row
 function checkDates(id){
 	var tr = '#' + id;
-	if ($(tr).html().indexOf('&nbsp;') != -1 && containsDW(id) || $(tr).html().indexOf('ARR.') != -1){
+	
+	if ($(tr).html().indexOf('&nbsp;') != -1 && containsDW(id) || $(tr).html().indexOf('ARR.') != -1 || $(tr).html().indexOf('Required') != -1){
 		var date = $(tr).html().split(';');	
-			
-		meetingD.push(date[3]);
-		if(classNames[meetingD.length - 1] == null) classNames.push(lastClassName);
-		if(startEndDate[meetingD.length - 1] == null) startEndDate.push(lastStartEnd);
-		var startTime = incrementID(id, 1);
-		var endTime = incrementID(id, 2);
-		meetingsT.push(startTime);
-		meetingeT.push(endTime);
-		var location = incrementID(id, 3);
-		locations.push(location);
+		
+		if (date[3].indexOf('section') == -1){ // This test will guarantee its a valid date as A+ code will some time generate false positives
+			meetingD.push(date[3]);
+			if(classNames[meetingD.length - 1] == null){
+				classNames.push(lastClassName);
+			}
+			if(startEndDate[meetingD.length - 1] == null) startEndDate.push(lastStartEnd);
+			var startTime = incrementID(id, 1);
+			var endTime = incrementID(id, 2);
+			meetingsT.push(startTime);
+			meetingeT.push(endTime);
+			var location = incrementID(id, 3);
+			locations.push(location);
+		}
 	}
 }
 
@@ -292,7 +298,7 @@ function checkMeetingDays(id){
 //arrFT - an array containing the class' end date 
 function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrDates, arrLoc){
 	var obj;
-
+	
 	for (i = 0; i < arrCN.length; i++){
 		obj = new classInfo(arrCN[i], arrMD[i], arrMTS[i], arrMTE[i], arrDates[i], arrLoc[i]);	
 		if(arrMD[i].indexOf('ARR.') != -1 )
@@ -486,14 +492,12 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		//Add it for week one
 		cal.addEvent(name, "Class",location, eventStart, eventEnd, biRule, toRRule(WeekDays),exDateStr);
 			
-		console.log(eventStart);
 		
 		eventStart.setDate(eventStart.getDate() + 7);//Skip the first week.
 		eventStart.setHours(eventTime.getHours(), eventTime.getMinutes());	
 		eventEnd.setDate(eventEnd.getDate() + 7);//Skip the first week.
 		eventEnd.setHours(eventEnd.getHours(), eventEnd.getMinutes());
 		
-		console.log(eventStart);
 		
 		//Add it for week 2.
 		cal.addEvent(name, "Class",location, eventStart, eventEnd, biRule, toRRule(WeekDays),exDateStr);
@@ -639,13 +643,13 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 //Tests if string contains only spaces
 function isEmptyString(obj)
 {
-	for(var i = 0; i < obj.length; i++)
-	{
-		if(obj.charAt(i) != ' ')
+		for(var i = 0; i < obj.length; i++)
 		{
-			return false;
+			if(obj.charAt(i) != ' ')
+			{
+				return false;
+			}
 		}
-	}
 return true;
 
 }
@@ -655,7 +659,7 @@ return true;
 		var ret = new Array();
 		ret.push(8);//Actually this should make things easier-- instead of checking "hey, is this a length of one? And if so, adding an 8, we can just start with an 8.
 		var tempDays = days.split(' ');
-		for(var i =0; i< tempDays.length; i++)
+		for(var i = 0; i < tempDays.length; i++)
 		{
 			ret.push(convertOneDay(tempDays[i]));//This should work?
 		}
@@ -673,7 +677,7 @@ return true;
 	//There should be no instance where a day of 8 makes sense, nor could trigger a false positive.
 	
 
-	for(i=0; i<classInfoArr.length; i++)
+	for(i = 0; i < classInfoArr.length; i++)
 	{	
 		//Sometimes a class has two meetings and they only give a date for the first
 		if(firstTime)
@@ -704,6 +708,7 @@ return true;
 		
 		if(isEmptyString(classInfoArr[i].loc))
 		{
+			
 			classInfoArr[i].loc = 'TBA';
 		}
 		
@@ -823,6 +828,18 @@ function cssEntry(backGColor, prof, name){
 	
 }
 
+//Remove a given value from an array.
+//Usage: arr.clean(undefined);
+Array.prototype.clean = function(deleteValue) {
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] == deleteValue) {         
+      this.splice(i, 1);
+      i--;
+    }
+  }
+  return this;
+};
+
 //-------------------------------</Calendar>--------------------------------------
 
 //-------------------------------<Display>--------------------------------------
@@ -920,6 +937,9 @@ $(document).ready(function() {
   getStartEndTime(meetingsT, meetingeT);
   getMeetingDates(startEndDate);
   getLocations(locations);
+  
+  //REMOVE?
+//  locations.clean(undefined);//Remove empty values.
   createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
      
   //checkValues(classInfoArr, true);
