@@ -28,6 +28,9 @@ There are a couple ways to contribute to this project:
 This project uses a modified version of <a href="https://github.com/connorbode/ics.js">Connorbode's fork</a> of <a href="https://github.com/nwcell/ics.js/">ics.js</a>, which in turn uses <a href="https://github.com/eligrey/Blob.js">Blob.js.</a> This has been included in the AccessPlusPlus repository already. 
 
 ## Changelog
+**Version 1.3.1.0:**
+*Fixed issue some users were having with Calendar parsing. Specifically, Access Plus was presenting certain Aerospace Engineering classes in an inconsistent way.
+
 **Version 1.3.0.1:**
 * Fix math issue in Meal Tracker.
 
