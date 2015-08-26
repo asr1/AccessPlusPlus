@@ -477,8 +477,6 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	exDateStr = exDateStr.replace(/Z/g,'');//Remove trailing Z to convert to local time
 	 
 	 //BEGIN PHYSICS 221 LAB 
-	 //TODO
-
 	 //If we're taking the physics 221 lab, make it two events that occur fortnightly.
 	if(name.indexOf("PHYS") > -1 && name.indexOf("221") > -1  && toRRule(WeekDays).length == 2) //Make sure that it only occurs on one day. For some reason indexOf(PHYS 221) returns -1.
 	{
@@ -492,12 +490,10 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		//Add it for week one
 		cal.addEvent(name, "Class",location, eventStart, eventEnd, biRule, toRRule(WeekDays),exDateStr);
 			
-		
 		eventStart.setDate(eventStart.getDate() + 7);//Skip the first week.
 		eventStart.setHours(eventTime.getHours(), eventTime.getMinutes());	
 		eventEnd.setDate(eventEnd.getDate() + 7);//Skip the first week.
 		eventEnd.setHours(eventEnd.getHours(), eventEnd.getMinutes());
-		
 		
 		//Add it for week 2.
 		cal.addEvent(name, "Class",location, eventStart, eventEnd, biRule, toRRule(WeekDays),exDateStr);
@@ -527,9 +523,6 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	d.setHours(hours, -d.getTimezoneOffset(), 0, 0); //removing the timezone offset.
 		d.setMinutes(minutes);
 	return d.toISOString(); //2013-04-18T00:00:00.000Z
-	
-		//var d = new Date(date.setHours(hours, minutes)); 
-		//return new Date(d.toISOString().replace("Z", "+05:00")).toISOString().replace(".000", "");
 }
 	
 	//Converts weekdays to RRULE stating byrules
