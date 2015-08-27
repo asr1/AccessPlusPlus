@@ -2,7 +2,7 @@
 	"manifest_version":2,
 	"name":"Access++",
 	"description":"Adds four tools to Iowa State’s Access Plus: Meal counter, see schedule while registering, Rate My Professor, export schedule.",
-	"version":"1.3.1.0",
+	"version":"1.3.1.1",
 	"permissions":["activeTab", "tabs", "notifications", "https://accessplus.iastate.edu/*", "webNavigation"],
 	
 	"icons": { 
@@ -14,16 +14,16 @@
 	[
 	{
 		"matches":["https://accessplus.iastate.edu/*"],
-		"js":["jquery.min.js", "ClassScheduleFunctions/dependencies.js", "ClassScheduleFunctions/classSchedFunc.js"]
+		"js":["jquery.min.js", "classScheduleFunctions/dependencies.js", "classScheduleFunctions/classSchedFunc.js"]
 	},
 	{
 		"matches":["https://accessplus.iastate.edu/servlet/adp.A_Plus"],
-		"js":["jquery.min.js", "ClassScheduleFunctions/dependencies.js", "MealCounter/meals.js"],
+		"js":["jquery.min.js", "classScheduleFunctions/dependencies.js", "mealCounter/meals.js"],
 		"run_at":"document_end"
 	},
 	{
 		"matches":["https://accessplus.iastate.edu/*"],
-		"js":["jquery.min.js","Registration/registration.js"],
+		"js":["jquery.min.js","registration/registration.js"],
 		"run_at":"document_end"
 	}
 	]
