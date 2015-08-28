@@ -630,6 +630,11 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		{
 			return 5;
 		}
+		if(day == 'S')
+		{
+			return 6;
+		}
+		//TODO: How does Access Plus display Sunday?
 		return 8; //Invalid, see below for more info.
 	}
 	
@@ -697,6 +702,11 @@ return true;
 		
 		
 		//Change days from M T R to 1 2 4
+		
+		if(classInfoArr[i].mDays.indexOf("Canceled") != -1)
+		{
+			continue;//Skip canceled classes.
+		}
 		var meetDays = convertDays(classInfoArr[i].mDays);
 		
 		if(isEmptyString(classInfoArr[i].loc))

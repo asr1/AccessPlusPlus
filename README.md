@@ -28,6 +28,12 @@ There are a couple ways to contribute to this project:
 This project uses a modified version of <a href="https://github.com/connorbode/ics.js">Connorbode's fork</a> of <a href="https://github.com/nwcell/ics.js/">ics.js</a>, which in turn uses <a href="https://github.com/eligrey/Blob.js">Blob.js.</a> This has been included in the AccessPlusPlus repository already. 
 
 ## Changelog
+**Version 1.3.2.0:**
+* Undo bad fixes in previous version.
+* Fix week/month start date in meal counter
+* Perhaps fix issue with some people being unable to install Chrome extension
+
+
 **Version 1.3.1.1:**
 * Fix capatalization, perhaps fix issue with some people being unable to install Chrome extension.
 
