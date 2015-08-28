@@ -20,7 +20,7 @@ var regex = new RegExp("[0-9]{1,3}") ;
 var meals_left= meals_left_str.match(regex)[0];		
 var timef = "day"; //let's initially start @daily
 var isHoliday = false;
-var debug = false; //testing purposes -- set to true when you want variables to be printed out on the console
+var debug = true; //testing purposes -- set to true when you want variables to be printed out on the console
 var toPrint = ""; //string where we're printing all of our debug info
 
 //String containing the student's dining information 
@@ -279,24 +279,22 @@ function daysinMonth(start, numMonths, year){
 function getTimeFrame(per){
     var numMonths = 0;
     var numWeeks = 0; 
-    var numDays = 0;
-    
+    var numDays = 0; 
 
     if (checkTerm()){
         
         numMonths = date.getMonth() - meals.sMonth;
+        
+        if (numMonths > 0) numDays = (daysinMonth(date.getMonth(), numMonths, date.getFullYear())) + date.getDate() + 1; //some dates have 31, 30, or 28 (yeah im watching you february) days...
+        else if (numMonths == 0) numDays = date.getDate() - meals.sDate + 1;  //add one to take in consideration the first day of the term
+        
         if (per == "day"){
-            if (numMonths == 0) numDays = date.getDate() - meals.sDate;
-            else{
-                numDays = (daysinMonth(date.getMonth(), numMonths, date.getFullYear())) + date.getDate(); //some dates have 31, 30, or 28 (yeah im watching you february) days...
-            }
-
             if (debug) toPrint += ("Calculated number of passed days : " + numDays + "\n\n");
             return numDays;
         }
 
         else if (per == "week"){
-            numWeeks = ((Math.floor(date.getDate()/7))+numMonths*4)-Math.floor(meals.sDate/7);
+            numWeeks = ((Math.floor(numDays/7))+numMonths*4);
             if (debug) toPrint += ("Calculated number of passed weeks : " + numWeeks + "\n\n");
             return numWeeks;
         }
@@ -315,20 +313,20 @@ function calcExtra (){
     //make sure we're still in the term 
     if (checkTerm()){ //check the extremes - make sure we're not before/after the start/end periods nor during a holiday 
             if(timef == "day") {
-                extraMeals = avgMealsD.avgMeals*getTimeFrame("day") + 1 + avgMealsD.extraW*getTimeFrame("week"); //Add extra day to include the start date 
-                if (meals.sDate <= date.getDate() && date.getDate() <= meals.sDate + 7) extraMeals = (date.getDate() - meals.sDate + 1)*avgMealsD.avgMeals + avgMealsD.extraW; //the first week must still account for the extra meal(s)
+                extraMeals = avgMealsD.avgMeals*getTimeFrame("day") + avgMealsD.extraW*getTimeFrame("week"); 
+                if (meals.sDate <= date.getDate() && date.getDate() <= meals.sDate + 7) extraMeals = (date.getDate() - meals.sDate)*avgMealsD.avgMeals + avgMealsD.extraW; //the first week must still account for the extra meal(s)
                 if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
             
             else if(timef == "week") {
-                extraMeals = avgMealsW*getTimeFrame("week") + getDaysEOW(meals.sDay);
-                if (extraMeals == 0) extraMeals = avgMealsW; //the first week will be the 0th week, and as such will have to allow for meals
+                extraMeals = avgMealsW*getTimeFrame("week") + getDaysEOW(meals.sDay)*avgMealsD.avgMeals; 
+                if (getTimeFrame("week") == 0) extraMeals = avgMealsW; //the first week will be the 0th week, and as such will have to allow for meals
                 if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
             
             else {
-                extraMeals = avgMealsM*getTimeFrame("month") + getDaysEOM(meals.sDate); 
-                if (extraMeals == 0) extraMeals = avgMealsM - getDaysEOM(meals.sDate); //the first month is the 0th month and it must still account for meals
+                extraMeals = avgMealsM*getTimeFrame("month") + getDaysEOM(meals.sDate)*avgMealsD.avgMeals + Math.floor(getDaysEOM(meals.sDate)/7)*avgMealsD.extraW; 
+                if (getTimeFrame("month") == 0) extraMeals = getDaysEOM(meals.sDate)*avgMealsD.avgMeals + Math.floor(getDaysEOM(meals.sDate)/7)*avgMealsD.extraW; //the first month is the 0th month and it must still account for meals 
                 if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
             
