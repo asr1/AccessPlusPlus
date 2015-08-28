@@ -638,30 +638,37 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		return 8; //Invalid, see below for more info.
 	}
 	
-//Tests if string contains only spaces
-function isEmptyString(obj)
-{
-		for(var i = 0; i < obj.length; i++)
-		{
-			if(obj.charAt(i) != ' ')
-			{
-				return false;
-			}
-		}
-return true;
+    //Tests if string contains only spaces
+    function isEmptyString(obj)
+    {
+            for(var i = 0; i < obj.length; i++)
+            {
+                if(obj.charAt(i) != ' ')
+                {
+                    return false;
+                }
+            }
+    return true;
 
-}
+    }
 
 	function convertDays(days)
 	{
 		var ret = new Array();
 		ret.push(8);//Actually this should make things easier-- instead of checking "hey, is this a length of one? And if so, adding an 8, we can just start with an 8. See comment below.
-		var tempDays = days.split(' ');
-		for(var i = 0; i < tempDays.length; i++)
-		{
-			ret.push(convertOneDay(tempDays[i]));//This should work?
-		}
-		return ret;
+        if (days.charAt(0) == 'M' && days.charAt(1) == 'T'){ //No space in between date characters
+            for (i = 0; i < 5; i++){
+                ret.push(convertOneDay(tempDays[i]));
+            }
+        }
+        else {
+            var tempDays = days.split(' ');
+            for(var i = 0; i < tempDays.length; i++)
+            {
+                ret.push(convertOneDay(tempDays[i]));//This should work?
+            }
+            return ret;
+        }
 	}
 	
 	//This is just for hacky demo purposes. This can be deleted. This should be deleted. //Nope now it's necessary again.
