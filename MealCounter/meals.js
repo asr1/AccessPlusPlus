@@ -29,13 +29,15 @@ var str =$("td[class='alignvt'][valign='top'][colspan='1'][rowspan='1'][width='1
 //Initializes the meals object
 //semester - the semester associated 
 //sDate - start date
+//sDay - start day - number representing the day of the week 
 //sMonth - start month
 //eDate - end date
 //eMonth - end month
-function mealsInfo(semester, planSem, sDate, sMonth, eDate, eMonth){
+function mealsInfo(semester, planSem, sDate, sDay, sMonth, eDate, eMonth){
         this.semester = semester;
         this.planSem = planSem;
 		this.sDate = sDate;
+        this.sDay = sDay;
 		this.sMonth = sMonth;
 		this.eDate = eDate;
 		this.eMonth = eMonth;
@@ -111,7 +113,7 @@ function getTerm (month, day, year){
         
     
         
-        meals = new mealsInfo("summer", getPlanSem(meals_left_str), sumStr.getDate(), sumStr.getMonth(), sumEnd.getDate(), sumEnd.getMonth());
+        meals = new mealsInfo("summer", getPlanSem(meals_left_str), sumStr.getDate(), sumStr.getDay(), sumStr.getMonth(), sumEnd.getDate(), sumEnd.getMonth());
     }
     
     //Plan starts on a tuesday on the third week of august and ends on a friday of the 3rd week of December
@@ -131,7 +133,7 @@ function getTerm (month, day, year){
             }  //Saturday of the 3rd week
         
         
-        meals = new mealsInfo("fall", getPlanSem(meals_left_str), fallStr.getDate(), fallStr.getMonth(), fallEnd.getDate(), fallEnd.getMonth());
+        meals = new mealsInfo("fall", getPlanSem(meals_left_str), fallStr.getDate(), fallStr.getDay(), fallStr.getMonth(), fallEnd.getDate(), fallEnd.getMonth());
     }
     
     //Plan starts on a saturday on the second week of Jan and ends on a Sunday of the 1st week of May
@@ -150,7 +152,7 @@ function getTerm (month, day, year){
             }  //Sunday of the 2nd week
         
 
-        meals = new mealsInfo("spring", getPlanSem(meals_left_str), sprStr.getDate(), sprStr.getMonth(), sprEnd.getDate(), sprEnd.getMonth());
+        meals = new mealsInfo("spring", getPlanSem(meals_left_str), sprStr.getDate(), sprStr.getDay(), sprStr.getMonth(), sprEnd.getDate(), sprEnd.getMonth());
     }
 }
 
@@ -235,6 +237,21 @@ function checkTerm (){
    return false;
 }
 
+//Returns the number of days until the end of the starting month
+//Date - given date of the month
+function getDaysEOM(mDate){
+    var d = new Date(date.getFullYear(), meals.sMonth + 1, 0);
+    var lastDayOM = d.getDate() - mDate + 1;
+    return lastDayOM;
+}
+
+//Returns the number of days until the end of the week
+//Day - given date of the week 
+function getDaysEOW(day){
+    return 6 - day + 2; //Saturday is considered the "last day of the week" and is represented as a six
+}
+
+
 //Yeah we need this function since some months change its number of days
 //Blast you february
 //Also to keep track of months that have 30/31 days
@@ -266,6 +283,7 @@ function getTimeFrame(per){
     
 
     if (checkTerm()){
+        
         numMonths = date.getMonth() - meals.sMonth;
         if (per == "day"){
             if (numMonths == 0) numDays = date.getDate() - meals.sDate;
@@ -287,6 +305,7 @@ function getTimeFrame(per){
             if (debug) toPrint += ("Calculated number of passed months : " + numMonths + "\n\n");
             return numMonths;
         }
+        
     }
 }
 
@@ -296,20 +315,20 @@ function calcExtra (){
     //make sure we're still in the term 
     if (checkTerm()){ //check the extremes - make sure we're not before/after the start/end periods nor during a holiday 
             if(timef == "day") {
-                extraMeals = avgMealsD.avgMeals*getTimeFrame("day") + avgMealsD.extraW*getTimeFrame("week"); 
+                extraMeals = avgMealsD.avgMeals*getTimeFrame("day") + 1 + avgMealsD.extraW*getTimeFrame("week"); //Add extra day to include the start date 
                 if (meals.sDate <= date.getDate() && date.getDate() <= meals.sDate + 7) extraMeals = (date.getDate() - meals.sDate + 1)*avgMealsD.avgMeals + avgMealsD.extraW; //the first week must still account for the extra meal(s)
                 if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
             
             else if(timef == "week") {
-                extraMeals = avgMealsW*getTimeFrame("week");
+                extraMeals = avgMealsW*getTimeFrame("week") + getDaysEOW(meals.sDay);
                 if (extraMeals == 0) extraMeals = avgMealsW; //the first week will be the 0th week, and as such will have to allow for meals
                 if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
             
             else {
-                extraMeals = avgMealsM*getTimeFrame("month"); 
-                if (extraMeals == 0) extraMeals = avgMealsM; //the first moth is the 0th month and it must still account for meals
+                extraMeals = avgMealsM*getTimeFrame("month") + getDaysEOM(meals.sDate); 
+                if (extraMeals == 0) extraMeals = avgMealsM - getDaysEOM(meals.sDate); //the first month is the 0th month and it must still account for meals
                 if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
             
@@ -377,11 +396,11 @@ function updText(timef, avgMeals){
     }
         
     else if (extraMeals < 0){
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Remaining number of Meals for the '+meals.planSem+': <b>'+meals_left+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>below</u> by: <b>'+extraMeals+'</b></div>'; 
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Remaining number of Meals for the '+meals.planSem+': <b>'+meals_left+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>below</u> by:"><b>'+extraMeals+'</b></div>'; 
     }
     
     else if (extraMeals > avgMealsComp){
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Remaining number of Meals for the '+meals.planSem+': <b>'+meals_left+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>above</u> by: <b>'+extraMeals+'</b></div>';   
+        document.getElementById("onDisplay").innerHTML = ' <div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Remaining number of Meals for the '+meals.planSem+': <b>'+meals_left+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>above</u> by: <b>'+extraMeals+'</b></div>';   
     }
     
     else{ //in any other scenario, assume A+ terminated the last meal plan but has yet to activate the next term's meal plan
