@@ -14,16 +14,16 @@
 	[
 	{
 		"matches":["https://accessplus.iastate.edu/*"],
-		"js":["jquery.min.js", "classScheduleFunctions/dependencies.js", "classScheduleFunctions/classSchedFunc.js"]
+		"js":["jquery.min.js", "ClassScheduleFunctions/dependencies.js", "ClassScheduleFunctions/classSchedFunc.js"]
 	},
 	{
 		"matches":["https://accessplus.iastate.edu/servlet/adp.A_Plus"],
-		"js":["jquery.min.js", "classScheduleFunctions/dependencies.js", "mealCounter/meals.js"],
+		"js":["jquery.min.js", "ClassScheduleFunctions/dependencies.js", "MealCounter/meals.js"],
 		"run_at":"document_end"
 	},
 	{
 		"matches":["https://accessplus.iastate.edu/*"],
-		"js":["jquery.min.js","registration/registration.js"],
+		"js":["jquery.min.js","Registration/registration.js"],
 		"run_at":"document_end"
 	}
 	]
