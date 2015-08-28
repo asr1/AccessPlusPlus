@@ -655,7 +655,7 @@ return true;
 	function convertDays(days)
 	{
 		var ret = new Array();
-		ret.push(8);//Actually this should make things easier-- instead of checking "hey, is this a length of one? And if so, adding an 8, we can just start with an 8.
+		ret.push(8);//Actually this should make things easier-- instead of checking "hey, is this a length of one? And if so, adding an 8, we can just start with an 8. See comment below.
 		var tempDays = days.split(' ');
 		for(var i = 0; i < tempDays.length; i++)
 		{
