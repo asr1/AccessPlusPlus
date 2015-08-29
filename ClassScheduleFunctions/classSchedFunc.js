@@ -655,7 +655,6 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	function convertDays(days)
 	{
 		var ret = new Array();
-		ret.push(8);//Actually this should make things easier-- instead of checking "hey, is this a length of one? And if so, adding an 8, we can just start with an 8. See comment below.
         if (days.charAt(0) == 'M' && days.charAt(1) == 'T'){ //No space in between date characters
             for (i = 0; i < 5; i++){
                 ret.push(convertOneDay(tempDays[i]));
@@ -673,15 +672,6 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	
 	//This is just for hacky demo purposes. This can be deleted. This should be deleted. //Nope now it's necessary again.
 	function expSched() { 
-	//Note that each class that meets only once a week has been padded with an 8. Why is this?
-	//It's because if there is only one element in a list, it is not iterated through. Not sure why this is.
-	//It seems to be a bounds issue, but <= does no fix it. So the kludge.
-	//But why 8?
-	//Days are indexed 0-6. 8 was chosen because it is a clearly invalid option, without being negative.
-	//Negative values COULD be confused for an error message and return the wrong thing in a comparison.
-	//There should be no instance where a day of 8 makes sense, nor could trigger a false positive.
-	
-
 	for(i = 0; i < classInfoArr.length; i++)
 	{	
 		//Sometimes a class has two meetings and they only give a date for the first
