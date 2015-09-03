@@ -10,6 +10,7 @@ var url =  window.location.href;
 var accessPlus = "https://accessplus.iastate.edu/servlet/adp.A_Plus"; //possible url for access plus after first access
 var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //possible url for access plus 
 
+var test = "file:///home/flavia/Download/Class%20Schedule.html";
 
 var img = document.createElement("img"); 
 img.src = "http://i.imgur.com/dSvcdl.gif"; //I regret nothing
@@ -327,17 +328,17 @@ function checkValues (arr, isClassInfo){
 			toPrint +=arr[i].mDates;
             toPrint += " ";
 			toPrint +=arr[i].loc;
-            toPrint += " ";
+            toPrint += " \n\n";
 		}
 	}
 	else{
 		for (i = 0; i < arr.length; i++){
             toPrint += " ";
 			toPrint +=arr[i];
-            toPrint += " ";
+            toPrint += " \n\n";
 		}
 	}
-    //alert(toPrint);
+    alert(toPrint);
 }
 
 //meetingDate object, will contain the different parts of the meeting date string, such as month, date year
@@ -693,6 +694,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		//All classes have the same meeting time, in theory.
 		if(isEmptyString(classInfoArr[i].mDates))
 		{
+            alert(classInfoArr[i].mDates);
 			classInfoArr[i].mDates = safetyNet;
 		}
 		else//This fixed the issue of having the first class be a half semester classes causing a recitation to only appear for half the semester
@@ -859,11 +861,10 @@ $(document).ready(function() {
  var updProfs = []; //updated array with the professor information, will not contain any repeated names
  var name = []; 
  
- if (url == accessPlus || url == accessPlus1){
+ if (url == accessPlus || url == accessPlus1 || url == test){
 
   updateIDs(); //Add ids to each table row
   updProfs = remRepeats(profs); //save a list of professors without any repeats
-  
   var superDiv = $('<div><div>'); //Div that will contain all of the elements of the RMP div. We need a master div to make ordering the elements easier 
   var buttonDiv = $('<div style = "height: 15px;"></div>'); //Div that will contain all elements related to the button
   var div = $('<div id = "rmpBox" style = padding-top: 20px;></div>'); //RMP div
@@ -951,9 +952,8 @@ $(document).ready(function() {
   //REMOVE?
 //  locations.clean(undefined);//Remove empty values.
   createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
-     
-  //checkValues(classInfoArr, true);
-  //checkValues(profs, false);
+
+     checkValues(classInfoArr, true);
   
   addStyleRmp(); //add some styling to the rmp buttons
  }
