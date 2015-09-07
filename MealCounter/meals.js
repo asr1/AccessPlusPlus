@@ -294,7 +294,7 @@ function getTimeFrame(per){
         }
 
         else if (per == "week"){
-            numWeeks = ((Math.floor(numDays/7))+numMonths*4);
+            numWeeks = (Math.floor(numDays/7));
             if (debug) toPrint += ("Calculated number of passed weeks : " + numWeeks + "\n\n");
             return numWeeks;
         }
@@ -313,13 +313,13 @@ function calcExtra (){
     //make sure we're still in the term 
     if (checkTerm()){ //check the extremes - make sure we're not before/after the start/end periods nor during a holiday 
             if(timef == "day") {
-                extraMeals = avgMealsD.avgMeals*getTimeFrame("day") + avgMealsD.extraW*getTimeFrame("week"); 
+                extraMeals = avgMealsD.avgMeals*getTimeFrame("day") + avgMealsD.extraW*getTimeFrame("week") + 1; //add one to account for the current week 
                 if (meals.sDate <= date.getDate() && date.getDate() <= meals.sDate + 7) extraMeals = (date.getDate() - meals.sDate)*avgMealsD.avgMeals + avgMealsD.extraW; //the first week must still account for the extra meal(s)
                 if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
             
             else if(timef == "week") {
-                extraMeals = avgMealsW*getTimeFrame("week") + getDaysEOW(meals.sDay)*avgMealsD.avgMeals; 
+                extraMeals = avgMealsW*getTimeFrame("week") + getDaysEOW(meals.sDay)*avgMealsD.avgMeals; //getTimeFrame(week) always returns 1 extra since it accounts for the first week (incomplete) this will help to account for the current non-finalized week
                 if (getTimeFrame("week") == 0) extraMeals = avgMealsW; //the first week will be the 0th week, and as such will have to allow for meals
                 if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
