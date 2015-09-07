@@ -354,13 +354,6 @@ function cleanNameSpacing(){
 
     for (i = 0; i < classInfoArr.length; i++){
         for (j = 0; j < classInfoArr[i].loc.length; j++){
-            if (classInfoArr[i].loc.charAt(j) == " ")
-                classInfoArr[i].loc = classInfoArr[i].loc.replace(" ", "");
-        }
-        
-        classInfoArr[i].loc.replace(" ", "");
-        
-        for (j = 0; j < classInfoArr[i].loc.length; j++){
             if (alphaRegex.test(classInfoArr[i].loc.charAt(j))){
                 letters += classInfoArr[i].loc.charAt(j);
             }
