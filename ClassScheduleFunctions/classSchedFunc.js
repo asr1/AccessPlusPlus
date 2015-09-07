@@ -10,6 +10,7 @@ var url =  window.location.href;
 var accessPlus = "https://accessplus.iastate.edu/servlet/adp.A_Plus"; //possible url for access plus after first access
 var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //possible url for access plus 
 
+//var test = "file:///home/flavia/Download/Class%20Schedule.html";
 
 var img = document.createElement("img"); 
 img.src = "http://i.imgur.com/dSvcdl.gif"; //I regret nothing
@@ -156,14 +157,37 @@ function checkName(id){
 
 //------------------------ Calendar ----------------------------------------------
 
+function cleanDates(id){
+    var tr = '#' + id;
+    var text = $(tr).html(); 
+
+    for (i = 0; i < text.length; i++){
+        if (text.charAt(i) == " ") text = text.replace(" ", "");
+        if (text.charAt(i) == "&") text = text.replace("&nbsp;", "");
+    }
+    text = text.replace("&nbsp;", "");
+    text = text.replace(" ", "");
+    return text;
+    
+}
+
+function contDays(text){
+    if (text.indexOf('M') !== -1 || text.indexOf('T') !== -1 || text.indexOf('W') !== -1 || text.indexOf('R') !== -1 || text.indexOf('F') !== -1 || text.indexOf('S') !== -1 || text.indexOf('MTWRF') !== -1){
+        return true;
+    }
+}
+
 //Checks to see whether the given row contains any "Days of the Week", such as M for Monday, T for Tuesday, ect...
 function containsDW(id){
 	var tr = '#' + id;
-	if ($(tr).html().indexOf(";M ") !== -1  || $(tr).html().indexOf(";T ") !== -1 || $(tr).html().indexOf(";W ") !== -1 || $(tr).html().indexOf(";R ") !== -1 || $(tr).html().indexOf(";F ") !== -1 ||
-	$(tr).html().indexOf(" M ") !== -1 || $(tr).html().indexOf(" T ") !== -1 || $(tr).html().indexOf(" W ") !== -1 || $(tr).html().indexOf(" R ") !== -1 || $(tr).html().indexOf(" F ") !== -1){
-	
-		return true;	
-	}
+    var text = $(tr).html();
+    
+    if ($(tr).html().indexOf("&nbsp;&nbsp;&nbsp;") != -1 && text.indexOf("<b>") == -1 && contDays(text)){
+        text = cleanDates(id); 
+        if (contDays(text)){ //im paranoid. making sure we have the expected days even after cleaning up the text field
+            return true;
+        }
+    }
 }
 
 //Will increment the given id by the given amount
@@ -310,6 +334,43 @@ function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrDates, arrLoc){
 		
 }
 
+//THis function will get rid of the pesky elements that make zero sense and managed to get through my parser
+//AccessPlus.. WHY CAN'T YOU FOLLOW YOUR OWN CODING RULES???
+function cleanClassInfo(){
+    for (i = 0; i < classInfoArr.length; i++){
+        if (classInfoArr[i].mDays.indexOf("SYSCODE") != -1) 
+            classInfoArr.splice(i, 1);
+    }
+}
+
+//Class location names usually have a stupid amount of spaces in them
+//This function will limit that to a single space
+function cleanNameSpacing(){
+    var letters = ""; //part of the string that contains letters
+    var num = ""; //part of the string that contains numbers
+    var res = ""; //resultant string
+    var intRegex = /^\d+$/;
+    var alphaRegex = /[a-zA-Z]+/;
+
+    for (i = 0; i < classInfoArr.length; i++){
+        for (j = 0; j < classInfoArr[i].loc.length; j++){
+            if (alphaRegex.test(classInfoArr[i].loc.charAt(j))){
+                letters += classInfoArr[i].loc.charAt(j);
+            }
+            else if (intRegex.test(classInfoArr[i].loc.charAt(j))){
+                num += classInfoArr[i].loc.charAt(j);
+            } 
+        }
+        
+        res += (letters + " " + num);
+        classInfoArr[i].loc = res;
+        res = "";
+        letters = "";
+        num = "";
+    }
+}
+
+
 //Just used for testing purposes - prints out the values contained in the given array
 //@param arr - the given array
 //@param isClassInfo - whether the array contains ClassInfo object or not (boolean value)
@@ -327,17 +388,17 @@ function checkValues (arr, isClassInfo){
 			toPrint +=arr[i].mDates;
             toPrint += " ";
 			toPrint +=arr[i].loc;
-            toPrint += " ";
+            toPrint += " \n\n";
 		}
 	}
 	else{
 		for (i = 0; i < arr.length; i++){
             toPrint += " ";
 			toPrint +=arr[i];
-            toPrint += " ";
+            toPrint += " \n\n";
 		}
 	}
-    //alert(toPrint);
+    console.log(toPrint);
 }
 
 //meetingDate object, will contain the different parts of the meeting date string, such as month, date year
@@ -527,6 +588,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	//Converts weekdays to RRULE stating byrules
 	function toRRule(WeekDays)
 	{
+        
 		var ret = "";
 		//Someone has i as a loop in some global scope such that it
 		//Can never be used again without breaking things. WHY?
@@ -656,17 +718,19 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		var ret = new Array();
         if (days.charAt(0) == 'M' && days.charAt(1) == 'T'){ //No space in between date characters
             for (i = 0; i < 5; i++){
-                ret.push(convertOneDay(tempDays[i]));
+                ret.push(convertOneDay(days.charAt(i)));
             }
         }
         else {
+            
             var tempDays = days.split(' ');
             for(var i = 0; i < tempDays.length; i++)
             {
                 ret.push(convertOneDay(tempDays[i]));//This should work?
             }
-            return ret;
+            
         }
+        return ret;
 	}
 	
 	//This is just for hacky demo purposes. This can be deleted. This should be deleted. //Nope now it's necessary again.
@@ -704,7 +768,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 			continue;//Skip canceled classes.
 		}
 		var meetDays = convertDays(classInfoArr[i].mDays);
-		
+                
 		if(isEmptyString(classInfoArr[i].loc))
 		{
 			
@@ -852,7 +916,6 @@ $(document).ready(function() {
 
   updateIDs(); //Add ids to each table row
   updProfs = remRepeats(profs); //save a list of professors without any repeats
-  
   var superDiv = $('<div><div>'); //Div that will contain all of the elements of the RMP div. We need a master div to make ordering the elements easier 
   var buttonDiv = $('<div style = "height: 15px;"></div>'); //Div that will contain all elements related to the button
   var div = $('<div id = "rmpBox" style = padding-top: 20px;></div>'); //RMP div
@@ -940,9 +1003,10 @@ $(document).ready(function() {
   //REMOVE?
 //  locations.clean(undefined);//Remove empty values.
   createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
+  cleanClassInfo();
+  cleanNameSpacing();
      
-  //checkValues(classInfoArr, true);
-  //checkValues(profs, false);
+  checkValues(classInfoArr, true);
   
   addStyleRmp(); //add some styling to the rmp buttons
  }
