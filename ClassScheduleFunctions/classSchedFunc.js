@@ -118,7 +118,7 @@ function remRepeats(arr){
    });
     
    //Search for spots that do not have letters or that are blank
-   for (var i = 0; i < result.length; i++){
+   for (i = 0; i < result.length; i++){
        if (!/[a-zA-Z]/.test(result[i]) || /%20/g.test(result[i])) {
            result.splice(i,1); //remove a single item at pos i
        }
@@ -161,7 +161,7 @@ function cleanDates(id){
     var tr = '#' + id;
     var text = $(tr).html(); 
 
-    for (var i = 0; i < text.length; i++){
+    for (i = 0; i < text.length; i++){
         if (text.charAt(i) == " ") text = text.replace(" ", "");
         if (text.charAt(i) == "&") text = text.replace("&nbsp;", "");
     }
@@ -219,7 +219,7 @@ function getStartEndTime(start, end){
 	
 	if (start.length != end.length) return null;
 	
-	for (var i = 0; i < start.length; i++){ //start and end have to have the same length
+	for (i = 0; i < start.length; i++){ //start and end have to have the same length
 		startTime = $(start[i]).html();
 		endTime = $(end[i]).html();
 		meetingsT[i] = startTime;
@@ -235,7 +235,7 @@ function getStartEndTime(start, end){
 function getLocations(loc){
 	var place = "";
 	
-	for (var i = 0; i < loc.length; i++){
+	for (i = 0; i < loc.length; i++){
 		place = $(loc[i]).html();
 		locations[i] = place;	
 	}
@@ -249,7 +249,7 @@ function getLocations(loc){
 function getMeetingDates(dates){
 	var meetingDate = "";
 	
-	for (var i = 0; i < dates.length; i++){
+	for (i = 0; i < dates.length; i++){
 		meetingDate = $(dates[i]).html();
 		if (typeof(meetingDate) != "undefined"){
 				startEndDate[i] = meetingDate;
@@ -270,10 +270,10 @@ function checkDates(id){
 		
 		if (date[3].indexOf('section') == -1){ // This test will guarantee its a valid date as A+ code will some time generate false positives
 			meetingD.push(date[3]);
-			if(classNames[meetingD.length - 1] === null){
+			if(classNames[meetingD.length - 1] == null){
 				classNames.push(lastClassName);
 			}
-			if(startEndDate[meetingD.length - 1] === null) startEndDate.push(lastStartEnd);
+			if(startEndDate[meetingD.length - 1] == null) startEndDate.push(lastStartEnd);
 			var startTime = incrementID(id, 1);
 			var endTime = incrementID(id, 2);
 			meetingsT.push(startTime);
@@ -291,7 +291,7 @@ function checkClassName(id){
 	var tr = '#' + id;
 	if($(tr).html().indexOf('<!-- %=') != -1){
 		var names = $(tr).html().split('nd()">');
-        if (names[1] === undefined){ //friggin experimental classes
+        if (names[1] == undefined){ //friggin experimental classes
             names = $(tr).html().split('/exp/">');
         }
 		var Names = names[1].split('</a>'); //names[1] contains the class name, but it also includes a ton of stuff after it that we do not care about
@@ -323,7 +323,7 @@ function checkMeetingDays(id){
 function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrDates, arrLoc){
 	var obj;
 	
-	for (var i = 0; i < arrCN.length; i++){
+	for (i = 0; i < arrCN.length; i++){
 		obj = new classInfo(arrCN[i], arrMD[i], arrMTS[i], arrMTE[i], arrDates[i], arrLoc[i]);	
 		if(arrMD[i].indexOf('ARR.') != -1 )
 		{
@@ -337,7 +337,7 @@ function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrDates, arrLoc){
 //THis function will get rid of the pesky elements that make zero sense and managed to get through my parser
 //AccessPlus.. WHY CAN'T YOU FOLLOW YOUR OWN CODING RULES???
 function cleanClassInfo(){
-    for (var i = 0; i < classInfoArr.length; i++){
+    for (i = 0; i < classInfoArr.length; i++){
         if (classInfoArr[i].mDays.indexOf("SYSCODE") != -1) 
             classInfoArr.splice(i, 1);
     }
@@ -352,8 +352,8 @@ function cleanNameSpacing(){
     var intRegex = /^\d+$/;
     var alphaRegex = /[a-zA-Z]+/;
 
-    for (var i = 0; i < classInfoArr.length; i++){
-        for (var j = 0; j < classInfoArr[i].loc.length; j++){
+    for (i = 0; i < classInfoArr.length; i++){
+        for (j = 0; j < classInfoArr[i].loc.length; j++){
             if (alphaRegex.test(classInfoArr[i].loc.charAt(j))){
                 letters += classInfoArr[i].loc.charAt(j);
             }
@@ -376,7 +376,7 @@ function cleanNameSpacing(){
 //@param isClassInfo - whether the array contains ClassInfo object or not (boolean value)
 function checkValues (arr, isClassInfo){ 
 	if (isClassInfo){
-		for (var i = 0; i < arr.length; i++){
+		for (i = 0; i < arr.length; i++){
 			toPrint += arr[i].name;	
             toPrint += " ";
 			toPrint += arr[i].mDays;
@@ -392,7 +392,7 @@ function checkValues (arr, isClassInfo){
 		}
 	}
 	else{
-		for (var i = 0; i < arr.length; i++){
+		for (i = 0; i < arr.length; i++){
             toPrint += " ";
 			toPrint +=arr[i];
             toPrint += " \n\n";
@@ -461,7 +461,7 @@ var safetyNet; //Same thing, empty Date saver
 function showNotify() {
     var notify;
 
-    if (window.webkitNotifications.checkPermission() === 0) {
+    if (window.webkitNotifications.checkPermission() == 0) {
         notify = window.webkitNotifications.createNotification(
             "",
             'Notification Test',
@@ -482,7 +482,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 {
 	//Forcible typecasty garbage to bypass
 	//JS's loosely typed shenanigans -- don't judge, Alex -_-
-	start = new Date(start);
+	var start = new Date(start);
 	var exDateStr = "";
 	
 	//There's an issue with the library where, irrespective of the RRULE, an event is created on the first day that is sent in. This is meant to circumvent that.
@@ -509,9 +509,9 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		start.setDate(start.getDate() + 4);
 	}
 
-	end = new Date(end);
-	eventTime = new Date(eventTime);
-	eventTimeEnd = new Date(eventTimeEnd);
+	var end = new Date(end);
+	var eventTime = new Date(eventTime);
+	var eventTimeEnd = new Date(eventTimeEnd);
 
 	var eventStart = new Date(start.setHours(eventTime.getHours(), eventTime.getMinutes()));
 	var eventEnd = new Date(start.setHours(eventTimeEnd.getHours(),eventTimeEnd.getMinutes()));
@@ -593,7 +593,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		//Someone has i as a loop in some global scope such that it
 		//Can never be used again without breaking things. WHY?
 		//(perhaps in create schedule, which would make it my fault?)
-		for(var x = 0; x < WeekDays.length; x++)
+		for(x = 0; x < WeekDays.length; x++)
 		 {
 			switch(WeekDays[x])
 			{   
@@ -603,22 +603,22 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 					ret += "MO,";
 					break;
 				case 2:
-					ret += "TU,";
+					ret += "TU,"
 					break;
 				case 3:
-					ret += "WE,";
+					ret += "WE,"
 					break;
 				case 4:
-					ret += "TH,";
+					ret += "TH,"
 					break;
 				case 5:
-					ret += "FR,";
+					ret += "FR,"
 					break;
 				case 6://No need to support weekends, but what the hell.
-					ret += "SA,";
+					ret += "SA,"
 					break;
 				case 7:
-					ret += "SU,";
+					ret += "SU,"
 					break;
 			}
 		  }
@@ -715,7 +715,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 
 	function convertDays(days)
 	{
-		var ret = [];
+		var ret = new Array();
         if (days.charAt(0) == 'M' && days.charAt(1) == 'T'){ //No space in between date characters
             for (i = 0; i < 5; i++){
                 ret.push(convertOneDay(days.charAt(i)));
@@ -735,7 +735,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	
 	//This is just for hacky demo purposes. This can be deleted. This should be deleted. //Nope now it's necessary again.
 	function expSched() { 
-	for(var i = 0; i < classInfoArr.length; i++)
+	for(i = 0; i < classInfoArr.length; i++)
 	{	
 		//Sometimes a class has two meetings and they only give a date for the first
 		if(firstTime)
@@ -862,7 +862,7 @@ function getBoxSize(number){
 //Adds css style to each "check my rating" button
 function addStyleRmp(){
     var id = "rmpEntry0";
-    for (var i = 0; i <= numRMPEntries; i++){
+    for (i = 0; i <= numRMPEntries; i++){
         document.getElementById(id).onmouseover = function(){ 
             this.style.backgroundColor = "#b8dc29";
         }
@@ -940,9 +940,9 @@ $(document).ready(function() {
 
   //Appends the professor name and links them to the box div
   //Will alternate background color depending on the entry's index     
-  for (var i = 0; i < updProfs.length; i++){ 
+  for (i = 0; i < updProfs.length; i++){ 
    name = parseName(updProfs[i]);
-   if (!(i%2 === 0)) {
+   if (!(i%2 == 0)) {
     $(box).append(cssEntry('#E8E8E8', updProfs[i], name[0]));
    }
    
@@ -963,7 +963,7 @@ $(document).ready(function() {
   document.getElementById("button").addEventListener("click", function(){func()});
       
   function func(){ //^ω^
-   if (clicked === false) {
+   if (clicked == false) {
      clicked = true;
      superDiv.append(img);
    }
@@ -1011,19 +1011,4 @@ $(document).ready(function() {
   addStyleRmp(); //add some styling to the rmp buttons
  }
 
-});// Hello.
-//
-// This is JSHint, a tool that helps to detect errors and potential
-// problems in your JavaScript code.
-//
-// To start, simply enter some JavaScript anywhere on this page. Your
-// report will appear on the right side.
-//
-// Additionally, you can toggle specific options in the Configure
-// menu.
-
-function main() {
-  return 'Hello, World!';
-}
-
-main();
+});
