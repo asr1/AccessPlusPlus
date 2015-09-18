@@ -550,7 +550,6 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		
 		//Add it for week one
 		cal.addEvent(name, "Class",location, eventStart, eventEnd, biRule, toRRule(WeekDays),exDateStr);
-			
 		eventStart.setDate(eventStart.getDate() + 7);//Skip the first week.
 		eventStart.setHours(eventTime.getHours(), eventTime.getMinutes());	
 		eventEnd.setDate(eventEnd.getDate() + 7);//Skip the first week.

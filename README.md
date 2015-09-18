@@ -28,6 +28,10 @@ There are a couple ways to contribute to this project:
 This project uses a modified version of <a href="https://github.com/connorbode/ics.js">Connorbode's fork</a> of <a href="https://github.com/nwcell/ics.js/">ics.js</a>, which in turn uses <a href="https://github.com/eligrey/Blob.js">Blob.js.</a> This has been included in the AccessPlusPlus repository already. 
 
 ## Changelog
+**Version 1.3.3.1:**
+* Fix meal counter math.
+* Fix edge cases for calendar parsing (Saturday, M-F with no spaces, canceled classes, etc.)
+
 **Version 1.3.3.0:**
 * Fix meal counter math.
 * Add support for Saturday classes.
