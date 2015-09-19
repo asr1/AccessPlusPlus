@@ -314,7 +314,8 @@ function calcExtra (){
     if (checkTerm()){ //check the extremes - make sure we're not before/after the start/end periods nor during a holiday 
             if(timef == "day") {
                 extraMeals = avgMealsD.avgMeals*getTimeFrame("day") + avgMealsD.extraW*getTimeFrame("week") + 1; //add one to account for the current week 
-                if (meals.sDate <= date.getDate() && date.getDate() <= meals.sDate + 7) extraMeals = (date.getDate() - meals.sDate)*avgMealsD.avgMeals + avgMealsD.extraW; //the first week must still account for the extra meal(s)
+                //If we're in the same month as the start date of the meal plan AND we're in the first week of the start of the meal plan
+                if (meals.sMonth == date.getMonth() && meals.sDate <= date.getDate()  && date.getDate() <= meals.sDate + 7) extraMeals = (date.getDate() - meals.sDate)*avgMealsD.avgMeals + avgMealsD.extraW; //the first week must still account for the extra meal(s)
                 if (debug) toPrint+=("Predicted number of meals for ("+timef+") is: "+extraMeals);
             }
             
@@ -394,7 +395,7 @@ function updText(timef, avgMeals){
     }
         
     else if (extraMeals < 0){
-        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Remaining number of Meals for the '+meals.planSem+': <b>'+meals_left+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>below</u> by:"><b>'+extraMeals+'</b></div>'; 
+        document.getElementById("onDisplay").innerHTML = '<div style = "line-height: 150%; padding: 15px; padding-top:25px; padding-bottom:25px; width:250px;">Remaining number of Meals for the '+meals.planSem+': <b>'+meals_left+'</b><br>Average number of meals per '+timef+' is: <b>'+avgMeals+'</b><br> Your predicted meal count is <u>below</u> by:"<b>'+extraMeals+'</b></div>'; 
     }
     
     else if (extraMeals > avgMealsComp){
@@ -531,7 +532,7 @@ $(document).ready(function() {
             document.getElementById("helpMe").onmouseover = function(){
                     this.style.cursor = "pointer";
             }
-            if (debug){
+            if (debug){ 
                 toPrint+=("\n\nStarting month for: " + meals.semester + " is " + meals.sMonth + "\n\n" + "Starting date is: " + meals.sDate + "\n\nEnding month is: " + meals.eMonth + "\n\nEnding date is: " + meals.eDate + "\n\nIs Holiday? " + isHoliday);
                 console.log(toPrint);
             }

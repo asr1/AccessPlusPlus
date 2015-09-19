@@ -83,7 +83,7 @@ function tdID(){
 //Gives ids to every table data and table row that includes class information
 function updateIDs() {
 	$("#long").children().children().children().each(function (i) { // (╯°□°）╯︵ ┻━┻
-		$(this).attr('id', 'tr' +i);
+		$(this).attr('id', 'tr' + i);
 	});
 	
 	tdID();
@@ -114,7 +114,7 @@ function remRepeats(arr){
 	var result = [];
 	
 	$.each(arr, function(i, e) {
-       if ($.inArray(e, result) == -1) result.push(e);
+       if ($.inArray(e, result) === -1) result.push(e);
    });
     
    //Search for spots that do not have letters or that are blank
