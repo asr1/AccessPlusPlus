@@ -170,8 +170,8 @@ function initStart(){
 }
 
 function initMeals (str){
-        //if we just dont have a meal plan OR we have a meal plan for a future semester and not one for the current one
-        if((str.indexOf("No meal plan") > -1) || (str.indexOf("fall meal plan balance") > -1 && meals_left_str.indexOf("fall") == -1) || (str.indexOf("spring meal plan balance") > -1 && meals_left_str.indexOf("spring") == -1) || (str.indexOf("summer meal plan balance") > -1 && meals_left_str.indexOf("summer") == -1)){
+        //if we just dont have a meal plan OR we have a meal plan for a future semester and not one for the current one -- ignore whenever AccessPlus decides to add information about a future semester while still having a meal plan for a given semester
+        if((str.indexOf("No meal plan") > -1) || (str.indexOf("fall meal plan balance") > -1 && meals_left_str.indexOf("fall") == -1 && str.indexOf("future fall") == -1) || (str.indexOf("spring meal plan balance") > -1 && meals_left_str.indexOf("spring") == -1 && str.indexOf("future spring") == -1) || ((str.indexOf("summer meal plan balance")) > -1 && meals_left_str.indexOf("summer") == -1 && str.indexOf("future summer") == -1)){
             startMeals = 0;
             avgMealsD = new mealsD(0, 0, "0");
             avgMealsW = 0;
