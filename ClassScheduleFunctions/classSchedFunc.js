@@ -2,22 +2,22 @@
 
 //The main functionality of this part of the Access++ extension is to add the Rate My Professor functionality, but it will also get the needed information
 //for the google calendar exportation, such as: class name, beginning and end date, dates, ect... The information will be saved in classInfo objects, which will
-//be stored in an array. When a class contains multiple meeting times at different times, such as: Math M,W @ 10:00 and T,R @8:00; independed classInfo objects will 
+//be stored in an array. When a class contains multiple meeting times at different times, such as: Math M,W @ 10:00 and T,R @8:00; independed classInfo objects will
 //be created. ClassInfo1: name: Math, meetingDays: M, W; Meeting Times: 10:00 A, Meeting End Time: 11:00A, startendDate: : 01/15/2014-05/25/2014
 //be created. ClassInfo2: name: Math, meetingDays: T, R; Meeting Times: 8:00 A, Meeting End Time: 9:00A, startendDate: : 01/15/2014-05/25/2014
 
-var url =  window.location.href;  
+var url =  window.location.href;
 var accessPlus = "https://accessplus.iastate.edu/servlet/adp.A_Plus"; //possible url for access plus after first access
-var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //possible url for access plus 
+var accessPlus1 = "https://accessplus.iastate.edu/servlet/adp.A_Plus?A_Plus_action=/R480/R480.jsp&SYSTEM=R480&SUBSYS=006&SYSCODE=CS&MenuOption=7"; //possible url for access plus
 
 //var test = "file:///home/flavia/Download/Class%20Schedule.html";
 
-var img = document.createElement("img"); 
-img.src = "http://i.imgur.com/dSvcdl.gif"; //I regret nothing
+var img = document.createElement("img");
+img.src = "https://i.imgur.com/dSvcdl.gif"; //I regret nothing
 
 var clicked = false;
 
-var element = $('#long'); //where we're going to append our RMP div to 
+var element = $('#long'); //where we're going to append our RMP div to
 var Name; //keeps track of the name of the current prof being read
 var idStart = 2; //2 should be a pretty good place to start searching
 var tdId; //keeps track of the current tdId being read
@@ -26,13 +26,13 @@ var profs = []; //will store the prof's names here
 
 var numRMPEntries = 0; //counter for the number of RMP entries -- mostly used for CSS
 
- //Classes can have multiple meeting times at different places, if this happens then the 
-								 //arrays containing the class information will have varying length. As such we should keep track 
+ //Classes can have multiple meeting times at different places, if this happens then the
+								 //arrays containing the class information will have varying length. As such we should keep track
 								 //of the amount of times we get multiple consecutive meeting dates. When several meeting dates are found,
 								 //we should duplicate the class name and start/end date, allowing for the creation of a new Calendar object.
 var lastClassName = "";
 var lastStartEnd = "";
-								 
+
 //All of these arrays are temporary, they will be used to generate classInfo objects later on
 var classNames = []; //will store all of the student's class' names
 var meetingD = []; //will store all of the student's class' meeting days
@@ -53,7 +53,7 @@ var toPrint = ""; //Used for testing purposes -- concatenates information to be 
 //mDays - meeting days, all days of the week where the class meets
 //mTimesS - meeting times (start)
 //mTimesE - meeting times (end)
-//mDates - the dates of when the class ends and starts in a semester 
+//mDates - the dates of when the class ends and starts in a semester
 //loc - class location
 //After each object is created, they will be saved in an array
 //access their parameters by, for example calling, classInfo.name to retrieve the name
@@ -66,11 +66,11 @@ function classInfo(name, mDays, mTimesS, mTimesE, mDates, loc){
 		this.loc = loc;
 }
 
-//AccessPlus is a website which was most definetly not created with plans for future development. 
-//No. Whoever developed this ancient tome decided to write this masterpeace as if we were still stuck in the 80s, 
-//where friggin ids were mythical beings who should never be disturbed for fear of divine retribution. 
+//AccessPlus is a website which was most definetly not created with plans for future development.
+//No. Whoever developed this ancient tome decided to write this masterpeace as if we were still stuck in the 80s,
+//where friggin ids were mythical beings who should never be disturbed for fear of divine retribution.
 //So how on earth are we supposed to find the ridiculous amount of data that we need in order to get this plugin to work??
-//I decided to wholeheartedly embrace hacky code 
+//I decided to wholeheartedly embrace hacky code
 //In other words: lets inject an id for each table and use them to search for the required info. IN YOUR FACE ACCESS PLUS
 //-----------------------------------------------------------------------------
 
@@ -85,7 +85,7 @@ function updateIDs() {
 	$("#long").children().children().children().each(function (i) { // (╯°□°）╯︵ ┻━┻
 		$(this).attr('id', 'tr' + i);
 	});
-	
+
 	tdID();
 
 	while ($('#' + tdId).length){
@@ -96,8 +96,8 @@ function updateIDs() {
 			checkClassName($(this).attr('id'));
 			checkMeetingDays($(this).attr('id'));
 		});
-		tdID();	
-	} 
+		tdID();
+	}
 }
 
 //----------------------------</idUpdate>----------------------------------------
@@ -105,18 +105,18 @@ function updateIDs() {
 
 //--------------------- Related to Rate my Prof ---------------------------------
 
-//As the same teacher can be found multiple times, we have to make sure not to 
+//As the same teacher can be found multiple times, we have to make sure not to
 //repeat the name while linking to the teacher's RMP page
 //This method also gets rid of blank spots - when a professor is not yet defined for a class
 //@param - arr- given array with teacher names
-function remRepeats(arr){ 
+function remRepeats(arr){
  	var el;
 	var result = [];
-	
+
 	$.each(arr, function(i, e) {
        if ($.inArray(e, result) === -1) result.push(e);
    });
-    
+
    //Search for spots that do not have letters or that are blank
    for (i = 0; i < result.length; i++){
        if (!/[a-zA-Z]/.test(result[i]) || /%20/g.test(result[i])) {
@@ -125,12 +125,12 @@ function remRepeats(arr){
    }
 //    if (!/[a-zA-Z]/.test(result[0]) || /%20/g.test(result[0])) {
 //           result.shift(); //removes the first element if it is blank
-//    }    
+//    }
     return result;
 }
 
 //Parses the given name to separate the first name from the last name
-//includes a ',' to the last name 
+//includes a ',' to the last name
 //@param name - teachers name
 function parseName(name){
 	var splited = name.split(',');
@@ -143,7 +143,7 @@ function parseName(name){
 //@param id - id of the given row
 function checkName(id){
 	var tr = '#' + id;
-	
+
 	if ($(tr).html().indexOf('mailto:') !== -1){
 		var prof = $('#' + id).html().split('>');
 		Name = prof[1].split('<');
@@ -159,7 +159,7 @@ function checkName(id){
 
 function cleanDates(id){
     var tr = '#' + id;
-    var text = $(tr).html(); 
+    var text = $(tr).html();
 
     for (i = 0; i < text.length; i++){
         if (text.charAt(i) == " ") text = text.replace(" ", "");
@@ -168,7 +168,7 @@ function cleanDates(id){
     text = text.replace("&nbsp;", "");
     text = text.replace(" ", "");
     return text;
-    
+
 }
 
 function contDays(text){
@@ -181,9 +181,9 @@ function contDays(text){
 function containsDW(id){
 	var tr = '#' + id;
     var text = $(tr).html();
-    
+
     if ($(tr).html().indexOf("&nbsp;&nbsp;&nbsp;") != -1 && text.indexOf("<b>") == -1 && contDays(text)){
-        text = cleanDates(id); 
+        text = cleanDates(id);
         if (contDays(text)){ //im paranoid. making sure we have the expected days even after cleaning up the text field
             return true;
         }
@@ -193,32 +193,32 @@ function containsDW(id){
 //Will increment the given id by the given amount
 function incrementID (id, n){
 	var num = id.substr(id.length - 2); //limited to double digit numbers
-	var sliced = id.slice(0, id.length - 1); 
+	var sliced = id.slice(0, id.length - 1);
 	var ID = '#' + sliced;
 	var intRegex = /^\d+$/;
-	
+
 	if (intRegex.test(num.charAt(0))){
 		ID += (parseInt(num) + n).toString(); //both elements are numbers
 	}
 	else {
 		ID += (parseInt(num.charAt(1)) + n).toString(); //only the last element is a number
 	}
-	
-	return ID; 
+
+	return ID;
 }
 
 //Will update the meeting times arrays
-//This function has to be called in the 'main' method since not all table ids have been 
-//fully created by the time checkDates is called -> startTime and endTime have a higher id number than the one 
+//This function has to be called in the 'main' method since not all table ids have been
+//fully created by the time checkDates is called -> startTime and endTime have a higher id number than the one
 //associated with class dates
 //start - array containing all start time table ids
 //end - array containing all end time table ids
 function getStartEndTime(start, end){
 	var startTime = "";
 	var endTime = "";
-	
+
 	if (start.length != end.length) return null;
-	
+
 	for (i = 0; i < start.length; i++){ //start and end have to have the same length
 		startTime = $(start[i]).html();
 		endTime = $(end[i]).html();
@@ -228,27 +228,27 @@ function getStartEndTime(start, end){
 }
 
 //Will update the locations array
-//This function has to be called in the 'main' method since not all table ids have been 
-//fully created by the time checkDates is called -> startTime and endTime have a higher id number than the one 
+//This function has to be called in the 'main' method since not all table ids have been
+//fully created by the time checkDates is called -> startTime and endTime have a higher id number than the one
 //associated with class dates
 //loc - array containing all of the location ids
 function getLocations(loc){
 	var place = "";
-	
+
 	for (i = 0; i < loc.length; i++){
 		place = $(loc[i]).html();
-		locations[i] = place;	
+		locations[i] = place;
 	}
 }
 
 //Will update the meeting dates array
-//This function has to be called in the 'main' method since not all table ids have been 
-//fully created by the time checkMeetingDates is called -> meetingDate has a higher id number than the one 
+//This function has to be called in the 'main' method since not all table ids have been
+//fully created by the time checkMeetingDates is called -> meetingDate has a higher id number than the one
 //associated with class dates
 //dates - array containing all meeting dates table ids
 function getMeetingDates(dates){
 	var meetingDate = "";
-	
+
 	for (i = 0; i < dates.length; i++){
 		meetingDate = $(dates[i]).html();
 		if (typeof(meetingDate) != "undefined"){
@@ -259,15 +259,15 @@ function getMeetingDates(dates){
 	}
 }
 
-//Checks whether the row associated with the given id has any association with the class dates, 
+//Checks whether the row associated with the given id has any association with the class dates,
 //if so, it'll save the class days and its start/end time
 //@param id - id of the given row
 function checkDates(id){
 	var tr = '#' + id;
-	
+
 	if ($(tr).html().indexOf('&nbsp;') != -1 && containsDW(id) || $(tr).html().indexOf('ARR.') != -1 || $(tr).html().indexOf('Required') != -1){
-		var date = $(tr).html().split(';');	
-		
+		var date = $(tr).html().split(';');
+
 		if (date[3].indexOf('section') == -1){ // This test will guarantee its a valid date as A+ code will some time generate false positives
 			meetingD.push(date[3]);
 			if(classNames[meetingD.length - 1] == null){
@@ -305,40 +305,40 @@ function checkClassName(id){
 //@param id - id of the given row
 function checkMeetingDays(id){
 	var tr = '#' + id;
-	
+
 	if ($(tr).html().indexOf('Meeting Dates:') != -1){
 		var meetId = incrementID(id, 1); //the meeting days are in the following table
 		startEndDate.push(meetId);
 	}
 }
 
-//Returns an array of classInfo objects 
+//Returns an array of classInfo objects
 //Also deals with retrieving the class meeting times
 //arrCN - an array containing the class names
 //arrMD - an array containing meeting days
 //arrMTS - an array containing meeting times (start)
 //arrMTE - an array containing meeting times (end)
 //arrST - an array containing the class' start date
-//arrFT - an array containing the class' end date 
+//arrFT - an array containing the class' end date
 function createClassInfo(arrCN, arrMD, arrMTS, arrMTE, arrDates, arrLoc){
 	var obj;
-	
+
 	for (i = 0; i < arrCN.length; i++){
-		obj = new classInfo(arrCN[i], arrMD[i], arrMTS[i], arrMTE[i], arrDates[i], arrLoc[i]);	
+		obj = new classInfo(arrCN[i], arrMD[i], arrMTS[i], arrMTE[i], arrDates[i], arrLoc[i]);
 		if(arrMD[i].indexOf('ARR.') != -1 )
 		{
 			continue;
 		}
 		classInfoArr.push(obj);
-	}		
-		
+	}
+
 }
 
 //THis function will get rid of the pesky elements that make zero sense and managed to get through my parser
 //AccessPlus.. WHY CAN'T YOU FOLLOW YOUR OWN CODING RULES???
 function cleanClassInfo(){
     for (i = 0; i < classInfoArr.length; i++){
-        if (classInfoArr[i].mDays.indexOf("SYSCODE") != -1) 
+        if (classInfoArr[i].mDays.indexOf("SYSCODE") != -1)
             classInfoArr.splice(i, 1);
     }
 }
@@ -359,9 +359,9 @@ function cleanNameSpacing(){
             }
             else if (intRegex.test(classInfoArr[i].loc.charAt(j))){
                 num += classInfoArr[i].loc.charAt(j);
-            } 
+            }
         }
-        
+
         res += (letters + " " + num);
         classInfoArr[i].loc = res;
         res = "";
@@ -374,10 +374,10 @@ function cleanNameSpacing(){
 //Just used for testing purposes - prints out the values contained in the given array
 //@param arr - the given array
 //@param isClassInfo - whether the array contains ClassInfo object or not (boolean value)
-function checkValues (arr, isClassInfo){ 
+function checkValues (arr, isClassInfo){
 	if (isClassInfo){
 		for (i = 0; i < arr.length; i++){
-			toPrint += arr[i].name;	
+			toPrint += arr[i].name;
             toPrint += " ";
 			toPrint += arr[i].mDays;
             toPrint += " ";
@@ -419,37 +419,37 @@ function updMonthYr(obj, month, year){
 	if (m <= 10) mnt = "0";
 	else mnt = "";
 	mnt += m.toString();
-	
+
 	var yr = "20";
 	yr+=year;
-	
+
 	obj.month = mnt;
 	obj.year = yr;
-	
+
 }
 
 //Returns a meeting date string as a readable format for the Calendar
-//As the months begin at index 0, the month part has to be reduced by 1 
+//As the months begin at index 0, the month part has to be reduced by 1
 //date - a meeting date string
 function splitDates(date){
 	var dates = date.split('-');
 	var date1 = dates[0];
 	var date2 = dates[1];
 	var obj;
-	
+
 	var parts1 = date1.split('/');
 	var parts2 = date2.split('/');
-	
+
 	var objArr = [];
-	
+
 	obj = new meetingDateObj("", parts1[1], "");
 	updMonthYr(obj, parts1[0], parts1[2]);
 	objArr.push(obj);
-	
+
 	obj = new meetingDateObj("", parts2[1], "");
 	updMonthYr(obj, parts2[0], parts2[2]);
 	objArr.push(obj);
-	
+
 	return objArr;
 }
 
@@ -471,7 +471,7 @@ function showNotify() {
     } else {
         window.webkitNotifications.requestPermission();
     }
-}    
+}
 
 //Takes in the start and end date and repeat frequency, does some ugly formatting
 //And churns out a schedule
@@ -484,14 +484,14 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	//JS's loosely typed shenanigans -- don't judge, Alex -_-
 	var start = new Date(start);
 	var exDateStr = "";
-	
+
 	//There's an issue with the library where, irrespective of the RRULE, an event is created on the first day that is sent in. This is meant to circumvent that.
 	//Whatever the first day that a class starts on is, move the event to start on that day.'
 	//This will grab the FIRST date present in the string.
 	if(toRRule(WeekDays).indexOf('MO') !== -1)
 	{
 		//Do nothing.
-	}	
+	}
 	else if(toRRule(WeekDays).indexOf('TU') !== -1)
 	{
 		start.setDate(start.getDate() + 1);
@@ -526,7 +526,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 			//We have to set time because Google Calendar only recognizes the Exdate parameter if it's at the same time as the regular event.
 			start.setHours(eventTime.getHours(), eventTime.getMinutes());
 			exDateStr += formatDate(start, eventTime.getHours(), eventTime.getMinutes()) + ',';
-			
+
 		}
 		start = new Date(start.setDate(start.getDate() + 1));
 	}
@@ -536,8 +536,8 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	exDateStr = exDateStr.replace(/-/g,'');
 	exDateStr = exDateStr.replace(/\./g,'');
 	exDateStr = exDateStr.replace(/Z/g,'');//Remove trailing Z to convert to local time
-	 
-	 //BEGIN PHYSICS 221 LAB 
+
+	 //BEGIN PHYSICS 221 LAB
 	 //If we're taking the physics 221 lab, make it two events that occur fortnightly.
 	if(name.indexOf("PHYS") > -1 && name.indexOf("221") > -1  && toRRule(WeekDays).length == 2) //Make sure that it only occurs on one day. For some reason indexOf(PHYS 221) returns -1.
 	{
@@ -547,36 +547,36 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		interval: 2, //Every other week
 		until: new Date(end.setHours(1,0)),
 	};
-		
+
 		//Add it for week one
 		cal.addEvent(name, "Class",location, eventStart, eventEnd, biRule, toRRule(WeekDays),exDateStr);
 		eventStart.setDate(eventStart.getDate() + 7);//Skip the first week.
-		eventStart.setHours(eventTime.getHours(), eventTime.getMinutes());	
+		eventStart.setHours(eventTime.getHours(), eventTime.getMinutes());
 		eventEnd.setDate(eventEnd.getDate() + 7);//Skip the first week.
 		eventEnd.setHours(eventEnd.getHours(), eventEnd.getMinutes());
-		
+
 		//Add it for week 2.
 		cal.addEvent(name, "Class",location, eventStart, eventEnd, biRule, toRRule(WeekDays),exDateStr);
-		
+
 		//Let the user know that there are two separate events.
 		alert("Physics 221 lab meets every other week. Delete the entire series of labs that are not on the week you meet.");
-		
+
 		//Skip the weekly event.
 		return;
 	}
-	
+
 	//END PHYSICS 221
-	
-	 
+
+
 	var rule = {
 		freq: "WEEKLY",
 		until: new Date(end.setHours(1,0)),
 	};
-	
+
 		cal.addEvent(name, "Class",location, new Date(eventStart) ,new Date(eventEnd), rule, toRRule(WeekDays),exDateStr);
 }
-	
-	//custom format for time. Google calendar hates 24 hour time 
+
+	//custom format for time. Google calendar hates 24 hour time
 	//This emulates the ISO standard, but for central time.
 	function formatDate(date, hours, minutes) {
 	var d = new Date(date);
@@ -584,11 +584,11 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		d.setMinutes(minutes);
 	return d.toISOString(); //2013-04-18T00:00:00.000Z
 }
-	
+
 	//Converts weekdays to RRULE stating byrules
 	function toRRule(WeekDays)
 	{
-        
+
 		var ret = "";
 		//Someone has i as a loop in some global scope such that it
 		//Can never be used again without breaking things. WHY?
@@ -596,7 +596,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		for(x = 0; x < WeekDays.length; x++)
 		 {
 			switch(WeekDays[x])
-			{   
+			{
 				case 8:
 					continue;
 				case 1:
@@ -623,10 +623,10 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 			}
 		  }
 			//return retArr;
-			return ret.substring(0,ret.length-1); //Remove the trailing comma.  		  
+			return ret.substring(0,ret.length-1); //Remove the trailing comma.
 	}
-	
-	
+
+
 	//Used for expSched string formatting garbage
 	function timeParseHours(time)
 	{
@@ -634,7 +634,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		{
 			return 0;
 		}
-	
+
 		var hrs = time.split(':');
 		var hrs1 = hrs[0];//Grab just the time
 		var hrs2 = hrs[1];//Grab the minutes and an A or P
@@ -653,7 +653,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		}
 		return hrs1;
 	}
-	
+
 	//See comment above, re: garbage.
 	function timeParseMinutes(time)
 	{
@@ -661,14 +661,14 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		{
 			return 0;
 		}
-	
+
 		var hrs = time.split(':');
 		var hrs2 = hrs[1];//Grab the minutes and an A or P
 		var front = hrs2.split(' ');
 		var mins = front[0];
-		return mins; 
+		return mins;
 	}
-	
+
 	function convertOneDay(day)
 	{
 		if(day == 'M')
@@ -698,7 +698,7 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		//TODO: How does Access Plus display Sunday?
 		return 8; //Invalid, see below for more info.
 	}
-	
+
     //Tests if string contains only spaces
     function isEmptyString(obj)
     {
@@ -722,21 +722,21 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
             }
         }
         else {
-            
+
             var tempDays = days.split(' ');
             for(var i = 0; i < tempDays.length; i++)
             {
                 ret.push(convertOneDay(tempDays[i]));//This should work?
             }
-            
+
         }
         return ret;
 	}
-	
+
 	//This is just for hacky demo purposes. This can be deleted. This should be deleted. //Nope now it's necessary again.
-	function expSched() { 
+	function expSched() {
 	for(i = 0; i < classInfoArr.length; i++)
-	{	
+	{
 		//Sometimes a class has two meetings and they only give a date for the first
 		if(firstTime)
 		{
@@ -757,27 +757,27 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		var DateArrs = splitDates(classInfoArr[i].mDates);
 		var StartDate = new Date(DateArrs[0].year,DateArrs[0].month,DateArrs[0].day);
 		var EndDate = new Date(DateArrs[1].year,DateArrs[1].month,DateArrs[1].day);
-		
+
 		EndDate.setDate(EndDate.getDate() -6);//There are no classes during finals week.
-		
-		
+
+
 		//Change days from M T R to 1 2 4
-		
+
 		if(classInfoArr[i].mDays.indexOf("Canceled") != -1)
 		{
 			continue;//Skip canceled classes.
 		}
 		var meetDays = convertDays(classInfoArr[i].mDays);
-                
+
 		if(isEmptyString(classInfoArr[i].loc))
 		{
-			
+
 			classInfoArr[i].loc = 'TBA';
 		}
-		
+
 		//Create everything
-		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].name,classInfoArr[i].loc);	
-		
+		CreateSchedule(StartDate, EndDate,new Date(StartDate.setHours(timeParseHours(classInfoArr[i].mTimesS), timeParseMinutes(classInfoArr[i].mTimesS))),new Date(EndDate.setHours(timeParseHours(classInfoArr[i].mTimesE), timeParseMinutes(classInfoArr[i].mTimesE))),meetDays,classInfoArr[i].name,classInfoArr[i].loc);
+
 	}
 	/*
 		//Old version for reference
@@ -793,10 +793,10 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 		//Display a loading gif if we downloaded successfully.
         document.getElementById("wait").style.display = "block";
         setTimeout(function(){document.getElementById("wait").style.display = "none";}, 1200);
-		cal.download(cal); //ICS format 
+		cal.download(cal); //ICS format
 
-		//cal.download(cal,".csv"); //If we want different extensions              
-	}   
+		//cal.download(cal,".csv"); //If we want different extensions
+	}
 
 //meetingDate object, will contain the different parts of the meeting date string, such as month, date year
 //month - given month, has to be reduced by 1
@@ -816,37 +816,37 @@ function updMonthYr(obj, month, year){
 	if (m <= 10) mnt = "0";
 	else mnt = "";
 	mnt += m.toString();
-	
+
 	var yr = "20";
 	yr+=year;
-	
+
 	obj.month = mnt;
 	obj.year = yr;
-	
+
 }
 
 //Returns a meeting date string as a readable format for the Calendar
-//As the months begin at index 0, the month part has to be reduced by 1 
+//As the months begin at index 0, the month part has to be reduced by 1
 //date - a meeting date string
 function splitDates(date){
 	var dates = date.split('-');
 	var date1 = dates[0];
 	var date2 = dates[1];
 	var obj;
-	
+
 	var parts1 = date1.split('/');
 	var parts2 = date2.split('/');
-	
+
 	var objArr = [];
-	
+
 	obj = new meetingDateObj("", parts1[1], "");
 	updMonthYr(obj, parts1[0], parts1[2]);
 	objArr.push(obj);
-	
+
 	obj = new meetingDateObj("", parts2[1], "");
 	updMonthYr(obj, parts2[0], parts2[2]);
 	objArr.push(obj);
-	
+
 	return objArr;
 }
 
@@ -863,39 +863,39 @@ function getBoxSize(number){
 function addStyleRmp(){
     var id = "rmpEntry0";
     for (i = 0; i <= numRMPEntries; i++){
-        document.getElementById(id).onmouseover = function(){ 
+        document.getElementById(id).onmouseover = function(){
             this.style.backgroundColor = "#b8dc29";
         }
-        document.getElementById(id).onmouseout = function(){ 
+        document.getElementById(id).onmouseout = function(){
             this.style.backgroundColor = "#aac628";
         }
-        
+
         id = id.substr(0, id.length - 1);
         id += i;
     }
 }
 
-//The css for each rmp entry. 
+//The css for each rmp entry.
 //backGColor - background color for the div
 //prof - prof's name
 //name - parsed name
 function cssEntry(backGColor, prof, name){
 	    var id = "rmpEntry" + numRMPEntries;
         numRMPEntries++;
-    
+
 		return '<div style="background-color:' + backGColor + ';    border-radius: 5px;padding-bottom:10px;display:table; width:320px; height: 20px;">\
                 <table style=""><tr><td style="padding-left: 30px; padding-top: 10px;width:150px;"><b>'+prof+'</td>\
                 <td style="width:150px"><br>\
-                <a id = '+ id +' style = "box-shadow: 2px 2px 2px #888888; border: 1px solid black; padding-left: 100px;text-shadow: none; text-decoration: none; color: white; padding: 5px; background-color: #aac628; border-radius: 5px;" href= "http://www.ratemyprofessors.com/search.jsp?query=' + name + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a>\
-                </td></tr></table></div>';		
-	
+                <a id = '+ id +' style = "box-shadow: 2px 2px 2px #888888; border: 1px solid black; padding-left: 100px;text-shadow: none; text-decoration: none; color: white; padding: 5px; background-color: #aac628; border-radius: 5px;" href= "https://www.ratemyprofessors.com/search.jsp?query=' + name + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a>\
+                </td></tr></table></div>';
+
 }
 
 //Remove a given value from an array.
 //Usage: arr.clean(undefined);
 Array.prototype.clean = function(deleteValue) {
   for (var i = 0; i < this.length; i++) {
-    if (this[i] == deleteValue) {         
+    if (this[i] == deleteValue) {
       this.splice(i, 1);
       i--;
     }
@@ -907,62 +907,64 @@ Array.prototype.clean = function(deleteValue) {
 
 //-------------------------------<Display>--------------------------------------
 
-//The UI part of the application 
+//The UI part of the application
 $(document).ready(function() {
  var updProfs = []; //updated array with the professor information, will not contain any repeated names
- var name = []; 
- 
+ var name = [];
+
  if (url == accessPlus || url == accessPlus1){
 
   updateIDs(); //Add ids to each table row
   updProfs = remRepeats(profs); //save a list of professors without any repeats
-  var superDiv = $('<div><div>'); //Div that will contain all of the elements of the RMP div. We need a master div to make ordering the elements easier 
+  var superDiv = $('<div><div>'); //Div that will contain all of the elements of the RMP div. We need a master div to make ordering the elements easier
   var buttonDiv = $('<div style = "height: 15px;"></div>'); //Div that will contain all elements related to the button
   var div = $('<div id = "rmpBox" style = padding-top: 20px;></div>'); //RMP div
-  var imgDiv = $('<div style = "margin-left: 170px; ; z-index: 1;  position: absolute;"> <img src="http://www.userlogos.org/files/logos/Karmody/Rate_My_Prof_01.png" alt="RMP" style="width:130px;height:120px"> </div>'); //The RMP image title
+  var imgDiv = $('<div style = "margin-left: 170px; ; z-index: 1;  position: absolute;"> <img src="https://www.userlogos.org/files/logos/Karmody/Rate_My_Prof_01.png" alt="RMP" style="width:130px;height:120px"> </div>'); //The RMP image title
 
-  var hatDiv = $('<div style = "margin-left: 340px; ; z-index: 1; padding-top: 9px; position: absolute;"> <img src="http://findicons.com/files/icons/2677/educons/128/graduation_hat.png" style = "-webkit-transform: rotate(15deg); width: 57px; height: 50px;"> </div>'); //The graduation hat div
+  var hatDiv = $('<div style = "margin-left: 340px; ; z-index: 1; padding-top: 9px; position: absolute;"> <img src="https://cdn4.iconfinder.com/data/icons/everyday-objects-1/128/graduation-cap-512.png" style = "-webkit-transform: rotate(15deg); width: 57px; height: 50px;"> </div>'); //The graduation hat div
 
   var box = $('<div style = "width:400px; height:' + getBoxSize(updProfs.length) +'; margin-left: 60px; padding-top: 30px;"> </div>'); //The div containing the professor list
-     
+
   var title = $('<div style = "width:320px; height: 23px; border-style: outset;border-color:#A30000; -webkit-border-radius: 5px 5px 5px 5px;background-image: -webkit-linear-gradient(bottom, #FF1111 0%, #9E0101 100%); color: white; font-size: 15px;"> <div style = "padding-left: 5px;  color: white;"></div> </div>'); //The red gradient div for the RMP
 
   superDiv.append("<br><br><br><br><br><br>");
-  
+
   //Lets structure our RMP UI
 
   $(superDiv).append(imgDiv);
   superDiv.append("<br><br><br>");
-     
+
   $(div).append(hatDiv);
-  $(box).append(title);  
-  $(div).append(box);  
+  $(box).append(title);
+  $(div).append(box);
 
   //Appends the professor name and links them to the box div
-  //Will alternate background color depending on the entry's index     
-  for (i = 0; i < updProfs.length; i++){ 
+  //Will alternate background color depending on the entry's index
+  for (i = 0; i < updProfs.length; i++){
    name = parseName(updProfs[i]);
    if (!(i%2 == 0)) {
     $(box).append(cssEntry('#E8E8E8', updProfs[i], name[0]));
    }
-   
+
    else {
     $(box).append(cssEntry('white', updProfs[i], name[0]));
    }
-  } 
+  }
 
   //Finishing touches to our superDiv
   //We have to use prepend instead of append to force the web page to place our div before the class list
   superDiv.append(div);
   superDiv.append('<br><br><div style = "padding-left: 70px;font-size: 1em; width:320px;"><b>Note:</b> There is no guarantee that a given professor will have a Rate My Professor page.</div><br><br>');
+
+
+  //Dissapointed no one found my easter egg yet <- your easter egg was causing a jquery error because you decided to give something the id of button!
+  //and also is just doesn't work at all...
+  //var btn = $('<div> <button id="trl_btn" onclick="trl()" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.6);  border: none !important;"> </button> </div>');
+  //superDiv.append(btn);
+
   element.prepend(superDiv);
-     
-  //Dissapointed no one found my easter egg yet 
-  var btn = $('<div> <button id="button" style = "width:2px; height:5px;   background-color:rgba(236, 236, 236, 0.6);  border: none !important;"> </button> </div>'); 
-  superDiv.append(btn);
-  document.getElementById("button").addEventListener("click", function(){func()});
-      
-  function func(){ //^ω^
+
+  trl = function func(){ //^ω^
    if (clicked == false) {
      clicked = true;
      superDiv.append(img);
@@ -972,10 +974,11 @@ $(document).ready(function() {
     $(img).remove();
    }
   }
-     
+
  //Creation of our exportButton div
  //Using divs instead of a straight up button element since I wanted to customize its appearance
- var expBut = $('<br><div style = "float: left;" ><div title="Generate an .ics Calendar object" style = "position: relative; padding: 15px; padding-bottom: 10px;margin-left: 167px"><button id="exportBut" style = "border-radius: 5px; box-shadow: 1px 1px 1px #888888; padding: 5px;color: #FFF;background-color: #900;"><img src="http://www.chaoskitty.com/wp-content/uploads/2015/03/3D-Calendar-red.png" style="float:left; width:45px;height:45px; margin-right: 5px; "> <img src = "http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/magic-marker-icons-arrows/114827-magic-marker-icon-arrows-arrow-thick-right.png" style="width:45px;height:45px; -webkit-filter: invert(100%); filter: invert(100%);"></button></div> <div id = "expCalTitle" style = "display: none; margin-left: 178px;"><span><b>Export My Schedule</b></span></div></div>');
+ var calIcon = "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/calendar-128.png";
+ var expBut = $('<br><div style = "float: left;" ><div title="Generate an .ics Calendar object" style = "position: relative; padding: 15px; padding-bottom: 10px;margin-left: 167px"><button id="exportBut" style = "border-radius: 5px; box-shadow: 1px 1px 1px #888888; padding: 5px;color: #FFF;background-color: #900;"><img src="'+calIcon+'" style="float:left; width:45px;height:45px; margin-right: 5px; "> <img src = "https://cdn0.iconfinder.com/data/icons/large-black-icons/100/Right_arrow_next_play_forward.png" style="width:45px;height:45px; -webkit-filter: invert(100%); filter: invert(100%);"></button></div> <div id = "expCalTitle" style = "display: none; margin-left: 178px;"><span><b>Export My Schedule</b></span></div></div>');
   buttonDiv.append(expBut);
   element.prepend(buttonDiv);
   document.getElementById("exportBut").addEventListener("click", function(){expSched()});
@@ -984,30 +987,30 @@ $(document).ready(function() {
     this.style.cursor = "pointer";
     document.getElementById("expCalTitle").style.display = 'block';
   }
-  
+
   //On hover functionality -- moving the mouse away, revert button to original color
   document.getElementById("exportBut" ).onmouseout = function(){
     this.style.backgroundColor = "#900";
     document.getElementById("expCalTitle").style.display = 'none';
   }
-  
+
   //When button is clicked, display a loading gif -- demonstrates that the button's code is actually being performed
-  var waitDiv = $('<div id = "wait" style= "display: none;"><img src="http://www.personalitymatch.net/Content/Images/Misc/ajax-loader.gif" alt="Wheres My Loading Gif?" style="width:25px;height:25px"> </div>');
+  var waitDiv = $('<div id = "wait" style= "display: none;"><img src="https://www.studentmarket.com/Images/loading.gif" alt="Wheres My Loading Gif?" style="width:25px;height:25px"> </div>');
   buttonDiv.append(waitDiv);
 
   //Updates the rest of our list -- this part is related to the Calendar Export function
   getStartEndTime(meetingsT, meetingeT);
   getMeetingDates(startEndDate);
   getLocations(locations);
-  
+
   //REMOVE?
 //  locations.clean(undefined);//Remove empty values.
   createClassInfo(classNames, meetingD, meetingsT, meetingeT, startEndDate, locations);
   cleanClassInfo();
   cleanNameSpacing();
-     
+
   checkValues(classInfoArr, true);
-  
+
   addStyleRmp(); //add some styling to the rmp buttons
  }
 
