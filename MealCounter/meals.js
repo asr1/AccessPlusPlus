@@ -164,7 +164,6 @@ function initStart(){
         var curMonth = date.getMonth();
         var curYear = date.getFullYear();
         var curWkDay = date.getDay();
-        console.log(curDay + " " + curMonth + " " + curYear + " " + curWkDay);
         //meals = new mealsInfo("spring", getPlanSem(meals_left_str), 2, 2, 1, 6, 6);
         getTerm(curMonth, curDay, curYear);
 }
