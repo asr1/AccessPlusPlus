@@ -886,7 +886,7 @@ function cssEntry(backGColor, prof, name){
 		return '<div style="background-color:' + backGColor + ';    border-radius: 5px;padding-bottom:10px;display:table; width:320px; height: 20px;">\
                 <table style=""><tr><td style="padding-left: 30px; padding-top: 10px;width:150px;"><b>'+prof+'</td>\
                 <td style="width:150px"><br>\
-                <a id = '+ id +' style = "box-shadow: 2px 2px 2px #888888; border: 1px solid black; padding-left: 100px;text-shadow: none; text-decoration: none; color: white; padding: 5px; background-color: #aac628; border-radius: 5px;" href= "https://www.ratemyprofessors.com/search.jsp?query=' + name + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a>\
+                <a id = '+ id +' style = "box-shadow: 2px 2px 2px #888888; border: 1px solid black; padding-left: 100px;text-shadow: none; text-decoration: none; color: white; padding: 5px; background-color: #aac628; border-radius: 5px;" href= "http://www.ratemyprofessors.com/search.jsp?query=' + name + '+Iowa+State+University'+'" target="_blank"> Check my rating!</a>\
                 </td></tr></table></div>';
 
 }
