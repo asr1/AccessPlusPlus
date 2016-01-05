@@ -1,1 +1,0 @@
-Adds an export calendar button and Rate My Professor integration to the Scheule Classes page.
