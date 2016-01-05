@@ -20,7 +20,7 @@ var regex = new RegExp("[0-9]{1,3}") ;
 var meals_left= meals_left_str.match(regex)[0];		
 var timef = "day"; //let's initially start @daily
 var isHoliday = false;
-var debug = true; //testing purposes -- set to true when you want variables to be printed out on the console
+var debug = false; //testing purposes -- set to true when you want variables to be printed out on the console
 var toPrint = ""; //string where we're printing all of our debug info
 
 //String containing the student's dining information 
@@ -94,9 +94,8 @@ function getPlanSem(str){
 
 //Returns the term associated with the given date
 function getTerm (month, day, year){
-    
     //Plan starts on a monday on the third week of May and ends on a friday of the 1st week of August
-    if ((month >= 4 && month <= 7) && (!((month == 4 && (day <= 14) ||(month == 7 && (day >= 7)))))){//ignore if we're before the third week of May or after the first week of Aug 
+    if ((month >= 4 && month <= 7) && (!(month == 7 && (day >= 7)))){//ignore if we're before the third week of May or after the first week of Aug 
 
             var sumStartStr = "May 14, " + year; 
             var sumStr = new Date(sumStartStr);
@@ -117,7 +116,7 @@ function getTerm (month, day, year){
     }
     
     //Plan starts on a tuesday on the third week of august and ends on a friday of the 3rd week of December
-    else if (month >= 7 && month <= 11 && (!(month == 7 && day <= 1) ||(month == 11 && (day >= 21)))){ //ignore if we're before the third wk of Aug or after the 3rd wk of Dec
+    else if (month >= 7 && month <= 11 && (!(month == 11 && (day >= 31)))){ //ignore if we're before the third wk of Aug or after the 3rd wk of Dec
         
             var fallStartStr = "August 14, " + year; //we know the term starts some time in August (3rd week)
             var fallStr = new Date(fallStartStr);
@@ -137,13 +136,13 @@ function getTerm (month, day, year){
     }
     
     //Plan starts on a saturday on the second week of Jan and ends on a Sunday of the 1st week of May
-    else if (month >= 0 && month <= 4 && (!(month == 0 && day > 7 ||(month == 4 && (day <= 14))))){ //ignore if its before the 2nd wk of Jan or after the 2nd wk of May
+    if (month >= 0 && month <= 4  && (!(month == 4 && (day >= 14)))){ //ignore if its before the 1st wk of Jan or after the 2nd wk of May
             var sprStartStr = "January 7, " + year; //we know the term starts some time in January
-            var sprStr = new Date(fallStartStr);
+            var sprStr = new Date(sprStartStr);
             var sprEndStr = "May 1, " + year; //we know the term ends sometime during the first week
-            var sprEnd = new Date(fallEndStr);  
+            var sprEnd = new Date(sprEndStr);  
 
-            while ((sprStr.getDay() != 6)){ //saturday
+            while ((sprStr.getDay() != 4)){ //thursday
                 sprStr.setDate(sprStr.getDate() + 1);
             }
 
@@ -165,7 +164,7 @@ function initStart(){
         var curMonth = date.getMonth();
         var curYear = date.getFullYear();
         var curWkDay = date.getDay();
-
+        //meals = new mealsInfo("spring", getPlanSem(meals_left_str), 2, 2, 1, 6, 6);
         getTerm(curMonth, curDay, curYear);
 }
 
@@ -474,12 +473,13 @@ function butSem(term, type){
 }
 
 $(document).ready(function() {
-    
     //check to see whether the html page actually is the dining page
     if($("title").text()== dining){
-            initStart();
-            initMeals(str);
-            calcExtra();
+
+            initStart(); 
+            initMeals(str); 
+            calcExtra();     
+
 
             var img = $('<div style = "float:left; padding: 10px; padding-top: 70px;"> <img src = "http://www.webweaver.nu/clipart/img/misc/food/fast-food/hot-dog.png" style = "width:50px; height: 50px;" <br></div>'); 
             var interrogation = $('<div id = "helpMe" onclick="help()" title = "Help" style = "width: 40px; height: 40px; padding-left: 10px; margin-left: -35px; margin-top: -280px; z-index:2; position:absolute;"><img src = "http://png-2.findicons.com/files/icons/1008/quiet/256/interrogation.png" style = "width:40px; height: 40px;"></div>');
