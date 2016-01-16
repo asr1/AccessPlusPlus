@@ -28,11 +28,14 @@ There are a couple ways to contribute to this project:
 This project uses a modified version of <a href="https://github.com/connorbode/ics.js">Connorbode's fork</a> of <a href="https://github.com/nwcell/ics.js/">ics.js</a>, which in turn uses <a href="https://github.com/eligrey/Blob.js">Blob.js.</a> This has been included in the AccessPlusPlus repository already. 
 
 ## Changelog
+**Version 1.3.7.0:**
+* Fix issue with events marked as available.
+
 **Version 1.3.6.0:**
-* Fix issue with dining not loading
+* Fix issue with dining not loading.
 
 **Version 1.3.5.1:**
-* Fix security warning in Rate my Professor
+* Fix security warning in Rate my Professor.
 
 **Version 1.3.5.0:**
 * Fix bug where extension is not installing.

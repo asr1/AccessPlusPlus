@@ -213,7 +213,7 @@ var ics = function() {
                     }
                     h.interval && (y += ";INTERVAL=" + h.interval), h.count && (y += ";COUNT=" + h.count)
                 }
-            var C = ["BEGIN:VEVENT", "CLASS:PUBLIC", "DESCRIPTION:" + d, "DTSTART;VALUE=DATE:" + z, "DTEND;VALUE=DATE:" + A, "LOCATION:" + e, "SUMMARY;LANGUAGE=en-us:" + c, "TRANSP:TRANSPARENT", "END:VEVENT"];
+            var C = ["BEGIN:VEVENT", "CLASS:PUBLIC", "DESCRIPTION:" + d, "DTSTART;VALUE=DATE:" + z, "DTEND;VALUE=DATE:" + A, "LOCATION:" + e, "SUMMARY;LANGUAGE=en-us:" + c, "TRANSP:OPAQUE", "END:VEVENT"];
             return y && C.splice(4, 0, y), C = C.join(a), b.push(C), C
         },
         download: function(e, f) {
@@ -380,7 +380,7 @@ var ics = function() {
                 'LOCATION:' + location,
                 'SUMMARY;LANGUAGE=en-us:' + subject,
 				'EXDATE;TZID=US-Central:' + exdates,  //Force Central, exdates is a formatted string containing dates to skip (Holidays), as per the RRUle standard.
-		        'TRANSP:TRANSPARENT',
+		        'TRANSP:OPAQUE',
                 'END:VEVENT'
             ];
 
