@@ -29,7 +29,7 @@ var table, exportStr;
 		 	// if($(this).context.innerHTML.includes("Next"))
 			// {
 				// console.log($(this));
-				// $(this).click();
+				// $(this).click();//This is the "next page" button, but it's not taking us there.
 			// }
 		// })
 
