@@ -9,6 +9,9 @@ var table, exportStr;
  {
 	$("body").prepend('<input type="button" id="exportBtn" value="Export Emails">');
 		
+
+		
+		
 		$("#exportBtn").click(function(){
 
 		//Iterate through each cell in the third row
@@ -21,31 +24,34 @@ var table, exportStr;
 		
 	
 		checkPage();
+		
 
-		//Once we're done with all links, let's see if the page is done.
-		
-		// //Iterate through each link
-		// $("a").each(function() {
-		 	// if($(this).context.innerHTML.includes("Next"))
-			// {
-				// console.log($(this));
-				// $(this).click();//This is the "next page" button, but it's not taking us there.
-			// }
-		// })
-
-		//Check the second page
-		//This is so kludgey I'm sorry.
-		//It's better than what we had before, I promsie.
-		//checkPage();
-		
-		
-		//Download the result
+		//Iterate through each link
+		$("a").each(function() {
+			if($(this).context.innerHTML.includes("Next"))
+			{
+				console.log($(this));
+				window.location.href = $(this).context.href;
+				//This is happening too soon, need to wait.
+				//Can we do like a secon document.ready?
+				checkPage();  
+				download();
+	
+			//	checkPage();//Hope they don't have three pages.
+				return false; //Break statement
+				//$(this).click();//This is the "next page" button, but it's not taking us there.
+			}
+		})
+	});
+ }
+ 
+ function download()
+ {
+	 	//Download the result
 		var blob = new Blob([exportStr], {
 			type: "text/plain;charset=utf-8;",
 		});
 			saveAs(blob, "emails.csv");
-		alert("Attention: please make sure to run this script on every page of housemates. Mailing lists can be made form this script as asw.iastate.edu");//This is the best we can do?
-	});
  }
  
  
