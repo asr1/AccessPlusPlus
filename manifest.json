@@ -1,7 +1,7 @@
 {
 	"manifest_version":2,
 	"name":"Access++",
-	"description":"Adds four tools to Iowa State’s Access Plus: Meal counter, see schedule while registering, Rate My Professor, export schedule.",
+	"description":"Adds five tools to Iowa State’s Access Plus: Meal counter, see schedule while registering, Rate My Professor, export schedule, export housemates' emails.",
 	"version":"2.0.0.0",
 	"permissions":["activeTab", "tabs", "alarms", "notifications", "https://accessplus.iastate.edu/*", "webNavigation"],
 	
