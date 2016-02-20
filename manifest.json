@@ -18,7 +18,12 @@
 	},
 	{
 		"matches":["https://accessplus.iastate.edu/servlet/adp.A_Plus"],
-		"js":["jquery.min.js", "ClassScheduleFunctions/dependencies.js", "MealCounter/meals.js"],
+		"js":["jquery.min.js", "ClassScheduleFunctions/dependencies.js", "MealCounter/meals.js", "emailExport.js"],
+		"run_at":"document_end"
+	},
+	{
+		"matches":["https://accessplus.iastate.edu/RH05/*"],
+		"js":["jquery.min.js", "emailExport.js"],
 		"run_at":"document_end"
 	},
 	{

@@ -905,6 +905,23 @@ Array.prototype.clean = function(deleteValue) {
 
 //-------------------------------</Calendar>--------------------------------------
 
+//More Calendar stuff, specifically Add to Google button
+//Load Poylmer
+// $.getScript('https://www.gstatic.com/external_hosted/polymer/custom.elements.min.js', function()
+// {
+	// //Laod Google calendar
+	// $.getScript('https://www.gstatic.com/ads/ci/addtocalendar/1/addtocalendar_min.js', function()
+	// {
+		// var addToCalendar = document.createElement('ci-addtocalendar');
+	// }
+	
+    // // script is now loaded and executed.
+    // // put your dependent JS here.
+// });
+
+
+
+
 //-------------------------------<Display>--------------------------------------
 
 //The UI part of the application
