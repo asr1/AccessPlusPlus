@@ -468,6 +468,9 @@ function is_SpringBreak(){
         }
 		while (springBreak.getDay() != 0);
 		
+		//Reset spring break!
+		springBreak = new Date ("March 17, " + date.getFullYear());
+		
 		//But if it's a sunday, we don't want to go backwards! We only get one week off!
 		while (springBreak.getDay() != 0){
             springBreak.setDate(springBreak.getDate() - 1);
