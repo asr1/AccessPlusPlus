@@ -447,12 +447,18 @@ function is_Thanksgiving(dtdate){
 	return false;
 }
 
+//What is this camel/snake case?
+function check_springBreak()
+{
+	var today = new Date();
+	return is_SpringBreak(today.getFullYear()) || is_SpringBreak(today.getFullYear() + 1);
+}
+
 //Check if the current date falls on spring break 
-function is_SpringBreak(){
+function is_SpringBreak(year){
         var today = new Date();
         
-		//Will this work if I download my schedule in December?
-        var springBreak = new Date ("March 17, " + date.getFullYear()); 
+        var springBreak = new Date ("March 17, " + year); 
 		
 		//If march 17 is on a sturday, move bacwards until we get to a sunday
 		//If march 17 is on a sunday, move forwards until we get to a sunday
@@ -511,7 +517,7 @@ function iSholiday (dtdate) {
 
 		|| s_date2 == '9/1/1'  // Labor Day, first Monday in September
         
-        || is_SpringBreak()
+        || check_springBreak()
 
 		//Check if it's Thanksgiving week
 		|| is_Thanksgiving(dt_date) //Set modifies the dates, so this addition looks weird.
