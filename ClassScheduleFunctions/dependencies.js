@@ -449,14 +449,35 @@ function is_Thanksgiving(dtdate){
 
 //Check if the current date falls on spring break 
 function is_SpringBreak(){
-        var date = new Date();
+        var today = new Date();
         
-        var springBreak = new Date ("March 7, " + date.getFullYear()); //Begins on the second saturday of March
-        while (springBreak.getDay() != 6){
+		//Will this work if I download my schedule in December?
+        var springBreak = new Date ("March 17, " + date.getFullYear()); 
+		
+		//If march 17 is on a sturday, move bacwards until we get to a sunday
+		//If march 17 is on a sunday, move forwards until we get to a sunday
+		//Move forward and backwards until we get to a sunday
+		
+		 //Do while in case today is sunday, we still do the next week.
+        do{
             springBreak.setDate(springBreak.getDate() + 1);
+			if(today == springBreak)
+			{
+				return true;
+			}
+        }
+		while (springBreak.getDay() != 0);
+		
+		//But if it's a sunday, we don't want to go backwards! We only get one week off!
+		while (springBreak.getDay() != 0){
+            springBreak.setDate(springBreak.getDate() - 1);
+			if(today == springBreak)
+			{
+				return true;
+			}
         }
 
-        if (date.getMonth() == springBreak.getMonth() && (date.getDate() >= springBreak.getDate()  && date.getDate() <= springBreak.setDate(springBreak.getDate() + 7))) return true;
+		return false;
 }
 
 //Returns true on a University holiday (4th of July, Reverend Doctor Martin Luther King, Jr. Day, Thanksgiving Week, Memorial Day, Labour day.)
