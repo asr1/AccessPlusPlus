@@ -579,10 +579,39 @@ function CreateSchedule(start, end,  eventTime,  eventTimeEnd,  WeekDays, name, 
 	//custom format for time. Google calendar hates 24 hour time
 	//This emulates the ISO standard, but for central time.
 	function formatDate(date, hours, minutes) {
+
+	//Add daylight savings time information to date() prototype
+	var today = new Date();
+	
+	Date.prototype.stdTimezoneOffset = function() {
+		var jan = new Date(this.getFullYear(), 0, 1);
+		var jul = new Date(this.getFullYear(), 6, 1);
+		return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+	}
+
+	Date.prototype.dst = function() {
+		return this.getTimezoneOffset() < this.stdTimezoneOffset();
+	}	
+	
 	var d = new Date(date);
 	d.setHours(hours, -d.getTimezoneOffset(), 0, 0); //removing the timezone offset.
 		d.setMinutes(minutes);
-	return d.toISOString(); //2013-04-18T00:00:00.000Z
+	
+	var offset;
+	if (today.dst()) { offset =  -5 } //Central
+	else{ offset = -6}
+	
+    // convert to msec
+    // add local time zone offset
+    // get UTC time in msec
+	//Only the conversion is necessary, we previously removed the timezone offset.
+    //var utc = d.getTime();// + (/*d.getTimezoneOffset()*/ 0 * 60000);
+   
+    // create new Date object for different city
+    // using supplied offset
+    var nd = new Date(d + (3600000*offset));		
+		
+	return nd.toISOString(); //2013-04-18T00:00:00.000Z
 }
 
 	//Converts weekdays to RRULE stating byrules
